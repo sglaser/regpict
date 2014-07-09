@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTMLBook</title>
+    <meta charset="utf-8">
+    <script src="http://www.w3.org/Tools/respec/respec-w3c-common" async class="remove"></script>   
+    <script src='require.js' data-main='regpict' async class="remove"></script>
+<!--<script src="regpict.js" async class="remove"></script>-->
+    <script class="remove">
+        var respecConfig = {
+            additionalCopyrightHolders: "Copyright &copy; 2014 O&#x2019;Reilly Media, Inc.",
+            specStatus: "unofficial",
+            shortName: "regpict",
+            editors: [
+                {
+                    name: "Steve Glaser",
+                    url: "http://www.nvidia.com",
+                    company: "Nvidia, Inc",
+                    companyURL: "http://nvidia.com"
+                }
+          ],
+            localBiblio: {
+                "DOCBOOK": {
+                    title: "The DocBook Document Type",
+                    href: "http://www.docbook.org/specs/docbook-4.5-spec.html",
+                    authors: ["Norman Walsh"],
+                    publisher: "OASIS",
+                },
+                "EPUB3": {
+                    title: "EPUB 3 Overview",
+                    href: "http://www.idpf.org/epub/30/spec/",
+                    publisher: "IDPF"
+                },
+                "EPUB3SSV": {
+                    title: "EPUB 3 Structural Semantics Vocabulary",
+                    href: "http://www.idpf.org/epub/vocab/structure/",
+                    publisher: "IDPF",
+                },
+                "EPUBINDEX": {
+                    title: "EPUB Indexes 1.0",
+                    href: "http://www.idpf.org/epub/idx/",
+                    publisher: "IDPF"
+                },
+                "ASCIIDOCTOR": {
+                    title: "Asciidoctor implementation of AsciiDoc",
+                    href: "http://asciidoctor.org"
+                    //                    publisher: "asciidoctor.org"
+                },
+                "ASCIIDOC": {
+                    title: "AsciiDoc Text based document generation",
+                    href: "http://asciidoc.org"
+                    //                    publisher: "asciidoc.org"
+                },
+                "PCISIG": {
+                    title: "PCI Special Interest Group",
+                    href: "http://www.pcisig.com",
+                    publisher: "http://www.pcisig.com"
+                }
+            }
+        };
+    </script>
+    <style type="text/css">
+        span[data-type=footnote] {
+            background-color: #d3d3d3;
+            border: solid 1px black;
+            border-radius: 0.25em;
+            padding-left: 3px;
+            padding-right: 3px;
+            padding-top: 1px;
+            padding-bottom: 1px;
+            font-size: smaller;
+        }
+        ul > li {
+            list-style: square;
+        }
+        ul > li > ul > li {
+            list-style: circle;
+        }
+        ul > li > ul > li > ul > li {
+            list-style: disc;
+        }
+        ul > li > ul > li > ul > li > ul > li {
+            list-style: square;
+        }
+        ul > li > ul > li > ul > li > ul > li > ul > li {
+            list-style: circle;
+        }
+        ul > li > ul > li > ul > li > ul > li > ul > li > ul > li {
+            list-style: disc;
+        }
+        ol > li {
+            list-style: decimal;
+        }
+        ol > li > ol > li {
+            list-style: lower-alpha;
+        }
+        ol > li > ol > li > ol > li {
+            list-style: lower-roman outside;
+        }
+        ol > li > ol > li > ol > li > ol > li {
+            list-style: decimal;
+        }
+        ol > li > ol > li > ol > li > ol > li {
+            list-style: decimal;
+        }
+        ol > li > ol > li > ol > li > ol > li > ol > li {
+            list-style: lower-alpha;
+        }
+        ol > li > ol > li > ol > li > ol > li > ol > li > ol > li {
+            list-style: lower-roman outside;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="abstract">
+        <p>
+            The regpict library draws register pictures in specifications. An example such figure is shown in <a href="#fig-json-defined-register-example">Figure 1</a>.</p>
+        <p>
+            This library consists of two levels:
+        </p>
+        <ol>
+            <li>A JSON to SVG conversion layer.
+                <p>
+                    Converts a JSON formatted description of a hardware register into the corresponding SVG diagram.
+                </p>
+            </li>
+            <li>A variety of JSON extraction layers.
+                <p>
+                    These extract information from a variety of input formats and produce JSON usable by the JSON to SVG conversion layer. Input formats include:</p>
+                <ul>
+                    <li><code>&lt;table class="regpict-pcisig"&gt;...&lt;/table&gt;</code> as used in recent [[PCISIG]] specifications.</li>
+                    <li><code>&lt;pre class="regpict-json"&gt;...&lt;/pre&gt;</code> containing the JSON code.</li>
+                    <li><code>&lt;pre class="regpict-refman"&gt;...&lt;/pre&gt;</code> containing Nvidia refman formatted text.</li>
+                </ul>
+            </li>
+        </ol>
+        <p>
+            Using the JSON extraction layer is optional. The JSON to SVG conversion layer can be used standalone.
+        </p>
+        <p>
+            The generated SVG is designed to be styled using CSS. Proper representation requires some CSS. A minimal CSS file is provided as well as a more complete example. The <a href="#svg-css-classes">SVG CSS Classes</a> section describes the classes contained in the generated SVG.
+        </p>
+        <p>
+            The initial implementation is in JavaScript. A version in Ruby that works as a plugin filter for [[ASCIIDOCTOR]] is anticipated.
+        </p>
+
+    </section>
+    <section id="sotd">
+    </section>
+    <section class="introductory">
+        <h2>Revision History and Notes</h2>
+        <dl>
+            <dt>8 July 2014</dt>
+            <dd>First release of Working Draft</dd>
+        </dl>
+    </section>
+
+
+    <section>
+        <h2>JSON Register Example</h2>
+        <pre class="example">
+        for figures.register.pcisig_reg, the data-table attribute is the ID of the PCISIG style table describing the fields
+
+         any nested div.json, pre.json, or span.json within figure.register is parsed for json content
+         the width argument describes the register width (defaults to 32 bits)
+         the unused item is name used for bit fields that are not otherwise defined (defaults "RsvdP")
+         var width               = Number(pget(reg, "width", 32));
+         var unused              = String(pget(reg, "unused", "RsvdP"));
+         var defaultAttr         = String(pget(reg, "defaultAttr", "other"));
+         var cellWidth           = Number(pget(reg, "cellWidth", 16));
+         var cellHeight          = Number(pget(reg, "cellHeight", 32));
+         var cellInternalHeight  = Number(pget(reg, "cellInternalHeight", 8));
+         var cellValueTop        = Number(pget(reg, "cellValueTop", 32)); // top of text for regFieldValueInternal
+         var cellBitValueTop     = Number(pget(reg, "cellBitValueTop", 36)); // top of text for regFieldBitValue
+         var cellNameTop         = Number(pget(reg, "cellNameTop", 32)); // top of text for regFieldNameInternal
+         var bracketHeight       = Number(pget(reg, "bracketHeight", 4));
+         var cellTop             = Number(pget(reg, "cellTop", 16));
+         var figName             = String(pget(reg, "name", "???"));
+         var fields              = pget(reg, "fields", { }); // default to empty register
+
+         Fields are indexed by field name. Items in in a field are:
+          name      Name of the field (default is the index of the field)
+          msb       bit number of the most significant bit (or only bit)
+          lsb       bit number of the least significant bit (or only bit)
+          unused    true if field is considered "unused"
+          attr      field type (e.g. other, rw, ro, rw1c, ros, ...)
+          class     class name for the &lt;g&gt; (group) SVG element for the field
+          value     value of the field contents. Either a single string, or an array of strings
+                    where the array length is the width of the field (in bits).
+                    Array element [0] is the LSB of the field.
+
+        &lt;figure class="register"&gt;
+
+        &lt;pre class="json"&gt;
+        {
+            "width":    48,
+            "unused": "Bogus",
+            "fields":
+                {
+                    "field 4:0":
+                        {
+                            "msb":  4,
+                            "lsb":  0,
+                            "attr": "ro"
+                        },
+                    "Very long name that will never fit":
+                        {
+                            "msb": 7,
+                            "lsb": 6
+                        },
+                    "bit9":
+                        {
+                            "msb": 9
+                        },
+                    "bit10":
+                        {
+                            "lsb":   10,
+                            "class": "svg_error"
+                        },
+                    "bit11":
+                        {
+                            "lsb": 11
+                        },
+                    "bit12":
+                        {
+                            "lsb":   12,
+                            "value": "1"
+                        },
+                    "bit13":
+                        {
+                            "lsb":  13,
+                            "href": "field-bit13"
+                        },
+                    "bit 20:14":
+                        {
+                            "lsb":   14,
+                            "msb":   24,
+                            "value": "value"
+                        },
+                    "byte":
+                        {
+                            "lsb":   25,
+                            "msb":   32,
+                            "value": [ "A", "B", "C", "D", "E", "F", "G", "H"]
+                        }
+                }
+        }
+        &lt;/pre&gt;
+        &lt;figcaption&gt;Graph for JSON Defined Register Example&lt;/figcaption&gt;
+        &lt;/figure&gt;
+
+    </pre>
+
+        <figure class="register">
+
+            <!-- for figures.register.pcisig_reg, the data-table attribute is the ID of the PCISIG style table describing the fields -->
+
+            <!-- any nested div.json, pre.json, or span.json within figure.register is parsed for json content -->
+            <!-- the width argument describes the register width (defaults to 32 bits) -->
+            <!-- the unused item is name used for bit fields that are not otherwise defined (defaults "RsvdP" -->
+            <!-- var width               = Number(pget(reg, "width", 32));-->
+            <!-- var unused              = String(pget(reg, "unused", "RsvdP"));-->
+            <!-- var defaultAttr         = String(pget(reg, "defaultAttr", "other"));-->
+            <!-- var cellWidth           = Number(pget(reg, "cellWidth", 16));-->
+            <!-- var cellHeight          = Number(pget(reg, "cellHeight", 32));-->
+            <!-- var cellInternalHeight  = Number(pget(reg, "cellInternalHeight", 8));-->
+            <!-- var bracketHeight       = Number(pget(reg, "bracketHeight", 4));-->
+            <!-- var cellTop             = Number(pget(reg, "cellTop", 16));-->
+            <!-- var figName             = String(pget(reg, "name", "???"));-->
+            <!-- var fields              = pget(reg, "fields", [ ]); // default to empty register-->
+
+            <!-- Fields are in arbitrary order. Items in in a field are: -->
+            <!--  name      Name of the field -->
+            <!--  msb       bit number of the most significant bit (or only bit) -->
+            <!--  lsb       bit number of the least significant bit (or only bit) -->
+            <!--  unused    true if field is considered "unused" -->
+            <!--  attr      field type (e.g. other, rw, ro, rw1c, ros, ...) -->
+            <pre class="json">            
+            {
+                "width":    48,
+                "unused": "Bogus",
+                "fields":
+                    {
+                        "field 4:0":
+                            {
+                                "msb":  4,
+                                "lsb":  0,
+                                "attr": "ro"
+                            },
+                        "Very long name that will never fit":
+                            {
+                                "msb": 7,
+                                "lsb": 6
+                            },
+                        "bit9":
+                            {
+                                "msb": 9
+                            },
+                        "bit10":
+                            {
+                                "lsb":   10,
+                                "class": "svg_error"
+                            },
+                        "bit11":
+                            {
+                                "lsb": 11
+                            },
+                        "bit12":
+                            {
+                                "lsb":   12,
+                                "value": "1"
+                            },
+                        "bit13":
+                            {
+                                "lsb":  13
+                            },
+                        "bit 20:14":
+                            {
+                                "lsb":   14,
+                                "msb":   24,
+                                "value": "value"
+                            },
+                        "byte":
+                            {
+                                "lsb":   25,
+                                "msb":   32,
+                                "value": [ "A", "B", "C", "D", "E", "F", "G", "H"]
+                            }
+                    }
+            }
+        </pre>
+            <figcaption>JSON Defined Register Example</figcaption>
+        </figure>
+        <p>These are references to fields that were defined as terms in this JSON example.</p>
+        <ul>
+            <li><a>field 4:0</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;field 4:0&lt;/a&gt;</li>
+            <li><a>Very long name that will never fit</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;Very long name that will never fit&lt;/a&gt;
+            </li>
+            <li><a>bit9</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;bit9&lt;/a&gt;</li>
+            <li><a>bit10</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;bit10&lt;/a&gt;</li>
+            <li><a>bit11</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;bit11&lt;/a&gt;</li>
+            <li><a>bit12</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;bit12&lt;/a&gt;</li>
+            <li><a class="field">bit 20:14</a>&nbsp;&nbsp;&nbsp;&lt;a class="field"&gt;bit 20:14&lt;/a&gt;</li>
+            <li><a class="regpict">bit 20:14</a>&nbsp;&nbsp;&nbsp;&lt;a class="regpict"&gt;bit 20:14&lt;/a&gt;</li>
+            <li><dfn class="field" title="bit 20:14|json defined register example bit 20:14">bit 20:14</dfn>&nbsp;&nbsp;&nbsp;&lt;dfn class="field" title="bit 20:14|json define register example bit 20:14"&gt;bit 20:14&lt;/dfn&gt;</li>
+            <li><a>bit13</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;bit13&lt;/a&gt;</li>
+            <li><a class="field">bit13</a>&nbsp;&nbsp;&nbsp;&lt;a class="field"&gt;bit13&lt;/a&gt;</li>
+            <li><a class="regpict">bit13</a>&nbsp;&nbsp;&nbsp;&lt;a class="regpict"&gt;bit13&lt;/a&gt;</li>
+            <li>
+                <a href="#regpict-json-defined-register-example-bit13">bit 13</a>&nbsp;&nbsp;&nbsp;&lt;a href="#regpict-json-defined-register-example-bit13"&gt;bit 13&lt;/a&gt;
+            </li>
+            <li>
+                <dfn class="field">JSON Defined Register Example bit13</dfn>&nbsp;&nbsp;&nbsp;&lt;dfn class="field"&gt;JSON Defined Register Example bit13&lt;/dfn&gt;
+                <ul>
+                    <li>this is the definition for <a class="field">JSON Defined Register Example bit13</a>
+                    </li>
+                    <li>it should be referenced by <a class="regpict">JSON Defined Register Example bit13</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <dfn class="field" id="field-json-defined-register-example-byte">JSON:byte</dfn>&nbsp;&nbsp;&nbsp;&lt;dfn class="field" id="field-json-defined-register-example-byte"&gt;JSON Defined Register Example byte&lt;/dfn&gt;
+                <ul>
+                    <li>this is the definition for <a class="field">JSON:byte</a>
+                    </li>
+                    <li>it should be referenced by <a class="regpict">byte</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <dfn class="field" title="JSON Defined Register Example bit13-x">bit13</dfn>&nbsp;&nbsp;&nbsp;&lt;dfn class="field" title=""JSON Defined Register Example bit13"&gt;bit13&lt;/dfn&gt; - this is a <b>duplicate</b> definition for <a class="field">bit13</a>
+            </li>
+        </ul>
+
+    </section>
+</body>
+
+</html>

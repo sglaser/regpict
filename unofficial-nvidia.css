@@ -1,0 +1,699 @@
+/* Based on: w3c-unofficial.css
+   Style for an Unofficial Draft Proposal
+   Copyright 1997-2003 W3C (MIT, ERCIM, Keio). All Rights Reserved.
+   The following software licensing rules apply:
+   http://www.w3.org/Consortium/Legal/copyright-software */
+
+body {
+    padding:     2em 1em 2em 70px;
+    margin:      0;
+    font-family: sans-serif;
+    color:       black;
+    background:  white no-repeat fixed top left;
+}
+
+:link { color: #00C; background: transparent; border-style: none; }
+
+:visited { color: #609; background: transparent; border-style: none; }
+
+a:active { color: #C00; background: transparent; border-style: none; }
+
+a.internalDFN:link {
+    color:           #00C;
+    background:      transparent;
+    border-style:    none;
+    text-decoration: none;
+}
+
+a.internalDFN:visited {
+    color:           #609;
+    background:      transparent;
+    border-style:    none;
+    text-decoration: none;
+}
+
+a.internalDFN:active {
+    color:           #C00;
+    background:      transparent;
+    border-style:    none;
+    text-decoration: none;
+}
+
+a.sec-ref,
+a.fig-ref,
+a.tbl-ref { text-decoration: none; }
+
+a:link img,
+a:visited img { border-style: none; /* no border on img links */ }
+
+a img { color: inherit; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 { text-align: left; }
+
+/* background should be transparent, but WebTV has a bug */
+h1,
+h2,
+h3 { color: #005A9C; }
+
+h1 { font: 170% sans-serif; }
+
+h2 { font: 140% sans-serif; }
+
+h3 { font: 120% sans-serif; }
+
+h4 { font: bold 100% sans-serif; }
+
+h5 { font: italic 100% sans-serif; }
+
+h6 { font: small-caps 100% sans-serif; }
+
+.hide { display: none; }
+
+/* document head material (disclaimer, etc) */
+div.head { margin-bottom: 1em; }
+
+div.head h1 { margin-top: 2em; clear: both; }
+
+div.head table.head { margin-left: 0; margin-top: 0; border: none; }
+
+div.head table.head td { border: none; font-size: small; padding: 1px 3px; }
+
+div.head table.head td small { border: none; font-size: small; padding: 1px 3px; }
+
+p.copyright { font-size: small; }
+
+p.copyright small { font-size: small; }
+
+@media screen {
+    /* hide from IE3 */
+    a[href]:hover { fill: #ffa; }
+}
+
+pre { margin-left: 2em; }
+
+dt,
+dd { margin-top: 0; margin-bottom: 0; }
+
+/* opera 3.50 */
+dt { font-weight: bold; }
+
+pre,
+code {
+    font-weight: normal;
+    font-style:  normal;
+    font-family: "Courier", monospace;
+}
+
+@media aural {
+    h1,
+    h2,
+    h3 { stress: 20; richness: 90; }
+
+    .hide { speak: none; }
+
+    p.copyright { volume: x-soft; speech-rate: x-fast; }
+
+    dt { pause-before: 63ms; }
+
+    pre { speak-punctuation: code; }
+}
+
+.content {
+    background: url(http://www.w3.org/StyleSheets/TR/watermark-unoffficial.png) repeat fixed;
+}
+
+.disclaimer {
+    font-weight: bold;
+    font-style:  italic;
+    color:       red;
+}
+
+ins,
+.diff-new {
+    background-color: yellow;
+    color:            green;
+    text-decoration:  underline; /* dotted; */
+}
+
+ins::before,
+ins::after,
+.diff-new::before,
+.diff-new::after {
+    /* content: "\2191"; /* &uparrow; */
+    color:       green;
+    font-weight: lighter;
+}
+
+del,
+.diff-old {
+    background-color: lightyellow; /*#FBB;*/
+    color:            gray;
+    font-weight:      lighter;
+    text-decoration:  line-through; /* dotted; */
+}
+
+del::before,
+del::after,
+.diff-old::before,
+.diff-old::after {
+    content:     "\2193"; /* &downarrow; */
+    color:       red;
+    font-weight: normal;
+}
+
+.diff-chg {
+    background-color: lime;
+}
+
+.diff-chg::before,
+.diff-chg::after {
+    /*content: "\2195"; /* &updownarrow; */
+}
+
+/*****************************************************************/
+
+/* pcisig style stuff (from xxx.html) */
+
+dl + * {
+    clear: left;
+}
+
+dl.left {
+    display: block;
+    clear:   left;
+}
+
+dl.left dt {
+    display:  block;
+    overflow: hidden;
+    float:    left;
+    clear:    left;
+    width:    12%;
+}
+
+dl.left dd {
+    display:     block;
+    overflow:    hidden;
+    float:       left;
+    width:       85%;
+    margin-left: 1em;
+}
+
+dl dd {
+    margin-bottom: 0.75em;
+}
+
+dl dt {
+    margin-bottom: 0.25em;
+}
+
+table {
+    border-collapse: collapse;
+    border-bottom:   3px solid rgb(118, 185, 0); /* #0060A9 */
+}
+
+/*table th {
+    background: rgb(118,185,0) /* #0060A9 ;
+    color: white;
+}*/
+
+table caption {
+    margin: 12px 0;
+}
+
+figcaption {
+    margin:     12px 0;
+    text-align: center;
+}
+
+figure > img {
+    display:      block;
+    margin-left:  auto;
+    margin-right: auto;
+}
+
+ul > li {
+    list-style: square;
+}
+
+ul > li > ul > li {
+    list-style: circle;
+}
+
+ul > li > ul > li > ul > li {
+    list-style: disc;
+}
+
+ul > li > ul > li > ul > li > ul > li {
+    list-style: square;
+}
+
+ul > li > ul > li > ul > li > ul > li > ul > li {
+    list-style: circle;
+}
+
+ul > li > ul > li > ul > li > ul > li > ul > li > ul > li {
+    list-style: disc;
+}
+
+ol > li {
+    list-style: decimal;
+}
+
+ol > li > ol > li {
+    list-style: lower-alpha;
+}
+
+ol > li > ol > li > ol > li {
+    list-style: lower-roman outside;
+}
+
+ol > li > ol > li > ol > li > ol > li {
+    list-style: decimal;
+}
+
+ol > li > ol > li > ol > li > ol > li {
+    list-style: decimal;
+}
+
+ol > li > ol > li > ol > li > ol > li > ol > li {
+    list-style: lower-alpha;
+}
+
+ol > li > ol > li > ol > li > ol > li > ol > li > ol > li {
+    list-style: lower-roman outside;
+}
+
+td p,
+th p {
+    margin: 5px 0;
+}
+
+td p:first-child,
+th p:first-child {
+    margin-top: 0;
+}
+
+td p:last-child,
+th p:last-child {
+    margin-bottom: 0;
+}
+
+td,
+th {
+    font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+    /*font-size: 15px;*/
+    border:      1px solid gray;
+    margin:      5px 0;
+}
+
+th {
+    padding:        5px;
+    vertical-align: middle;
+    font-size:      larger;
+    font-weight:    normal;
+}
+
+td {
+    padding:        5px;
+    vertical-align: top;
+}
+
+td:first-child,
+th:first-child {
+    border-left: none;
+}
+
+td:last-child,
+th:last-child {
+    border-right: none;
+}
+
+dfn.field {
+    font-style:  normal;
+    font-weight: bold;
+}
+
+table.pcisig_reg td:first-child,
+table.pcisig_reg td:nth-child(3) {
+    text-align: center;
+}
+
+table dl {
+    width: 100%;
+}
+
+table dt {
+    float:       left;
+    width:       12%;
+    margin-left: 6px;
+    font-weight: bold;
+}
+
+td dl dd {
+    overflow:      hidden;
+    margin-bottom: 0.5em;
+}
+
+td dl {
+    margin-top:    0;
+    margin-bottom: 0;
+}
+
+td dl + p {
+    margin-top: 0;
+}
+
+li {
+    margin: 0.25em 0;
+}
+
+/*uxl li:before {
+    content: "❑\02751  ≥\02265  ⧫\029EB  \026A1 \000A0\000A0";
+}*/
+
+a.state,
+dfn.state {
+    color: rgb(118, 185, 0); /* #0060A9 */
+}
+
+a.pin.internalDFN,
+dfn.pin {
+    text-transform: uppercase;
+}
+
+a.signal.internalDFN,
+dfn.signal {
+    text-transform: uppercase;
+    color:          rgb(118, 185, 0); /* #0060A9 */
+}
+
+dfn.pin,
+dfn.signal,
+a.internalDFN.pin,
+a.internalDFN.signal {
+    font-weight: normal;
+    font-style:  normal;
+    font-family: "Courier", monospace;
+}
+
+.internalDFN {
+    border-bottom:   none;
+    text-decoration: none;
+}
+
+body {
+    padding:          2em 1em 2em 36px;
+    font-family:      "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+    background-image: none;
+}
+
+#respec-banner {
+    position:                 fixed;
+    top:                      -15px;
+    height:                   20px;
+    left:                     -595px;
+    width:                    600px;
+    margin:                   0 0 0 0;
+    text-align:               right;
+    padding:                  4px 4px 4px 4px;
+    /* Safari, Chrome */
+    -webkit-transform:        rotate(270deg);
+    -webkit-transform-origin: right center;
+    /* Mozilla */
+    -moz-transform:           rotate(270deg);
+    -moz-transform-origin:    right center;
+    /* Opera */
+    -o-transform:             rotate(270deg);
+    -o-transform-origin:      right center;
+    /* IE */
+    -ms-transform:            rotate(270deg);
+    -ms-transform-origin:     right center;
+    /* W3C */
+    transform:                rotate(270deg);
+    transform-origin:         right center;
+}
+
+#respec-banner {
+    font-family:      "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+    font-size:        17px;
+    color:            white;
+    background-color: rgb(118, 185, 0); /* #0060A9 */
+    /*#38197a; /* PCIe Logo Blue */
+}
+
+caption,
+figcaption,
+thead,
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+    color:       rgb(118, 185, 0); /* #0060A9 */
+    /* PCIe Logo Blue */
+}
+
+g.regFieldExternal0 path.regBitLine {
+    stroke:           rgb(118, 185, 0); /* #0060A9 */
+    stroke-dasharray: 4, 2;
+    stroke-width:     1px;
+}
+
+g.regFieldExternal0 path.regBitBracket {
+    stroke:       rgb(118, 185, 0); /* #0060A9 */
+    stroke-width: 1px;
+}
+
+@media screen {
+    span.footnote-contents {
+        display:    none;
+        font-style: italic;
+        font-size:  smaller;
+        color:      rgb(118, 185, 0); /* #0060A9 */
+    }
+
+    span.footnote > input {
+        vertical-align: super;
+        color:          rgb(118, 185, 0); /* #0060A9 */
+    }
+
+    a.sec-ref span.sec-title,
+    a.sec-ref span.secno-decoration,
+    a.tocxref span.secno-decoration,
+    a.fig-ref span.figdecoration,
+    a.fig-ref span.figtitle,
+    a.tbl-ref span.tbldecoration,
+    a.tbl-ref span.tbltitle {
+        display: none;
+    }
+
+    a.tocxref span.secno::after {
+        content: ".    "
+    }
+
+    a.tocxref span.figtitle::before,
+    a.tocxref span.tbltitle::before {
+        content: "    "
+    }
+
+    h1 span.secno-decoration,
+    h2 span.secno-decoration,
+    h3 span.secno-decoration,
+    h4 span.secno-decoration,
+    h5 span.secno-decoration,
+    h6 span.secno-decoration {
+        content: ".    "
+    }
+}
+
+@media print {
+    @page {
+        size:          US-Letter portrait;
+        margin:        20mm;
+        padding:       5mm 0;
+        /*border-top: thin solid black;*/
+        border-bottom: thin solid rgb(118, 185, 0); /* #0060A9 */
+        @top-left {
+            font-size:      10pt;
+            vertical-align: bottom;
+            margin:         0;
+        }
+        @top-right {
+            font-size:      10pt;
+            vertical-align: bottom;
+            margin:         0;
+        }
+        @bottom-center {
+            content:          "Page " counter(page) " of " counter(pages);
+            vertical-align:   top;
+            height:           20px;
+            left:             auto;
+            width:            100%;
+            margin:           0;
+            padding:          4px;
+            font-family:      "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+            font-size:        9pt;
+            background-color: white;
+            color:            rgb(118, 185, 0); /* #0060A9 */
+        }
+
+    }
+
+    #respec-banner {
+        position:                 static;
+        top:                      auto;
+        height:                   20px;
+        left:                     auto;
+        width:                    100%;
+        margin:                   0 0 0 0;
+        text-align:               center;
+        padding:                  4px 4px 4px 4px;
+        /* Safari, Chrome */
+        -webkit-transform:        rotate(0deg);
+        -webkit-transform-origin: right center;
+        /* Opera */
+        -o-transform:             rotate(0deg);
+        -o-transform-origin:      right center;
+        /* Mozilla */
+        -moz-transform:           rotate(0deg);
+        -moz-transform-origin:    right center;
+        /* IE */
+        -ms-transform:            rotate(0deg);
+        -ms-transform-origin:     right center;
+        /* W3C */
+        transform:                rotate(0deg);
+        transform-origin:         right center;
+        flow:                     static(header);
+        font-family:              "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+        font-size:                17px;
+        color:                    white;
+        background-color:         rgb(118, 185, 0); /* #0060A9 */
+        /*#38197a; /* PCIe Logo Blue */
+    }
+
+    #respec-banner-status { string-set: respec-banner-status content(); }
+
+    #respec-banner-next-state { string-set: respec-banner-next-state content(); }
+
+    #respec-banner-maturity { string-set: respec-banner-maturity content(); }
+
+    #respec-banner-spec-name { string-set: respec-banner-spec-name content(); }
+
+    @page :left {
+        @top-left {
+            content: flow(header);
+        }
+        @bottom-center {
+            text-align: left;
+        }
+    }
+
+    @page :right {
+        @top-right {
+            content: flow(header);
+        }
+        @bottom-center {
+            text-align: right;
+        }
+    }
+
+    /* avoid h/f on first page */
+    @page :first {
+        border-top:    none;
+        border-bottom: none;
+        @bottom-center {
+            content: normal;
+        }
+    }
+
+    /* general statements which perhaps should be part of the UA style sheet? */
+    h1, h2, h3, h4, h5, h6, dt {
+        page-break-after: avoid;
+    }
+
+    ins {
+        text-decoration: underline;
+        color:           green;
+    }
+
+    del {
+        text-decoration: line-through;
+        color:           red;
+        font-weight:     lighter;
+    }
+
+    .section-level-1 {
+        page-break-before: right;
+    }
+
+    /* add page numbers to TOC which is already there */
+    ul.tot, ul.tot li,
+    ul.tof, ul.tof li,
+    ul.toc, ul.toc li {
+        font-weight: normal;
+        margin-left: 0;
+    }
+
+    ul.toc ul.toc {
+        font-weight: normal;
+        margin-left: 2em;
+    }
+
+    ul.tot a::after,
+    ul.tof a::after,
+    ul.toc a::after {
+        content: leader('.') target-counter(attr(href), page);
+    }
+
+    /* document specific code */
+    .principlelab, .constraintlab, .propertylab, .practicelab, .storylab {
+        padding: 0.3em 1em;
+        display: block;
+        margin:  0;
+    }
+
+    .boxedtext p {
+        margin-top: 0;
+    }
+
+    .boxedtext {
+        page-break-inside: avoid;
+    }
+
+    html, body {
+        font-size: 9pt;
+        /*padding: 0;*/
+        /*margin: 0;*/
+    }
+
+    td,
+    th {
+        font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+        font-size:   9pt;
+    }
+
+    th {
+        font-size:   larger;
+        font-weight: normal;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    span.footnote {
+        /*noinspection CssInvalidElement*/ float: footnote;
+    }
+
+    span.footnote > input { display: none; }
+
+    span.footnote-online { display: none; }
+
+}
