@@ -9,7 +9,7 @@
 define(
     ["text!regpict.css",
      "jquery",
-//     "core/utils",
+        //     "core/utils",
      "jquery-svg"],
     function(css) {
         "use strict";
@@ -23,20 +23,20 @@ define(
 
         function draw_regpict(divsvg, svg, reg) {
             var width = Number(pget(reg, "width", 32));
-            var unused = String(pget(reg, "unused", "RsvdP"));
+            var defaultUnused = String(pget(reg, "defaultUnused", "RsvdP"));
             var defaultAttr = String(pget(reg, "defaultAttr", "other"));
             var cellWidth = Number(pget(reg, "cellWidth", 16));
             var cellHeight = Number(pget(reg, "cellHeight", 32));
             var cellInternalHeight = Number(pget(reg, "cellInternalHeight", 8));
-            var cellValueTop = Number(pget(reg, "cellValueTop", 32)); // top of text for regFieldValueInternal
+            var cellValueTop = Number(pget(reg, "cellValueTop", 32));       // top of text for regFieldValueInternal
             var cellBitValueTop = Number(pget(reg, "cellBitValueTop", 36)); // top of text for regFieldBitValue
-            var cellNameTop = Number(pget(reg, "cellNameTop", 32)); // top of text for regFieldNameInternal
+            var cellNameTop = Number(pget(reg, "cellNameTop", 32));         // top of text for regFieldNameInternal
             var bracketHeight = Number(pget(reg, "bracketHeight", 4));
             var cellTop = Number(pget(reg, "cellTop", 16));
             var figName = String(pget(reg, "name", "???"));
-            var fields = pget(reg, "fields", { }); // default to empty register
+            var fields = pget(reg, "fields", {}); // default to empty register
 
-            //console.log("draw_regpict: width=" + width + " unused ='" + unused + "' cellWidth=" + cellWidth + " cellHeight=" + cellHeight + " cellInternalHeight=" + cellInternalHeight + " cellTop=" + cellTop + " bracketHeight=" + bracketHeight);
+            //console.log("draw_regpict: width=" + width + " defaultUnused ='" + defaultUnused + "' cellWidth=" + cellWidth + " cellHeight=" + cellHeight + " cellInternalHeight=" + cellInternalHeight + " cellTop=" + cellTop + " bracketHeight=" + bracketHeight);
             //console.log("draw_regpict: fields=" + fields.toString());
 
             // sanitize field array to avoid subsequent problems
@@ -49,8 +49,8 @@ define(
                     if (item.hasOwnProperty("lsb") && !item.hasOwnProperty("msb")) {
                         item.msb = item.lsb;
                     }
-                    if (!item.hasOwnProperty("unused")) {
-                        item.unused = false;
+                    if (!item.hasOwnProperty("isUnused")) {
+                        item.isUnused = false;
                     }
                     if (!item.hasOwnProperty("attr")) {
                         item.attr = defaultAttr;
@@ -64,12 +64,12 @@ define(
                     if (!item.hasOwnProperty("class")) {
                         item.class = "";
                     }
-                    //console.log("draw_regpict: field msb=" + item.msb + " lsb=" + item.lsb + " attr=" + item.attr + " unused=" + item.unused + " name='" + item.name + "'");
+                    //console.log("draw_regpict: field msb=" + item.msb + " lsb=" + item.lsb + " attr=" + item.attr + " isUnused=" + item.isUnused + " name='" + item.name + "'");
 
                 }
             }
 
-            var bitarray = [];  // Array indexed by bit # in register range 0:width
+            var bitarray = []; // Array indexed by bit # in register range 0:width
             // field[bitarray[N]] contains bit N
             // bitarray[N] == -1 for unused bits
             // bitarray[N] == 1000 for first bit outside register width
@@ -88,21 +88,22 @@ define(
                 }
             }
 
-            var lsb = -1;   // if >= 0, contains bit# of lsb of a string of unused bits 
+            var lsb = -1; // if >= 0, contains bit# of lsb of a string of unused bits 
             for (i = 0; i <= width; ++i) {
                 if (lsb >= 0 && bitarray[i] !== null) {
                     // first "used" bit after stretch of unused bits, invent an "unused" field
                     index = "_unused_" + (i - 1); // _unused_msb
                     if (lsb !== (i - 1)) {
-                        index = index + "_" + lsb;  // _unused_msb_lsb
+                        index = index + "_" + lsb; // _unused_msb_lsb
                     }
                     fields[index] = {
-                        "msb":    i - 1,
-                        "lsb":    lsb,
-                        "name": ((i - lsb) * 2 - 1) >= unused.length ? unused : unused[0].toUpperCase(), // use full name if if fits, else use 1st char
-                        "attr":   unused.toLowerCase(),   // attribute is name
-                        "unused": true,
-                        "value":  ""
+                        "msb":      (i - 1),
+                        "lsb":      lsb,
+                        "name":     ((i - lsb) * 2 - 1) >=
+                                    defaultUnused.length ? defaultUnused : defaultUnused[0].toUpperCase(), // use full name if if fits, else use 1st char
+                        "attr":     defaultUnused.toLowerCase(), // attribute is name
+                        "isUnused": true,
+                        "value":    ""
                     };
                     for (j = lsb; j < i; j++) {
                         bitarray[j] = index;
@@ -139,47 +140,47 @@ define(
                 for (i in fields) {
                     if (fields.hasOwnProperty(i)) {
                         f = fields[i];
-                        var gclass = ["regFieldInternal", "regAttr_" + f.attr, "regLink"];
+                        var gAddClass = ["regFieldInternal", "regAttr_" + f.attr, "regLink"];
                         if (b === f.lsb) {
                             g = svg.group();
                             text = svg.text(g, middleOf(f.lsb), cellTop - 4,
                                             svg.createText().string(f.lsb), {
-                                    class_: "regBitNum"
+                                    "class_": "regBitNum"
                                 });
                             if (f.lsb !== f.msb) {
                                 svg.text(g, middleOf(f.msb), cellTop - 4,
                                          svg.createText().string(f.msb), {
-                                        class_: "regBitNum"
+                                        "class_": "regBitNum"
                                     });
                             }
                             svg.line(g,
                                      rightOf(f.lsb), cellTop,
                                      rightOf(f.lsb), cellTop - text.clientHeight,
-                                     { class_: (f.lsb === 0)? "regBitNumLine" : "regBitNumLine_Hide"});
+                                     { "class_": (f.lsb === 0) ? "regBitNumLine" : "regBitNumLine_Hide"});
                             svg.line(g,
                                      leftOf(f.msb), cellTop,
                                      leftOf(f.msb), cellTop - text.clientHeight,
-                                     { class_: "regBitNumLine" });
-                            if ("class" in f && typeof f.class === "string") {
-                                gclass = gclass.concat(f.class.split(/\s+/));
+                                     { "class_": "regBitNumLine" });
+                            if ("addClass" in f && typeof f.addClass === "string") {
+                                gAddClass = gAddClass.concat(f.addClass.split(/\s+/));
                             }
-                            if (f.unused) {
-                                gclass.push("regFieldUnused");
+                            if (f.isUnused) {
+                                gAddClass.push("regFieldUnused");
                             }
                             svg.rect(g, leftOf(f.msb), cellTop, rightOf(f.lsb) - leftOf(f.msb), cellHeight,
                                      0, 0, {
-                                    class_: "regFieldBox"
+                                    "class_": "regFieldBox"
                                 });
                             for (j = f.lsb + 1; j <= f.msb; j++) {
                                 svg.line(g,
                                          rightOf(j), cellTop + cellHeight - cellInternalHeight,
                                          rightOf(j), cellTop + cellHeight,
-                                         { class_: "regFieldBox" });
+                                         { "class_": "regFieldBox" });
                             }
                             text = svg.text(g, (leftOf(f.msb) + rightOf(f.lsb)) / 2, cellNameTop,
                                             svg.createText().string(f.name),
-                                            { class_: "regFieldName" });
-                            if (!f.unused) {
+                                            { "class_": "regFieldName" });
+                            if (!f.isUnused) {
                                 var $temp_dom = $("<span></span>").prependTo(divsvg);
                                 var unique_id = $temp_dom.makeID("regpict", (f.id ? f.id : (figName + "-" + f.name)));
                                 $temp_dom.remove();
@@ -192,21 +193,21 @@ define(
                                                  cellBitValueTop,
                                                  svg.createText().string(f.value[i]),
                                                  {
-                                                     class_: ("regFieldValue regFieldBitValue" +
-                                                         " regFieldBitValue-" + i.toString() +
-                                                         ((i === (f.value.length - 1)) ?
-                                                          " regFieldBitValue-msb" : ""))
+                                                     "class_": ("regFieldValue regFieldBitValue" +
+                                                                " regFieldBitValue-" + i.toString() +
+                                                                ((i === (f.value.length - 1)) ?
+                                                                    " regFieldBitValue-msb" : ""))
                                                  });
                                     }
-                                } else if ((typeof(f.value) === "string") || (f.value instanceof String)) {
+                                } else if ((typeof (f.value) === "string") || (f.value instanceof String)) {
                                     svg.text(g, (leftOf(f.msb) + rightOf(f.lsb)) / 2,
                                              (f.msb === f.lsb ? cellBitValueTop : cellValueTop),
                                              svg.createText().string(f.value),
-                                             { class_: "regFieldValue" });
+                                             { "class_": "regFieldValue" });
                                 } else {
                                     svg.text(g, (leftOf(f.msb) + rightOf(f.lsb)) / 2, cellValueTop,
                                              svg.createText().string("INVALID VALUE"),
-                                             { class_: "svg_error" });
+                                             { "class_": "svg_error" });
                                 }
                             }
                             var text_width = text.clientWidth;
@@ -220,13 +221,13 @@ define(
                             var text_height = text.clientHeight;
                             if (text_height === 0) {
                                 // bogus fix to guess width when clientHeight is 0 (e.g. IE10)
-                                text_height = 18;             // Assume 18px: 1 row of text, 15px high
+                                text_height = 18; // Assume 18px: 1 row of text, 15px high
                             }
                             /*console.log("field " + f.name +
                              " msb=" + f.msb +
                              " lsb=" + f.lsb +
                              " attr=" + f.attr +
-                             " unused=" + f.unused +
+                             " isUnused=" + f.isUnused +
                              (("id" in f) ? f.id : ""));
                              console.log(" text.clientWidth=" + text.clientWidth +
                              " text_width=" + text_width +
@@ -243,9 +244,9 @@ define(
                                 ((text_height + 2) > (cellHeight - cellInternalHeight))) {
                                 svg.change(text,
                                            {
-                                               x:      rightOf(-0.5),
-                                               y:      nextBitLine,
-                                               class_: "regFieldName"
+                                               x:        rightOf(-0.5),
+                                               y:        nextBitLine,
+                                               "class_": "regFieldName"
                                            });
                                 p = svg.createPath();
                                 p.move(leftOf(f.msb), cellTop + cellHeight);
@@ -253,8 +254,8 @@ define(
                                 p.line(rightOf(f.lsb), cellTop + cellHeight);
                                 svg.path(g, p,
                                          {
-                                             class_: "regBitBracket",
-                                             fill:   "none"
+                                             "class_": "regBitBracket",
+                                             fill:     "none"
                                          });
                                 p = svg.createPath();
                                 p.move(middleOf(f.lsb + ((f.msb - f.lsb) / 2)), cellTop + cellHeight + bracketHeight);
@@ -262,23 +263,23 @@ define(
                                 p.horiz(rightOf(-0.4));
                                 svg.path(g, p,
                                          {
-                                             class_: "regBitLine",
-                                             fill:   "none"
+                                             "class_": "regBitLine",
+                                             fill:     "none"
                                          });
-                                gclass[0] = "regFieldExternal";
-                                gclass.push("regFieldExternal" + (bitLineCount < 2 ? "0" : "1"));
+                                gAddClass[0] = "regFieldExternal";
+                                gAddClass.push("regFieldExternal" + (bitLineCount < 2 ? "0" : "1"));
                                 nextBitLine += text_height + 2;
                                 bitLineCount = (bitLineCount + 1) % 4;
                             }
-                            svg.change(g, { class_: gclass.join(" ") });
+                            svg.change(g, { "class_": gAddClass.join(" ") });
                         }
                     }
                 }
             }
             svg.configure({
-                              height:        nextBitLine + "px",
-                              width:         (max_text_width + rightOf(-1)) + "px",
-//                              viewBox:       "0 0 " + (max_text_width + rightOf(-1)) + " " + nextBitLine,
+                              height: nextBitLine + "px",
+                              width: (max_text_width + rightOf(-1)) + "px",
+                              //                              viewBox:       "0 0 " + (max_text_width + rightOf(-1)) + " " + nextBitLine,
                               "xmlns:xlink": "http://www.w3.org/1999/xlink"
                           });
         }
@@ -294,7 +295,7 @@ define(
                     function() {
                         var parsed, $tbody, pattern, bitpattern;
                         var $fig = $(this);
-                        var json = { };
+                        var json = {};
                         if ($fig.attr("id")) {
                             json.name = $fig.attr("id").replace(/^fig-/, "");
                         } else if ($fig.attr("title")) {
@@ -331,7 +332,7 @@ define(
 
                         temp = $fig.attr("data-unused");
                         if (temp !== null && temp !== undefined && temp !== "") {
-                            json.unused = temp;
+                            json.defaultUnused = temp;
                         }
 
                         temp = $fig.attr("data-href");
@@ -369,7 +370,7 @@ define(
                                     match = /^\s*(\d+)\s*(:\s*(\d+))?\s*$/.exec(bits);
                                     if (match) {
                                         msb = lsb = Number(match[1]);
-                                        if ((typeof(match[3]) === "string") && (match[3] !== "")) {
+                                        if ((typeof (match[3]) === "string") && (match[3] !== "")) {
                                             lsb = Number(match[3]);
                                         }
                                         if (lsb > msb) {
@@ -389,25 +390,26 @@ define(
                                         attr = "other";
                                     }
                                     var unusedAttr = /^(rsvd|rsvdp|rsvdz|reserved|unused)$/i;
-                                    var unused = !!unusedAttr.test(attr);
-//                                    console.log("field: " + fieldName + " bits=\"" + bits + "\"  match=" + match + "\" lsb=" + lsb + " msb=" + msb + "  attr=" + attr + "  unused=" + unused);
+                                    var isUnused = !!unusedAttr.test(attr);
+                                    //                                    console.log("field: " + fieldName + " bits=\"" + bits + "\"  match=" + match + "\" lsb=" + lsb + " msb=" + msb + "  attr=" + attr + "  isUnused=" + isUnused);
                                     parsed.fields[fieldName] = {
-                                        msb:    msb,
-                                        lsb:    lsb,
-                                        attr:   attr,
-                                        unused: unused
+                                        msb:      msb,
+                                        lsb:      lsb,
+                                        attr:     attr,
+                                        isUnused: isUnused
                                     };
                                 }
                             });
                             //console.log("parsed=" + JSON.stringify(parsed, null, 2));
                             $.extend(true, json, parsed);
-//                            console.log("json=" + JSON.stringify(json, null, 2));
+                            //                            console.log("json=" + JSON.stringify(json, null, 2));
                         }
 
-                        if ($fig.hasClass("nv_refman") && json.hasOwnProperty("href") && json.hasOwnProperty("register")) {
+                        if ($fig.hasClass("nv_refman") && json.hasOwnProperty("href") &&
+                            json.hasOwnProperty("register")) {
                             parsed = { fields: { } };
-                            pattern =
-                                new RegExp("^#\\s*define\\s+(" + json.register + ")(\\w*)\\s+(\\S*)\\s*/\\*\\s*(\\S\\S\\S\\S\\S)\\s*\\*/\\s*$");
+                            pattern = new RegExp("^#\\s*define\\s+(" + json.register +
+                                                 ")(\\w*)\\s+(\\S*)\\s*/\\*\\s*(\\S\\S\\S\\S\\S)\\s*\\*/\\s*$");
                             bitpattern = /(\d+):(\d+)/;
                             if (!!conf.ajaxIsLocal) {
                                 $.ajaxSetup({ isLocal: true});
@@ -463,8 +465,8 @@ define(
                                        error:    function(xhr, status, error) {
                                            msg.pub("error",
                                                    "regpict/nv_refman: Error including file data-href=" + json.href +
-                                                       " data-register=" + json.register + " : " +
-                                                       status + " (" + error + ")");
+                                                   " data-register=" + json.register + " : " +
+                                                   status + " (" + error + ")");
                                        }
                                    });
                         }
