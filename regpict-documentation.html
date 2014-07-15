@@ -2,14 +2,15 @@
 <html>
 
 <head>
-    <title>HTMLBook</title>
+    <title>RegPict</title>
     <meta charset="utf-8">
-    <script src="http://www.w3.org/Tools/respec/respec-w3c-common" async class="remove"></script>   
-    <script src='require.js' data-main='regpict' async class="remove"></script>
-<!--<script src="regpict.js" async class="remove"></script>-->
+    <!--    <script src="http://www.w3.org/Tools/respec/respec-w3c-common" async class="remove"></script>   -->
+    <script src="respec-w3c-common.js" async class="remove"></script>
+    <!--    <script src='require.js' data-main='regpict' async class="remove"></script>-->
+    <!--<script src="regpict.js" async class="remove"></script>-->
     <script class="remove">
         var respecConfig = {
-            additionalCopyrightHolders: "Copyright &copy; 2014 O&#x2019;Reilly Media, Inc.",
+            additionalCopyrightHolders: "Copyright &copy; 2014 Nvidia, Inc.",
             specStatus: "unofficial",
             shortName: "regpict",
             editors: [
@@ -20,6 +21,8 @@
                     companyURL: "http://nvidia.com"
                 }
           ],
+            onlyLocalBiblio: true,
+            cssOverride: "unofficial.css",
             localBiblio: {
                 "DOCBOOK": {
                     title: "The DocBook Document Type",
@@ -71,6 +74,9 @@
             padding-bottom: 1px;
             font-size: smaller;
         }
+        code {
+            font-weight: 600;
+        }
         ul > li {
             list-style: square;
         }
@@ -116,7 +122,7 @@
 <body>
     <section id="abstract">
         <p>
-            The regpict library draws register pictures in specifications. An example such figure is shown in <a href="#fig-json-defined-register-example">Figure 1</a>.</p>
+            The <dfn>RegPict</dfn> library draws register pictures in specifications. An example such figure is shown in <a href="#fig-json-register-example">Figure 1</a>.</p>
         <p>
             This library consists of two levels:
         </p>
@@ -140,7 +146,7 @@
             Using the JSON extraction layer is optional. The JSON to SVG conversion layer can be used standalone.
         </p>
         <p>
-            The generated SVG is designed to be styled using CSS. Proper representation requires some CSS. A minimal CSS file is provided as well as a more complete example. The <a href="#svg-css-classes">SVG CSS Classes</a> section describes the classes contained in the generated SVG.
+            The generated SVG is designed to be styled using CSS. Proper representation requires some CSS. A minimal CSS file is provided as well as a more complete example. <a href="#sect-svg-class-structure">Section 3</a> describes the classes contained in the generated SVG.
         </p>
         <p>
             The initial implementation is in JavaScript. A version in Ruby that works as a plugin filter for [[ASCIIDOCTOR]] is anticipated.
@@ -161,96 +167,37 @@
     <section>
         <h2>JSON Register Example</h2>
         <pre class="example">
-        for figures.register.pcisig_reg, the data-table attribute is the ID of the PCISIG style table describing the fields
-
-         any nested div.json, pre.json, or span.json within figure.register is parsed for json content
-         the width argument describes the register width (defaults to 32 bits)
-         the unused item is name used for bit fields that are not otherwise defined (defaults "RsvdP")
-         var width               = Number(pget(reg, "width", 32));
-         var unused              = String(pget(reg, "unused", "RsvdP"));
-         var defaultAttr         = String(pget(reg, "defaultAttr", "other"));
-         var cellWidth           = Number(pget(reg, "cellWidth", 16));
-         var cellHeight          = Number(pget(reg, "cellHeight", 32));
-         var cellInternalHeight  = Number(pget(reg, "cellInternalHeight", 8));
-         var cellValueTop        = Number(pget(reg, "cellValueTop", 32)); // top of text for regFieldValueInternal
-         var cellBitValueTop     = Number(pget(reg, "cellBitValueTop", 36)); // top of text for regFieldBitValue
-         var cellNameTop         = Number(pget(reg, "cellNameTop", 32)); // top of text for regFieldNameInternal
-         var bracketHeight       = Number(pget(reg, "bracketHeight", 4));
-         var cellTop             = Number(pget(reg, "cellTop", 16));
-         var figName             = String(pget(reg, "name", "???"));
-         var fields              = pget(reg, "fields", { }); // default to empty register
-
-         Fields are indexed by field name. Items in in a field are:
-          name      Name of the field (default is the index of the field)
-          msb       bit number of the most significant bit (or only bit)
-          lsb       bit number of the least significant bit (or only bit)
-          unused    true if field is considered "unused"
-          attr      field type (e.g. other, rw, ro, rw1c, ros, ...)
-          class     class name for the &lt;g&gt; (group) SVG element for the field
-          value     value of the field contents. Either a single string, or an array of strings
-                    where the array length is the width of the field (in bits).
-                    Array element [0] is the LSB of the field.
-
-        &lt;figure class="register"&gt;
-
-        &lt;pre class="json"&gt;
-        {
-            "width":    48,
-            "unused": "Bogus",
-            "fields":
-                {
-                    "field 4:0":
-                        {
-                            "msb":  4,
-                            "lsb":  0,
-                            "attr": "ro"
-                        },
-                    "Very long name that will never fit":
-                        {
-                            "msb": 7,
-                            "lsb": 6
-                        },
-                    "bit9":
-                        {
-                            "msb": 9
-                        },
-                    "bit10":
-                        {
-                            "lsb":   10,
-                            "class": "svg_error"
-                        },
-                    "bit11":
-                        {
-                            "lsb": 11
-                        },
-                    "bit12":
-                        {
-                            "lsb":   12,
-                            "value": "1"
-                        },
-                    "bit13":
-                        {
-                            "lsb":  13,
-                            "href": "field-bit13"
-                        },
-                    "bit 20:14":
-                        {
-                            "lsb":   14,
-                            "msb":   24,
-                            "value": "value"
-                        },
-                    "byte":
-                        {
-                            "lsb":   25,
-                            "msb":   32,
-                            "value": [ "A", "B", "C", "D", "E", "F", "G", "H"]
-                        }
+        &lt;pre class="json"&gt; {
+            "fields": {
+                "field 4:0": {
+                    "msb":  4,
+                    "lsb":  0,
+                    "attr": "ro"
+                },
+                "bit9": {
+                    "msb": 9,
+                    "value": "1"
+                },
+                "bit10": {
+                    "lsb":   10,
+                    "value": "0"
+                },
+                "bit11": {
+                    "lsb": 11
+                },
+                "bit 12:15": {
+                    "lsb":   12,
+                    "msb":   15,
+                    "value": "value"
+                },
+                "byte": {
+                    "lsb":   16,
+                    "msb":   31,
+                    "value": [ "A", "B", "C", "D", "E", "F", "G", "H"]
                 }
+            }
         }
         &lt;/pre&gt;
-        &lt;figcaption&gt;Graph for JSON Defined Register Example&lt;/figcaption&gt;
-        &lt;/figure&gt;
-
     </pre>
 
         <figure class="register">
@@ -279,60 +226,364 @@
             <!--  attr      field type (e.g. other, rw, ro, rw1c, ros, ...) -->
             <pre class="json">            
             {
-                "width":    48,
-                "unused": "Bogus",
-                "fields":
-                    {
-                        "field 4:0":
-                            {
-                                "msb":  4,
-                                "lsb":  0,
-                                "attr": "ro"
-                            },
-                        "Very long name that will never fit":
-                            {
-                                "msb": 7,
-                                "lsb": 6
-                            },
-                        "bit9":
-                            {
-                                "msb": 9
-                            },
-                        "bit10":
-                            {
-                                "lsb":   10,
-                                "class": "svg_error"
-                            },
-                        "bit11":
-                            {
-                                "lsb": 11
-                            },
-                        "bit12":
-                            {
-                                "lsb":   12,
-                                "value": "1"
-                            },
-                        "bit13":
-                            {
-                                "lsb":  13
-                            },
-                        "bit 20:14":
-                            {
-                                "lsb":   14,
-                                "msb":   24,
-                                "value": "value"
-                            },
-                        "byte":
-                            {
-                                "lsb":   25,
-                                "msb":   32,
-                                "value": [ "A", "B", "C", "D", "E", "F", "G", "H"]
-                            }
+                "fields": {
+                    "field 4:0": {
+                        "msb":  4,
+                        "lsb":  0,
+                        "attr": "ro"
+                    },
+                    "bit9": {
+                        "msb": 9,
+                        "value": "1"
+                    },
+                    "bit10": {
+                        "lsb":   10,
+                        "value": "0"
+                    },
+                    "bit11": {
+                        "lsb": 11
+                    },
+                    "bit 12:15": {
+                        "lsb":   12,
+                        "msb":   15,
+                        "value": "value"
+                    },
+                    "byte": {
+                        "lsb":   24,
+                        "msb":   31,
+                        "value": [ "A", "B", "C", "D", "E", "F", "G", "H"]
                     }
+                }
             }
-        </pre>
-            <figcaption>JSON Defined Register Example</figcaption>
+            </pre>
+            <figcaption>JSON Register Example</figcaption>
         </figure>
+    </section>
+    <section>
+        <h2>JSON Format Details</h2>
+        <p>
+            The JSON intermediate format contains a collection of properties related to the overall register as well as a <a>fields</a> property with details for each register field. The each property of <a>fields</a> describes the corresponding register field.</p>
+        <section>
+            <h2>Register Properties</h2>
+            <p>The following register properties are defined:</p>
+            <dl>
+
+                <dt><dfn>width</dfn></dt>
+                <dd>
+                    Width of the register, in bits. Default is 32.
+                </dd>
+
+                <dt><dfn>defaultUnused</dfn></dt>
+                <dd>
+                    Name to apply to unused bits in the register. Default is "RsvdP".
+                </dd>
+
+                <dt><dfn>defaultAttr</dfn></dt>
+                <dd>
+                    Attribute to apply to fields that do not specify one. Default is "other".
+                </dd>
+
+                <dt><dfn>cellWidth</dfn></dt>
+                <dd>
+                    Width of a bit cell, in pixels. Default is 16px.
+                </dd>
+
+                <dt><dfn>cellHeight</dfn></dt>
+                <dd>
+                    Height of a bit cell, in pixels. Default is 32px.
+                </dd>
+
+                <dt><dfn>cellInternalHeight</dfn></dt>
+                <dd>
+                    Height of the bit seperator lines with a multi-bit cell. Default is 8px.
+                </dd>
+
+                <dt><dfn>cellValueTop</dfn></dt>
+                <dd>
+                    Top of the text for a multi-bit field value. Default is 32px.
+                </dd>
+
+                <dt><dfn>cellBitValueTop</dfn></dt>
+                <dd>
+                    Top of the text for a single bit value (either because the field is one bit wide or because individual bit values are specied). Default is 36px.
+                </dd>
+
+                <dt><dfn>cellBitNameTop</dfn></dt>
+                <dd>
+                    Top of the text for a bit name that's displayed inside the register field. Default is 32px.
+                </dd>
+
+                <dt><dfn>bracketHeight</dfn></dt>
+                <dd>
+                    Height of the bracket drawn below the field field when the field name is displayed outside the register field. Default is 4px.
+                </dd>
+
+                <dt><dfn>figName</dfn></dt>
+                <dd>
+                    Prefix to use when generating <a>id</a> values for fields in the generated SVG. Default is "???".
+                </dd>
+
+                <dt><dfn>fields</dfn></dt>
+                <dd>
+                    JSON Object containing one property per register field. Default is the empty property <code>{ }</code>.
+                </dd>
+
+            </dl>
+        </section>
+        <section>
+            <h2>Field Properties</h2>
+            <p>The following properties are defined for register fields:</p>
+            <dl>
+                <dt><dfn>name</dfn></dt>
+                <dd>
+                    <p>
+                        Name of the field. If the name fits in the field box and no <a>value</a> is provided for the field, the name is drawn in the field box, centered horozontally, with the top edge of the name text at cellNameTop. Otherwise, the field name is drawn to the right of bit 0 with a line connecting the field name to the middle of the bit field.
+                    </p>
+                    <p>
+                        If <a>name</a> is not specified, the default is the property name of the field within the <a>fields</a> property of the register. Note: all fields in <a href="#fig-json-register-example">Figure 1</a> do not have a <a>name</a> attribute.
+                    </p>
+                </dd>
+
+                <dt><dfn>id</dfn></dt>
+                <dd>
+                    This property contains a string value that specified the <code>id</code> attribute for the <code>&lt;g&gt;</code> element in the generated SVG. See <a href="#sect-svg-id-attribute">Section 3.4</a> for complete rules for generating the <code>id</code> attribute.
+                </dd>
+
+                <dt><dfn>lsb</dfn></dt>
+                <dd>
+                    Least Significant Bit number. If omitted, field is 1 bit wide containing just the <a>msb</a>. At least one of <a>lsb</a> or <a>msb</a> must be specified.
+                </dd>
+
+                <dt><dfn>msb</dfn></dt>
+                <dd>
+                    Most Significant Bit number. If omitted, field is 1 bit wide containing just the <a>lsb</a>. At least one of <a>lsb</a> or <a>msb</a> must be specified.
+                </dd>
+
+                <dt><dfn>value</dfn></dt>
+                <dd>
+                    The value for the field. This property takes on the following forms:
+                    <ul>
+                        <li>
+                            Single string value, and the field with is greater than 1 bit. The <a>value</a> property is displayed in the field box, centered horizontally, with its top edge at <a>cellValueTop</a>.
+                        </li>
+                        <li>
+                            Single string value, and the field width is exactly 1 bit. The <a>value</a> property is displayed in the field box, centered horizontally, with its top edge at <a>cellBitValueTop</a>.
+                        </li>
+                        <li>
+                            JSON array value where the array length equals the field width in bits and the array values are all strings. The string values are typically 1 character due to space limitations. You can make more room by increasing <a>cellWidth</a> or decreasing the font size for the class <a>regBitFieldValue</a>. Each array item is drawn centered horizontally in the corresponding bit cell, with its top edge at <a>cellBitValueTop</a>.
+                        </li>
+                    </ul>
+                </dd>
+
+                <dt><dfn>attr</dfn></dt>
+                <dd>
+                    This property is a string that indicates the type of this field. If this property contains <i>x</i>, the generated SVG has class <a>regAttr_x</a>. This permits styling of register fields based on field attribute (Read Only, Read Write, etc.). This value is converted to lower case so it's irrelevant what case is used for this propeerty. This property must be a valud class name (e.g. no spaces, etc.). Common values are: rw, rws, ro, ros, rw1c, rw1cs, rw1s, rw1ss, wo, wos, hardwired, fixed, hwinit, rsvd, rsvdp, rsvdz, reserved, unused, and other. The default value of <a>attr</a> is "other".
+                </dd>
+            </dl>
+
+            <dt><dfn>isUnused</dfn></dt>
+            <dd>
+                Unused field indicator. If <a>isUnused</a> is present and has the value true, this bits that comprise this field are some flavor of undefined (e.g. Reserved, RsvdP, RsvdZ). The the drawn field has the class <a>regFieldUnused</a> to permit styling using CSS. Unused field indicator. If <a>isUnused</a> is present and has the value true, this bits that comprise this field are some flavor of undefined (e.g. Reserved, RsvdP, RsvdZ). The the drawn field has the class <a>regFieldUnused</a> to permit styling using CSS.
+            </dd>
+
+            <dt><dfn>addClass</dfn></dt>
+            <dd>
+                If <a>addClass</a> is present, it MUST contain a string value. This value contains one or more class names. Each of these class names is appended to the list of classes for the generated <code>&lt;g&gt;</code> element. A good application for the <a>addClass</a> property is to highlight particular fields, when this highlighting is not an intrinsic property of the field. For example, if the same figure is used in multiple places, with each usage explaining some of the fields, the <a>addClass</a> property can be used to highlight the appropriate fields. Intrinsic properties of a field are better indicated through the <a>attr</a> property.
+            </dd>
+        </section>
+    </section>
+    <section>
+        <h2>SVG Class Structure</h2>
+        <p>
+            This section describes the structure of the generated SVG. Knowing this structure permits more flexible styling of the resulting diagram using CSS.
+        </p>
+        <p>
+            The generated SVG contains a <code>&lt;g&gt;</code> element for every field. This includes fields that are explicitly defined as well as fields that are created to represent unused register bits.
+        </p>
+
+        <section>
+            <h2><dfn>External Field</dfn> </h2>
+            <p><a>Regpict</a> will generate an <a>External Field</a> when the field name doesn't fit in the bit field box or the field has a value prioperty.</p>
+            <p>An example <a>External Field</a> is shown below. This is the <a class="regpict">bit 12:15</a> field from <a href="#fig-json-register-example">Figure 1</a>.</p>
+            <pre class="example">
+&lt;g id="regpict-json-register-example-bit-12-15"
+   class="regFieldExternal regAttr_other regFieldExternal1"&gt;
+    &lt;text x="320" y="12" class="regBitNum"&gt;12&lt;/text&gt;
+    &lt;text x="272" y="12" class="regBitNum"&gt;15&lt;/text&gt;
+    &lt;line x1="328" y1="16" x2="328" y2="-2" class="regBitNumLine_Hide"/&gt;
+    &lt;line x1="264" y1="16" x2="264" y2="-2" class="regBitNumLine"/&gt;
+    &lt;rect x="264" y="16" width="64" height="32" class="regFieldBox"/&gt;
+    &lt;line x1="312" y1="40" x2="312" y2="48" class="regFieldBox"/&gt;
+    &lt;line x1="296" y1="40" x2="296" y2="48" class="regFieldBox"/&gt;
+    &lt;line x1="280" y1="40" x2="280" y2="48" class="regFieldBox"/&gt;
+    &lt;text x="528" y="128" class="regFieldName"&gt;bit 12:15&lt;/text&gt;
+    &lt;text x="296" y="32" class="regFieldValue"&gt;value&lt;/text&gt;
+    &lt;path d="M264,48l32,4L328,48" class="regBitBracket" fill="none"/&gt;
+    &lt;path d="M296,52V123.5H526.4" class="regBitLine" fill="none"/&gt;
+&lt;/g&gt;
+            </pre>
+        </section>
+        <section>
+            <h2><dfn>Internal Field</dfn></h2>
+            <p><a>Regpict</a> will generate an Internal Field when the field name fits in the bit field box and there is no value property.</p>
+            <p>An example Internal Field is shown below. This is the <a class="regpict">field 4:0</a> field from <a href="#fig-json-register-example">Figure 1</a>.</p>
+            <pre class="example">
+&lt;g id="regpict-json-register-example-field-4-0"
+   class="regFieldInternal regAttr_ro"&gt;
+    &lt;text x="512" y="12" class="regBitNum"&gt;0&lt;/text&gt;
+    &lt;text x="448" y="12" class="regBitNum"&gt;4&lt;/text&gt;
+    &lt;line x1="520" y1="16" x2="520" y2="-2" class="regBitNumLine"/&gt;
+    &lt;line x1="440" y1="16" x2="440" y2="-2" class="regBitNumLine"/&gt;
+    &lt;rect x="440" y="16" width="80" height="32" class="regFieldBox"/&gt;
+    &lt;line x1="504" y1="40" x2="504" y2="48" class="regFieldBox"/&gt;
+    &lt;line x1="488" y1="40" x2="488" y2="48" class="regFieldBox"/&gt;
+    &lt;line x1="472" y1="40" x2="472" y2="48" class="regFieldBox"/&gt;
+    &lt;line x1="456" y1="40" x2="456" y2="48" class="regFieldBox"/&gt;
+    &lt;text x="480" y="32" class="regFieldName"&gt;field 4:0&lt;/text&gt;
+&lt;/g&gt;
+        </pre>
+        </section>
+        <section>
+            <h2>Generated <code>&lt;g&gt;</code> element: <code>class</code> attributes</h2>
+            <p>The generated SVG has a variety of classes available. This allows customizing the styling of the diagram using CSS. The following classes are generated:</p>
+            <dl>
+                <dt>g.<dfn>regFieldInternal</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;g&gt;</code> element to indicate an Internal Field.
+                </dd>
+
+                <dt>g.<dfn>regAttr_<i>x</i></dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;g&gt;</code> element to convey the attributes of the corresponding field. The <i>x</i> is the <a>attr</a> value converted to lower case.
+                </dd>
+
+                <dt>g.<dfn>regFieldUnused</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;g&gt;</code> element of an Internal Field to indicate that the <a>isUnused</a> property was present and <code>true</code>. Not applicable to an <a>External Field</a>.
+                </dd>
+                <dt>g.<dfn>regFieldExternal</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;g&gt;</code> element to indicate and <a>External Field</a>.
+                </dd>
+
+                <dt>g.<dfn>regFieldExternal0</dfn></dt>
+                <dt>g.<dfn>regFieldExternal1</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;g&gt;</code> element of an <a>External Field</a>. The two least significant <a title="External Field">External Fields</a> have <a>regFieldExternal0</a>. The next two <a title="External Field">External Fields</a> have <a>regFieldExternal1</a>. The pattern repeats with next two <a title="External Field">External Fields</a> have <a>regFieldExternal0</a>, followed by two with <a>regFieldExternal1</a>. These classes can be used to format the lines differently to enhance readability.
+                </dd>
+
+                <dt>text.<dfn>regBitNum</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;text&gt;</code> element that contains the lsb and msb bit numbers of the field.
+                </dd>
+
+                <dt>line.<dfn>regBitNumLine</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;line&gt;</code> element that represents the line adjacent to the lsb and msb bit numbers of the field.
+                </dd>
+
+                <dt>line.<dfn>regBitNumLine_Hide</dfn></dt>
+                <dd>
+                    Same as <a>regBitNumLine</a>, but should be hidden by default in CSS. CSS should make this element visible when the user hovers over the <code>&lt;g&gt;</code> element.
+                </dd>
+
+                <dt>rect.<dfn>regFieldBox</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;rect&gt;</code> element that represents the bit field box.
+                </dd>
+
+                <dt>line.<i>regFieldBox</i></dt>
+                <dd>
+                    Applied to the <code>&lt;line&gt;</code> element that represents the bit divider lines within the bit field box. Used only for multi-bit fields.
+                </dd>
+
+                <dt>text.<dfn>regFieldName</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;text&gt;</code> element that contains the field name.
+                </dd>
+
+                <dt>text.<dfn>regFieldValue</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;text&gt;</code> element that contains the field value.
+                </dd>
+
+                <dt>text.<dfn>regBitFieldValue</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;text&gt;</code> element that contains a single bit of the field value.
+                </dd>
+
+                <dt>text.<dfn>regBitFieldValue-<i>n</i></dfn></dt>
+                <dt>Applied to the <code>&lt;text&gt;</code> element that contains bit <i>n</i> of the field value. Permits formatting individual bit values differently.</dt>
+
+                <dt>path.<dfn>regBitBracket</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;path&gt;</code> element of an <a>External Field</a> that is the bracket immediately below the bit field box. Not applicable to Internal Fields.
+                </dd>
+
+
+                <dt>path.<dfn>regBitLine</dfn></dt>
+                <dd>
+                    Applied to the <code>&lt;path&gt;</code> element of an <a>External Field</a> that connects the bracket to the field name. Not applicable to Internal Fields.
+                </dd>
+
+            </dl>
+
+        </section>
+        <section id="sect-svg-id-attribute">
+            <h2>Generated <code>&lt;g&gt;</code> element: <code>id</code> attribute</h2>
+            <p>
+                <a>Regpict</a> will generate a unique <code>id</code> attribute for most fields. No <code>id</code> is generated for <i>unused</i> fields (i.e. fields that have an <a>isUnused</a> property with the value <code>true</code>. All other fields have an <code>id</code> attribute generated as follows:
+            </p>
+            <ol>
+                <li>Construct a preliminary id string by:
+                    <ol>
+                        <li>
+                            If the field has an <a>id</a> property use it for the preliminary id string.
+                        </li>
+                        <li>
+                            Otherwise the preliminary id is the <a>figName</a> property if the register, followed by a dash (&ldquo;-&rdquo;), followed by the <a>name</a> property of the field.
+                        </li>
+                    </ol>
+                </li>
+                <li>Sanitize the preliminary id string by:
+                    <ol>
+                        <li>Converting upper case to lower case.</li>
+                        <li>Removing leading and trailing spaces.</li>
+                        <li>Replacing sequences of one or more invalid characters with &ldquo;-&rdquo;. For this purpose, characters that are not digits, letters, periods, dashs, or underscores are invalid.</li>
+                        <li>Removing leading and training sequences of dashes.</li>
+                        <li>If the last character is a period, append the letter &ldquo;x&rdquo;.</li>
+                        <li>If the first character is not a letter, prepend the letter &ldquo;x&rdquo;.</li>
+                        <li>If the value is the empty string at this point, use the string &ldquo;generatedID&rdquo;.</li>
+                    </ol>
+                </li>
+                <li>Prepend &ldquo;regpict-&rdquo; to the prelminary id.</li>
+                <li>Check to see if the preliminary id is unique or if duplicates a <code>id</code> attribute already present the document.</li>
+                <li>
+                    If the preliminary id is already present in the document, create a unique version of it by appending a dash and a small number. The small number is the greater than or equal to 1 and is the smallest value where the associated preliminary id is not yet used in the document. For example, for the preliminary id &ldquo;regpict-foo&rdquo; is used, the next one is &ldquo;regpict-foo-1&rdquo;, followed by &ldquo;regpict-foo-2&rdquo;, and so forth.
+                </li>
+            </ol>
+        </section>
+        <section>
+            <h2>Unused Bits</h2>
+            <p>Unused bits in a register cause a field to be invented by <a>Regpict</a>.</p>
+            <p>This field has the following properties:</p>
+            <ul>
+                <li>
+                    <a>name</a>: the value of the <a>defaultUnused</a> property of the register.
+                    <br>If it doesn't fit, only the first character is <a>defaultUnused</a> is used, converted to upper case.
+                </li>
+                <li><a>lsb</a>: least significant bit of a string of one or more unused bits</li>
+                <li><a>msb</a>: most significant bit in a string of one or more unused bits</li>
+                <li><a>value</a>: not specified</li>
+                <li><a>id</a>: not specified</li>
+                <li><a>attr</a>: the value of the <a>defaultUnused</a> property of the register</li>
+                <li><a>isUnused</a>: <code>true</code></li>
+                <li><a>addClass</a>: not present</li>
+            </ul>
+        </section>
+    </section>
+    <!--<section>
+        <h2>Bogus</h2>
         <p>These are references to fields that were defined as terms in this JSON example.</p>
         <ul>
             <li><a>field 4:0</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;field 4:0&lt;/a&gt;</li>
@@ -372,7 +623,7 @@
             <li>
                 <dfn class="field" title="JSON Defined Register Example bit13-x">bit13</dfn>&nbsp;&nbsp;&nbsp;&lt;dfn class="field" title=""JSON Defined Register Example bit13"&gt;bit13&lt;/dfn&gt; - this is a <b>duplicate</b> definition for <a class="field">bit13</a>
             </li>
-        </ul>
+        </ul>-->
 
     </section>
 </body>
