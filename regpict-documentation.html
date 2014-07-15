@@ -28,7 +28,7 @@
                     title: "The DocBook Document Type",
                     href: "http://www.docbook.org/specs/docbook-4.5-spec.html",
                     authors: ["Norman Walsh"],
-                    publisher: "OASIS",
+                    publisher: "OASIS"
                 },
                 "EPUB3": {
                     title: "EPUB 3 Overview",
@@ -38,7 +38,7 @@
                 "EPUB3SSV": {
                     title: "EPUB 3 Structural Semantics Vocabulary",
                     href: "http://www.idpf.org/epub/vocab/structure/",
-                    publisher: "IDPF",
+                    publisher: "IDPF"
                 },
                 "EPUBINDEX": {
                     title: "EPUB Indexes 1.0",
@@ -379,17 +379,17 @@
                 <dd>
                     This property is a string that indicates the type of this field. If this property contains <i>x</i>, the generated SVG has class <a>regAttr_x</a>. This permits styling of register fields based on field attribute (Read Only, Read Write, etc.). This value is converted to lower case so it's irrelevant what case is used for this propeerty. This property must be a valud class name (e.g. no spaces, etc.). Common values are: rw, rws, ro, ros, rw1c, rw1cs, rw1s, rw1ss, wo, wos, hardwired, fixed, hwinit, rsvd, rsvdp, rsvdz, reserved, unused, and other. The default value of <a>attr</a> is "other".
                 </dd>
+
+                <dt><dfn>isUnused</dfn></dt>
+                <dd>
+                    Unused field indicator. If <a>isUnused</a> is present and has the value true, this bits that comprise this field are some flavor of undefined (e.g. Reserved, RsvdP, RsvdZ). The the drawn field has the class <a>regFieldUnused</a> to permit styling using CSS. Unused field indicator. If <a>isUnused</a> is present and has the value true, this bits that comprise this field are some flavor of undefined (e.g. Reserved, RsvdP, RsvdZ). The the drawn field has the class <a>regFieldUnused</a> to permit styling using CSS.
+                </dd>
+
+                <dt><dfn>addClass</dfn></dt>
+                <dd>
+                    If <a>addClass</a> is present, it MUST contain a string value. This value contains one or more class names. Each of these class names is appended to the list of classes for the generated <code>&lt;g&gt;</code> element. A good application for the <a>addClass</a> property is to highlight particular fields, when this highlighting is not an intrinsic property of the field. For example, if the same figure is used in multiple places, with each usage explaining some of the fields, the <a>addClass</a> property can be used to highlight the appropriate fields. Intrinsic properties of a field are better indicated through the <a>attr</a> property.
+                </dd>
             </dl>
-
-            <dt><dfn>isUnused</dfn></dt>
-            <dd>
-                Unused field indicator. If <a>isUnused</a> is present and has the value true, this bits that comprise this field are some flavor of undefined (e.g. Reserved, RsvdP, RsvdZ). The the drawn field has the class <a>regFieldUnused</a> to permit styling using CSS. Unused field indicator. If <a>isUnused</a> is present and has the value true, this bits that comprise this field are some flavor of undefined (e.g. Reserved, RsvdP, RsvdZ). The the drawn field has the class <a>regFieldUnused</a> to permit styling using CSS.
-            </dd>
-
-            <dt><dfn>addClass</dfn></dt>
-            <dd>
-                If <a>addClass</a> is present, it MUST contain a string value. This value contains one or more class names. Each of these class names is appended to the list of classes for the generated <code>&lt;g&gt;</code> element. A good application for the <a>addClass</a> property is to highlight particular fields, when this highlighting is not an intrinsic property of the field. For example, if the same figure is used in multiple places, with each usage explaining some of the fields, the <a>addClass</a> property can be used to highlight the appropriate fields. Intrinsic properties of a field are better indicated through the <a>attr</a> property.
-            </dd>
         </section>
     </section>
     <section>
@@ -582,50 +582,7 @@
             </ul>
         </section>
     </section>
-    <!--<section>
-        <h2>Bogus</h2>
-        <p>These are references to fields that were defined as terms in this JSON example.</p>
-        <ul>
-            <li><a>field 4:0</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;field 4:0&lt;/a&gt;</li>
-            <li><a>Very long name that will never fit</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;Very long name that will never fit&lt;/a&gt;
-            </li>
-            <li><a>bit9</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;bit9&lt;/a&gt;</li>
-            <li><a>bit10</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;bit10&lt;/a&gt;</li>
-            <li><a>bit11</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;bit11&lt;/a&gt;</li>
-            <li><a>bit12</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;bit12&lt;/a&gt;</li>
-            <li><a class="field">bit 20:14</a>&nbsp;&nbsp;&nbsp;&lt;a class="field"&gt;bit 20:14&lt;/a&gt;</li>
-            <li><a class="regpict">bit 20:14</a>&nbsp;&nbsp;&nbsp;&lt;a class="regpict"&gt;bit 20:14&lt;/a&gt;</li>
-            <li><dfn class="field" title="bit 20:14|json defined register example bit 20:14">bit 20:14</dfn>&nbsp;&nbsp;&nbsp;&lt;dfn class="field" title="bit 20:14|json define register example bit 20:14"&gt;bit 20:14&lt;/dfn&gt;</li>
-            <li><a>bit13</a>&nbsp;&nbsp;&nbsp;&lt;a&gt;bit13&lt;/a&gt;</li>
-            <li><a class="field">bit13</a>&nbsp;&nbsp;&nbsp;&lt;a class="field"&gt;bit13&lt;/a&gt;</li>
-            <li><a class="regpict">bit13</a>&nbsp;&nbsp;&nbsp;&lt;a class="regpict"&gt;bit13&lt;/a&gt;</li>
-            <li>
-                <a href="#regpict-json-defined-register-example-bit13">bit 13</a>&nbsp;&nbsp;&nbsp;&lt;a href="#regpict-json-defined-register-example-bit13"&gt;bit 13&lt;/a&gt;
-            </li>
-            <li>
-                <dfn class="field">JSON Defined Register Example bit13</dfn>&nbsp;&nbsp;&nbsp;&lt;dfn class="field"&gt;JSON Defined Register Example bit13&lt;/dfn&gt;
-                <ul>
-                    <li>this is the definition for <a class="field">JSON Defined Register Example bit13</a>
-                    </li>
-                    <li>it should be referenced by <a class="regpict">JSON Defined Register Example bit13</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <dfn class="field" id="field-json-defined-register-example-byte">JSON:byte</dfn>&nbsp;&nbsp;&nbsp;&lt;dfn class="field" id="field-json-defined-register-example-byte"&gt;JSON Defined Register Example byte&lt;/dfn&gt;
-                <ul>
-                    <li>this is the definition for <a class="field">JSON:byte</a>
-                    </li>
-                    <li>it should be referenced by <a class="regpict">byte</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <dfn class="field" title="JSON Defined Register Example bit13-x">bit13</dfn>&nbsp;&nbsp;&nbsp;&lt;dfn class="field" title=""JSON Defined Register Example bit13"&gt;bit13&lt;/dfn&gt; - this is a <b>duplicate</b> definition for <a class="field">bit13</a>
-            </li>
-        </ul>-->
-
-    </section>
+    
 </body>
 
 </html>
