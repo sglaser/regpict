@@ -12,41 +12,40 @@ body {
     background:  white no-repeat fixed top left;
 }
 
-:link { color: #00C; background: transparent; border-style: none; }
+a:link { color: #00C; background: transparent; border-style: none; }
 
-:visited { color: #609; background: transparent; border-style: none; }
+a:visited { color: #609; background: transparent; border-style: none; }
 
 a:active { color: #C00; background: transparent; border-style: none; }
 
-a.internalDFN:link {
+a.internalDFN {
     color:           #00C;
     background:      transparent;
     border-style:    none;
     text-decoration: none;
 }
 
+a.internalDFN:link {
+    color:           #00C;
+}
+
 a.internalDFN:visited {
     color:           #609;
-    background:      transparent;
-    border-style:    none;
-    text-decoration: none;
 }
 
 a.internalDFN:active {
     color:           #C00;
-    background:      transparent;
-    border-style:    none;
-    text-decoration: none;
 }
 
 a.sec-ref,
 a.fig-ref,
 a.tbl-ref { text-decoration: none; }
 
-a:link img,
-a:visited img { border-style: none; /* no border on img links */ }
 
-a img { color: inherit; }
+a img {
+    border-style: none; /* no border on img links */ 
+    color: inherit;
+}
 
 h1,
 h2,
@@ -460,13 +459,13 @@ h5 {
     /* PCIe Logo Blue */
 }
 
-path.regBitLine0 {
+g.regFieldExternal0 path.regBitLine {
     stroke:           #0060A9;
     stroke-dasharray: 4, 2;
     stroke-width:     1px;
 }
 
-path.regBitBracket0 {
+g.regFieldExternal0 path.regBitBracket {
     stroke:       #0060A9;
     stroke-width: 1px;
 }
