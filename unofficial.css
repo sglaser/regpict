@@ -12,11 +12,10 @@ body {
     background:  white no-repeat fixed top left;
 }
 
-a:link { color: #00C; background: transparent; border-style: none; }
-
-a:visited { color: #609; background: transparent; border-style: none; }
-
-a:active { color: #C00; background: transparent; border-style: none; }
+a           { color: #00C; background: transparent; border-style: none; }
+a:link      { color: #00C; }
+a:visited   { color: #609; }
+a:active    { color: #C00; }
 
 a.internalDFN {
     color:           #00C;
@@ -25,17 +24,9 @@ a.internalDFN {
     text-decoration: none;
 }
 
-a.internalDFN:link {
-    color:           #00C;
-}
-
-a.internalDFN:visited {
-    color:           #609;
-}
-
-a.internalDFN:active {
-    color:           #C00;
-}
+a.internalDFN:link      { color: #00C; }
+a.internalDFN:visited   { color: #609; }
+a.internalDFN:active    { color: #C00; }
 
 a.sec-ref,
 a.fig-ref,
