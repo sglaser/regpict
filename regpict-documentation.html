@@ -201,38 +201,41 @@
 
 <section id="sect-json-register-example">
     <h2>JSON Register Example</h2>
-        <pre class="example">
-        &lt;pre class="json"&gt; {
-            "fields": {
-                "field 4:0": {
-                    "msb":  4,
-                    "lsb":  0,
-                    "attr": "ro"
-                },
-                "bit9": {
-                    "msb": 9,
-                    "value": "1"
-                },
-                "bit10": {
-                    "lsb":   10,
-                    "value": "0"
-                },
-                "bit11": {
-                    "lsb": 11
-                },
-                "bit 12:15": {
-                    "lsb":   12,
-                    "msb":   15,
-                    "value": "value"
-                },
-                "byte": {
-                    "lsb":   16,
-                    "msb":   31,
-                    "value": [ "A", "B", "C", "D", "E", "F", "G", "H"]
+        <pre class="example" id="example-json-register-example" title="JSON Register Example">
+        &lt;figure class="register"&gt;
+            &lt;pre class="json"&gt; {
+                "fields": {
+                    "field 4:0": {
+                        "msb":  4,
+                        "lsb":  0,
+                        "attr": "ro"
+                    },
+                    "bit9": {
+                        "msb": 9,
+                        "value": "1"
+                    },
+                    "bit10": {
+                        "lsb":   10,
+                        "value": "0"
+                    },
+                    "bit11": {
+                        "lsb": 11
+                    },
+                    "bit 12:15": {
+                        "lsb":   12,
+                        "msb":   15,
+                        "value": "value"
+                    },
+                    "byte": {
+                        "lsb":   16,
+                        "msb":   31,
+                        "value": [ "A", "B", "C", "D", "E", "F", "G", "H"]
+                    }
                 }
             }
-        }
-        &lt;/pre&gt;
+            &lt;/pre&gt;
+            &lt;figcaption&gt;JSON Register Example&lt;/figcaption&gt;
+        &lt;/figure&gt;
     </pre>
 
     <figure class="register" id="fig-json-register-example">
@@ -398,6 +401,27 @@
                 Fields that start above this value will not be displayed.
                 Fields that start below this value and end above this value will be partially displayed.
                 Default is <a>width</a> (i.e. one greater than the register width).
+            </dd>
+
+            <dt><dfn>table</dfn></dt>
+            <dd>Contains the locator for a PCISIG formatted table to parse.
+                Includes the leading &lsquo;#&rdquo; character (e.g. &ldquo;#tbl-pcisig-style-table&ldquo;).
+                See <a href="#sect-figure-data-table-attribute"></a> and
+                <a href="#sect-pcisig-style-table"></a>.
+            </dd>
+
+            <dt><dfn>href</dfn></dt>
+            <dd>
+                Contains the locator for an Nvidia formatted refman file to parse.
+                See <a href="#sect-figure-data-href-attribute"></a> and
+                <a href="#sect-nvidia-refman"></a>.
+            </dd>
+
+            <dt><dfn>register</dfn></dt>
+            <dd>
+                Contains the locator for an external &lt;pre&gt;, &lt;div&gt; or &lt;span&gt; element containing JSON to parse.
+                See <a href="#sect-figure-data-register-attribute"></a> and
+                <a href="#sect-json-outside-the-figure"></a>.
             </dd>
 
             <dt><dfn>fields</dfn></dt>
@@ -790,7 +814,8 @@
                 <br>If it doesn't fit, only the first character is
                 <a>defaultUnused</a> is used, converted to upper case.
             </li>
-            <li><a>attr</a>: the value of the <a>defaultUnused</a> property of the register, converted to lower case</li>
+            <li><a>attr</a>: the value of the <a>defaultUnused</a> property of the register, converted to lower case
+            </li>
             <li><a>isUnused</a>: <code>true</code></li>
             <li><a>lsb</a>: least significant bit of a string of one or more unused bits</li>
             <li><a>msb</a>: most significant bit in a string of one or more unused bits</li>
@@ -798,6 +823,335 @@
             <li><a>id</a>: not present</li>
             <li><a>addClass</a>: not present</li>
         </ul>
+    </section>
+</section>
+<section id="sect-respec-usage">
+    <h2>Respec Usage</h2>
+    <p>This section describes usage of the regpict feature in Steve Glaser's fork of respec [[RESPEC-Fork]].</p>
+    <p>
+        There are 4 ways to use regpict:
+    </p>
+    <ul>
+        <li>JSON directly in &lt;figure&gt;. <a href="#sect-json-directly-in-figure"></a></li>
+        <li>JSON outside the &lt;figure&gt;. <a href="#sect-json-outside-the-figure"></a></li>
+        <li>PCISIG style HTML &lt;table&gt;. <a href="#sect-pcisig-style-table"></a></li>
+        <li>Register extracted from external file in Nvidia refman format. <a href="#sect-nvidia-refman"></a></li>
+    </ul>
+    Each usage is described in the following sections.
+    <section id="sect-common-rules-for-all-figure-class-register-elements">
+        <h2>Common Rules for all &lt;figure class="register"&gt; elements</h2>
+
+        <section id="sect-figure-figname-property">
+            <h2>Figure <a>figName</a> property</h2>
+            The <a>figName</a> property of the register is computed as follows:
+            <ol>
+                <li>The
+                    <code>id</code> attribute of the &lt;figure&gt; element, removing the text &ldquo;fig-&rdquo; from the beginning of the value.
+                </li>
+                <li>Otherwise, the <code>title</code> attribute of the &lt;figure&gt;.</li>
+                <li>Otherwise, the text contents of the
+                &lt;figcaption&gt; element inside the
+                    &lt;figure&gt;.</li>
+                <li>Otherwise, the string &ldquo;unnamed-<i>regno</i>&rdquo; where
+                    <i>regno</i> is a number, starting at 1 and incrementing by 1 every time a string of this form is created.
+                </li>
+            </ol>
+            <p>This value is then sanitized by:</p>
+            <ol>
+                <li>Removing leading and trailing white space characters.</li>
+                <li>
+                    Replacing strings of one or more illegal characters with a single &ldquo;-&rdquo;.
+                    For this purpose, illegal characters are anything except digits, letters, dash, underscore, and period.
+                </li>
+                <li>Removing all leading and trailing dashes.</li>
+                <li>Appending &ldquo;x&rdquo; if the last character is not a letter.</li>
+                <li>Prepending &ldquo;x&rdquo; if the first character is not a letter.</li>
+                <li>Replacing the empty string with &ldquo;generatedID&rdquo;.</li>
+            </ol>
+        </section>
+        <section id="sect-figure-id-attribute">
+            <h2>Figure <code>id</code> attribute</h2>
+            <p>If the &lt;figure&gt; does not have an
+                <code>id</code> attribute, it is set to &ldquo;fig-<i>figName</i>&rdquo; where <i>figName</i> is the
+                <a>figName</a> property defined in <a href="#sect-figure-figname-property"></a>.</p>
+        </section>
+        <section id="sect-figure-data-json-attribute">
+            <h2>Figure <code>data-json</code> attribute</h2>
+            If the &lt;figure&gt; has a
+            <code>data-json</code> attribute, it's value is parsed and merged into the figure's JSON.
+        </section>
+        <section id="sect-figure-data-width-attribute">
+            <h2>Figure <code>data-width</code> attribute</h2>
+            If the &lt;figure&gt; has a <code>data-width</code> attribute, it's value becomes the
+            <a>width</a> property of the figure's JSON.
+        </section>
+        <section id="sect-figure-data-unused-attribute">
+            <h2>Figure <code>data-unused</code> attribute</h2>
+            If the &lt;figure&gt; has a <code>data-unused</code> attribute, it's value becomes the
+            <a>defaultUnused</a> property of the figure's JSON.
+        </section>
+        <section id="sect-figure-data-href-attribute">
+            <h2>Figure <code>data-href</code> attribute</h2>
+            If the &lt;figure&gt; has a <code>data-href</code> attribute, it's value becomes the
+            <a>href</a> property of the figure's JSON.
+        </section>
+        <section id="sect-figure-data-table-attribute">
+            <h2>Figure <code>data-table</code> attribute</h2>
+            If the &lt;figure&gt; has a <code>data-table</code> attribute, it's value becomes the
+            <a>table</a> property of the figure's JSON.
+        </section>
+        <section id="sect-figure-data-register-attribute">
+            <h2>Figure <code>data-register</code> attribute</h2>
+            If the &lt;figure&gt; has a <code>data-register</code> attribute, it's value becomes the
+            <a>register</a> property of the figure's JSON.
+        </section>
+
+    </section>
+    <section id="sect-json-directly-in-figure">
+        <h2>JSON directly in &lt;figure&gt;</h2>
+        <p>If the &lt;figure&gt; contains one or more &lt;pre class="json"&gt;, &lt;div class="json"&gt;, or &lt;span class="json"&gt; elements, these elements are parsed and combined and the resulting figure is drawn. These elements are hidden as they are parsed (class &ldquo;hide&rdquo; added so they can be hidden by css).</p>
+        <p>If the JSON does not define a <a>figName</a> property, the &lt;figcaption&gt; value is used to invent one.
+        </p>
+        <p>This situation is shown in <a href="#fig-json-directly-in-figure">Figure 2</a> and <a
+                href="#example-json-directly in figure">Example 4</a></p>
+
+        <figure class="register" id="fig-json-directly-in-figure">
+            <pre class="json">
+{
+    "fields": {
+        "foo": {
+            "lsb": 0,
+            "msb": 7
+        }
+    }
+}
+            </pre>
+            <figcaption>JSON directly in &lt;figure&gt;</figcaption>
+        </figure>
+
+        <pre class="example" id="example-json-directly-in-figure" title="JSON directly in &lt;figure&gt;">
+            &lt;figure class="register" id="fig-json-directly-in-figure"&gt;
+                &lt;pre class="json"&gt;
+                    {
+                        "fields": {
+                            "foo": {
+                                "lsb": 0,
+                                "msb": 7
+                            }
+                        }
+                    }
+                &lt;/pre>
+                &lt;figcaption&gt;JSON directly in &amp;lt;figure&amp;gt;&lt;/figcaption&gt;
+            &lt;/figure&gt;
+        </pre>
+
+    </section>
+
+    <section id="sect-json-outside-the-figure">
+        <h2>JSON outside the &lt;figure&gt;</h2>
+        <p>
+            If the &lt;figure&gt; contains one or more &lt;pre class="render"&gt;, &lt;div class="render"&gt;, or &lt;span class="render"&gt; elements, these elements are parsed a figure is drawn for each such element.
+            This can result in a single &lt;figure&gt; element having multiple figure diagrams.
+            This is particularly useful in conjunction with <a>visibleLSB</a> and <a>visibleMSB</a> to display very wide registers conveniently.
+            These elements are hidden as they are parsed (class &ldquo;hide&rdquo; added so they can be hidden by css).</p>
+        <p>If the &lt;pre&gt;, &lt;div&gt;, or &lt;span&gt; element has the <code>data-parents</code> attribute, this contains a list of one or more locators for external field definitions. The parents are merged into a copy of the &lt;figure&gt; JSON, in the order shown and then the JSON in the element is merged in. The figure is drawn with the resulting JSON. The JSON associated with the &lt;figure&gt; element is not affected.
+        <p>If the JSON does not define a <a>figName</a> property, the &lt;figcaption&gt; value is used to invent one.
+        </p>
+        <p>This situation is shown in <a href="#fig-json-outside-the-figure">Figure 3</a> and <a
+                href="#example-json-outside-the-figure">Example 4</a></p>
+
+        <pre id="pre-external-json" class="json">
+{
+    "width": 64,
+     "fields": {
+        "lowByte": {
+            "lsb": 0,
+            "msb": 7
+        },
+        "highByte": {
+            "lsb": 56,
+            "msb": 63
+        },
+        "middle": {
+            "lsb": 28,
+            "msb": 39
+        }
+    }
+}
+        </pre>
+        <figure class="register">
+            <pre class="render" data-parents="pre-external-json">{ }</pre>
+            <pre class="render" data-parents="pre-external-json">
+                { "visibleLSB": 31 }</pre>
+            <pre class="render" data-parents="pre-external-json">
+                { "visibleMSB": 32 }</pre>
+            <figcaption>JSON outside the &lt;figure&gt;</figcaption>
+        </figure>
+
+        <pre class="example" id="example-json-outside-the-figure">
+
+        &lt;pre id="pre-external-json" class="json"&gt;
+        {
+            "width": 64,
+            "fields": {
+                "lowByte": {
+                    "lsb": 0,
+                    "msb": 7
+                },
+                "highByte": {
+                    "lsb": 56,
+                    "msb": 63
+                },
+                "middle": {
+                    "lsb": 28,
+                    "msb": 39
+                }
+            }
+        }
+        &lt;/pre&gt;
+
+        &lt;figure class="register"&gt;
+
+            &lt;pre class="render" data-parents="pre-external-json"&gt;{ }&lt;/pre&gt;
+
+            &lt;pre class="render" data-parents="pre-external-json"&gt;
+                { "visibleLSB": 31 }&lt;/pre&gt;
+
+            &lt;pre class="render" data-parents="pre-external-json"&gt;
+                { "visibleMSB": 32 }&lt;/pre&gt;
+
+            &lt;figcaption&gt;JSON outside the &lt;figure&gt;&lt;/figcaption&gt;
+
+        &lt;/figure&gt;
+
+        </pre>
+    </section>
+    <section id="sect-pcisig-style-table">
+        <h2>PCISIG Style Table</h2>
+        <p>
+
+            If the &lt;figure&gt; element has the class <code>pcisig_reg</code> (in addition to the class
+            <code>register</code>), and the
+            <a>table</a> property is defined in the JSON the &lt;table&gt; element referenced by the
+            <a>table</a> property is parsed and merged into the figure's JSON.
+            The <a>table</a> property can either be specified directly in the JSON or via the
+            <code>data-table</code> attribute on the &lt;figure&gt;.
+        </p>
+        <p>The underlying &lt;table&gt; can have any formatting. No specific <code>class</code> attribute is required.
+        </p>
+        <p>The first column contains the bit location of the field. This determines the <a>lsb</a> and
+            <a>msb</a> properties of the field.
+            The column cell contains either an integer or a pair of integers separated by a colon (e.g. &ldquo;9&rdquo;, &ldquo;15:8&rdquo; or &ldquo;8:15&rdquo;).
+            If two numbers are shown, the MSB is usually first, but this is not required.</p>
+        <p>
+            The second column determines the <a>name</a> property of the field.
+            It also contains a description of the field.
+            The <a>name</a> property is derived from:</p>
+        <ol>
+            <li>
+                The first word of the text content of the first <code>&lt;code&gt;</code> or
+                <code>&lt;dfn&gt;</code> element.
+            </li>
+            <li>If no <code>&lt;code&gt;</code> or
+                <code>&lt;dfn&gt;</code> element is present, the first word of the column cell.
+            </li>
+        </ol>
+        <p>
+            The third column determines the <a>attr</a> property of the field.
+            This field is not case sensitive.
+            Valid values are shown in the list below.
+            If the third column does not on of the items, the <a>attr</a> property is &ldquo;other&rdquo;.</p>
+        It the third column matches one of the items marked &ldquo;(unused)&rdquo;, the
+        <a>isUnused</a> property is set to <code>true</code>, otherwise the <a>isUnused</a> property is not set.
+        </p>
+        <ul>
+            <li>rw</li>
+            <li>rws</li>
+            <li>ro</li>
+            <li>ros</li>
+            <li>rw1c</li>
+            <li>rw1cs</li>
+            <li>rw1s</li>
+            <li>rw1ss</li>
+            <li>wo</li>
+            <li>wos</li>
+            <li>hardwired</li>
+            <li>fixed</li>
+            <li>hwinit</li>
+            <li>rsvd (unused)</li>
+            <li>rsvdp (unused)</li>
+            <li>rsvdz (unused)</li>
+            <li>reserved (unused)</li>
+            <li>ignored (unused)</li>
+            <li>ign (unused)</li>
+            <li>unused (unused)</li>
+            <li>other (default)</li>
+        </ul>
+
+        <p>
+            <a href="fig-pcisig-example"></a> is shown in <a href="#example-pcisig-example"></a> and is based on <a
+                href="#tbl-pcisig-example"></a>.
+        </p>
+        <figure class="register pcisig_reg" id="fig-pcisig-example" data-table="#tbl-pcisig-example">
+            <figcaption>PCISIG Example</figcaption>
+        </figure>
+        <table id="tbl-pcisig-example">
+            <caption>PCISIG Example</caption>
+            <thead>
+            <tr>
+                <th>Bit Location</th>
+                <th>Description</th>
+                <th>Attr</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>3:0</td>
+                <td><code>field3_0</code> this field is shown as <code>&lt;code&gt;field3_0&lt;/code&gt;</code>.</td>
+                <td>RO</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><dfn>field_4</dfn> this field is shown as <code>&lt;dfn;&gt;field_4&lt;/dfn&gt;</code>.</td>
+                <td>rw</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>This is the description.</td>
+                <td>ros</td>
+            </tr>
+            <tr>
+                <td>16:19</td>
+                <td><dfn class="field">bits_16_19</dfn> this field is shown as
+                    <code>&lt;dfn class="field"&gt;bits_16_19&lt;/dfn&gt;</code>.
+                    Because the &lt;dfn&gt; has the class field, it is automatically linked to the corresponding field in the figure.
+                    Similarly, that field in the figure is linked back to this definition.
+                </td>
+                Similarly, that field in the figure is linked back to this definition.</td>
+                <td>rw</td>
+            </tr>
+            <tr>
+                <td>24:31</td>
+                <td>upper_bits</td>
+                <td>hardwired</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <section id="sect-nvidia-refman">
+        <h2>NVidia Refman</h2>
+        <p>
+            If the &lt;figure&gt; element has the class <code>nv_refman</code> (in addition to the class
+            <code>register</code>), and the <a>href</a> property is defined in the JSON, the file referenced by the
+            <a>href</a> property is read and the register defined by the <a>register</a> property is drawn as a figure.
+            The <a>href</a> and <a>register</a> properties can either be specified directly in the JSON or via the
+            <code>data-href</code> and <code>data-register</code> attributes.
+            The referenced file MUST be formatted as an Nvidia refman file and MUST contain a register of the corresponding name.
+        </p>
+        <p>The <a>width</a> property is determined from the refman definition unless it is already specified in JSON.
+        </p>
+        <p>The attributes of each field are determined from the refman definition.
+            These will be one of "ro", "rw", or "wo".</p>
     </section>
 </section>
 
