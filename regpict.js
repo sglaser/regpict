@@ -34,7 +34,7 @@ define(
             var bracketHeight = Number(pget(reg, "bracketHeight", 4));
             var cellTop = Number(pget(reg, "cellTop", 40));
             var bitWidthPos = Number(pget(reg, "bitWidthPos", 20));
-            var figName = String(pget(reg, "name", "???"));
+            var figName = String(pget(reg, "figName", "???"));
             var maxFigWidth = Number(pget(reg, "maxFigWidth", 720));   // 7.5 inches (assuming 96 px per inch)
             var figLeft = Number(pget(reg, "figLeft", 32));
             var visibleLSB = Number(pget(reg, "visibleLSB", 0));
@@ -443,16 +443,16 @@ define(
                         var $fig = $(this);
                         var json = { };
                         if ($fig.attr("id")) {
-                            json.name = $fig.attr("id").replace(/^fig-/, "");
+                            json.figName = $fig.attr("id").replace(/^fig-/, "");
                         } else if ($fig.attr("title")) {
-                            json.name = $fig.attr("title");
+                            json.figName = $fig.attr("title");
                         } else if ($("figcaption", this)) {
-                            json.name = $("figcaption", this).text();
+                            json.figName = $("figcaption", this).text();
                         } else {
-                            json.name = "unnamed-" + figNum;
+                            json.figName = "unnamed-" + figNum;
                             figNum++;
                         }
-                        json.name = json.name
+                        json.figName = json.figName
                             .replace(/^\s+/, "")
                             .replace(/\s+$/, "")
                             .replace(/[^\-.0-9a-z_]+/ig, "-")
@@ -462,7 +462,7 @@ define(
                             .replace(/^([^a-z])/i, "x$1")
                             .replace(/^$/, "generatedID");
                         if (!$fig.attr("id")) {
-                            $fig.attr("id", "fig-" + json.name);
+                            $fig.attr("id", "fig-" + json.figName);
                         }
                         msg.pub("start", "core/regpict figure id='" + $fig.attr("id") + "'");
 
@@ -531,11 +531,11 @@ define(
                                     } else {
                                         fieldName = $dfn.first().text().trim();
                                     }
-                                    var validAttr = /^(rw|rws|ro|ros|rw1c|rw1cs|rw1s|rw1ss|wo|wos|hardwired|fixed|hwinit|rsvd|rsvdp|rsvdz|reserved|unused|other)$/i;
+                                    var validAttr = /^(rw|rws|ro|ros|rw1c|rw1cs|rw1s|rw1ss|wo|wos|hardwired|fixed|hwinit|rsvd|rsvdp|rsvdz|reserved|ignored|ign|unused|other)$/i;
                                     if (!validAttr.test(attr)) {
                                         attr = "other";
                                     }
-                                    var unusedAttr = /^(rsvd|rsvdp|rsvdz|reserved|unused)$/i;
+                                    var unusedAttr = /^(rsvd|rsvdp|rsvdz|reserved|ignored|ign|unused)$/i;
                                     var isUnused = !!unusedAttr.test(attr);
 //                                    console.log("field: " + fieldName + " bits=\"" + bits + "\"  match=" + match + "\" lsb=" + lsb + " msb=" + msb + "  attr=" + attr + "  isUnused=" + isUnused);
                                     parsed.fields[fieldName] = {
