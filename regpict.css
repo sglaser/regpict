@@ -1,9 +1,31 @@
 /* --- REGPICT --- */
-text.regBitNum {
-	text-anchor: middle;
-	fill: grey;
-	font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
-	font-size: 8pt;
+text.regBitNumMiddle {
+    text-anchor: middle;
+    fill: grey;
+    font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+}
+
+text.regBitNumEnd {
+    text-anchor: end;
+    fill: grey;
+    font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+}
+
+text.regBitNumStart {
+    text-anchor: start;
+    fill: grey;
+    font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+}
+
+text.regBitWidth {
+    text-anchor: middle;
+    fill: none;
+    font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 11pt;
 }
 
 g line.regBitNumLine {
@@ -44,9 +66,36 @@ g.regFieldUnused text.regFieldValue {
 	fill: grey;
 }
 
+g.regFieldHidden text.regFieldName,
+g.regFieldHidden text.regFieldValue,
+g.regFieldHidden path.regBitLine,
+g.regFieldHidden path.regBitBracket,
+g.regFieldHidden line.regFieldBox,
+g.regFieldHidden rect.regFieldBox,
+g.regFieldHidden line.regBitNumLine,
+g.regFieldHidden line.regBitNumLine_Hide,
+g.regFieldHidden text.regBitNumStart,
+g.regFieldHidden text.regBitNumMiddle,
+g.regFieldHidden text.regBitNumEnd,
+g.regFieldHidden text.regFieldExtendsLeft,
+g.regFieldHidden text.regFieldExtendsRight {
+    fill: none;
+    stroke: none;
+}
+
 g text.regFieldValue,
 g.regFieldInternal text.regFieldName {
     text-anchor: middle;
+}
+
+g.regFieldOverflowLSB text.regBitNumEnd,
+g text.regFieldExtendsRight {
+    text-anchor: start;
+}
+
+g.regFieldOverflowMSB text.regBitNumStart,
+g text.regFieldExtendsLeft {
+    text-anchor: end;
 }
 
 g text.regFieldName,
@@ -81,7 +130,10 @@ svg.regpict {
 	color: green;
 }
 
-svg *.svg_error text:not(.regBitNum) {
+svg *.svg_error text:not(.regBitWidth),
+svg *.svg_error text:not(.regBitNumMiddle),
+svg *.svg_error text:not(.regBitNumEnd),
+svg *.svg_error text:not(.regBitNumStart) {
     fill: red;
     font-size: 12pt;
     font-weight: bold;
@@ -115,7 +167,16 @@ figure pre.json {
     g.regLink.regFieldExternal:hover text.regFieldValue,
     g.regLink.regFieldExternal:focus text.regFieldValue { fill: blue; font-weight: bold; }
 
-    g.regLink:hover text.regBitNum,
-    g.regLink:focus text.regBitNum { fill: blue; font-weight: bold; font-size: 9pt; }
+    g.regLink:hover text.regBitNumMiddle,
+    g.regLink:focus text.regBitNumMiddle,
+    g.regLink:hover text.regBitNumStart,
+    g.regLink:focus text.regBitNumStart,
+    g.regLink:hover text.regBitNumEnd,
+    g.regLink:focus text.regBitNumEnd
+    { fill: blue; font-weight: bold; font-size: 9pt; }
 
+    g.regLink:hover text.regBitWidth,
+    g.regLink:focus text.regBitWidth {
+        fill: blue;
+    }
 }

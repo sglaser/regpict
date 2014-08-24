@@ -12,31 +12,41 @@ body {
     background:  white no-repeat fixed top left;
 }
 
-a           { color: #00C; background: transparent; border-style: none; }
-a:link      { color: #00C; }
-a:visited   { color: #609; }
-a:active    { color: #C00; }
+:link { color: #00C; background: transparent; border-style: none; }
 
-a.internalDFN {
+:visited { color: #609; background: transparent; border-style: none; }
+
+a:active { color: #C00; background: transparent; border-style: none; }
+
+a.internalDFN:link {
     color:           #00C;
     background:      transparent;
     border-style:    none;
     text-decoration: none;
 }
 
-a.internalDFN:link      { color: #00C; }
-a.internalDFN:visited   { color: #609; }
-a.internalDFN:active    { color: #C00; }
+a.internalDFN:visited {
+    color:           #609;
+    background:      transparent;
+    border-style:    none;
+    text-decoration: none;
+}
+
+a.internalDFN:active {
+    color:           #C00;
+    background:      transparent;
+    border-style:    none;
+    text-decoration: none;
+}
 
 a.sec-ref,
 a.fig-ref,
 a.tbl-ref { text-decoration: none; }
 
+a:link img,
+a:visited img { border-style: none; /* no border on img links */ }
 
-a img {
-    border-style: none; /* no border on img links */ 
-    color: inherit;
-}
+a img { color: inherit; }
 
 h1,
 h2,
@@ -81,7 +91,11 @@ p.copyright small { font-size: small; }
 
 @media screen {
     /* hide from IE3 */
-    a[href]:hover { background: #ffa; }
+    a[href]:hover,
+    a[href].internalDFN:hover {
+        background-color: #ffa;
+        fill: #ffa;
+    }
 }
 
 pre { margin-left: 2em; }
@@ -208,7 +222,7 @@ table {
 }
 
 /*table th {
-    background: #0060A9;
+    background-color: #0060A9;
     color: white;
 }*/
 
@@ -450,15 +464,19 @@ h5 {
     /* PCIe Logo Blue */
 }
 
-g.regFieldExternal0 path.regBitLine {
+path.regBitLine0 {
     stroke:           #0060A9;
     stroke-dasharray: 4, 2;
     stroke-width:     1px;
 }
 
-g.regFieldExternal0 path.regBitBracket {
+path.regBitBracket0 {
     stroke:       #0060A9;
     stroke-width: 1px;
+}
+
+g.highlight rect.regFieldBox {
+    fill: lightyellow;
 }
 
 @media screen {
