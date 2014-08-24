@@ -43,9 +43,9 @@ define(
                 title = this.text();
             }
             title = title.toLowerCase().replace(/^\s+/, "").replace(/\s+$/, "").split(/\s+/).join(" ");
-            console.log("pre-title= \"" + title + "\"");
+//            console.log("pre-title= \"" + title + "\"");
             title = title.split(/[\|]+/);
-            console.log("   length= " + title.length + "  \"" + title.join("|||") + "\"");
+//            console.log("   length= " + title.length + "  \"" + title.join("|||") + "\"");
             return title;
         };
 
@@ -64,7 +64,7 @@ define(
                 inc,
                 doc;
             //id = id.split(/[^\-.0-9a-z_]+/i).join("-").replace(/^-+/, "").replace(/-+$/, "");
-            id = id.replace(/[^\-.0-9a-z_]+/ig, "-").replace(/^-+/, "").replace(/-+$/, "");
+            id = id.replace(/[^\-\.0-9a-z_]+/ig, "-").replace(/^-+/, "").replace(/-+$/, "");
             if (/\.$/.test(id)) {
                 id += "x"; // trailing . doesn't play well with jQuery
             }
@@ -235,11 +235,15 @@ define(
             // take a document and either a link or an array of links to CSS and appends a <link/> element
             // to the head pointing to each
             linkCSS:  function (doc, styles) {
+                var $head = $('head', doc);
                 if (!$.isArray(styles)) {
                     styles = [styles];
                 }
                 $.each(styles, function (i, css) {
-                    $('head', doc).append($("<link/>").attr({ rel: 'stylesheet', href: css }));
+                    $head.append($("<link/>").attr({ rel: 'stylesheet', href: css }));
+                });
+                $('[data-position=end]', $head).each(function() {
+                   $head.append($(this));
                 });
             },
 
