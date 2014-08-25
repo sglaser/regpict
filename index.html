@@ -1,0 +1,2356 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document " about="" property="dcterms:language" content="en">
+<head>
+    <title>Regpict</title>
+    <meta charset="utf-8">
+    <!--    <script src="http://www.w3.org/Tools/respec/respec-w3c-common" async class="remove"></script>   -->
+
+    <!--    <script src='require.js' data-main='regpict' async class="remove"></script>-->
+    <!--<script src="regpict.js" async class="remove"></script>-->
+
+    <style type="text/css">
+        span[data-type=footnote] {
+            background-color: #d3d3d3;
+            border:           solid 1px black;
+            border-radius:    0.25em;
+            padding:          1px 3px;
+            font-size:        smaller;
+        }
+
+        code {
+            font-weight: 600;
+        }
+
+        ul > li {
+            list-style: square;
+        }
+
+        ul > li > ul > li {
+            list-style: circle;
+        }
+
+        ul > li > ul > li > ul > li {
+            list-style: disc;
+        }
+
+        ul > li > ul > li > ul > li > ul > li {
+            list-style: square;
+        }
+
+        ul > li > ul > li > ul > li > ul > li > ul > li {
+            list-style: circle;
+        }
+
+        ul > li > ul > li > ul > li > ul > li > ul > li > ul > li {
+            list-style: disc;
+        }
+
+        ol > li {
+            list-style: decimal;
+        }
+
+        ol > li > ol > li {
+            list-style: lower-alpha;
+        }
+
+        ol > li > ol > li > ol > li {
+            list-style: lower-roman outside;
+        }
+
+        ol > li > ol > li > ol > li > ol > li {
+            list-style: decimal;
+        }
+
+        ol > li > ol > li > ol > li > ol > li {
+            list-style: decimal;
+        }
+
+        ol > li > ol > li > ol > li > ol > li > ol > li {
+            list-style: lower-alpha;
+        }
+
+        ol > li > ol > li > ol > li > ol > li > ol > li > ol > li {
+            list-style: lower-roman outside;
+        }
+    </style>
+    <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+    /* --- INLINES --- */
+    em.rfc2119 {
+        text-transform: lowercase;
+        font-variant:   small-caps;
+        font-style:     normal;
+        font-size:      larger;
+        color:          #900;
+    }
+
+    h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+        border: none;
+    }
+
+    dfn {
+        font-weight: bold;
+    }
+
+    a.internalDFN {
+        color:           inherit;
+        border-bottom:   1px solid #99c;
+        text-decoration: none;
+    }
+
+    a.externalDFN {
+        color:           inherit;
+        border-bottom:   1px dotted #ccc;
+        text-decoration: none;
+    }
+
+    a.bibref {
+        text-decoration: none;
+    }
+
+    cite .bibref {
+        font-style: normal;
+    }
+
+    code {
+        color: #C83500;
+    }
+
+    /* --- TOC --- */
+    .toc a, .tof a, .tot a {
+        text-decoration: none;
+    }
+
+    .tocline a .secno,
+    .tofline a .figno,
+    .totline a .tblno {
+        color: #000;
+    }
+
+    ul.toc > li.tocline,
+    ul.tof > li.tofline,
+    ul.tot > li.totline {
+        list-style: none outside none;
+    }
+
+    .caption {
+        margin-top: 0.5em;
+        font-style: italic;
+    }
+
+    /* --- TABLE --- */
+    table.simple {
+        border-spacing:  0;
+        border-collapse: collapse;
+        border-bottom:   3px solid #0060A9; /* #38197a; pcisig purple */ /* respec orig #005a9c;*/
+    }
+
+    .simple th {
+        background: #0060A9; /* #38197a; /*#005a9c;*/
+        color:      #fff;
+        padding:    3px 5px;
+        text-align: left;
+    }
+
+    .simple th[scope="row"] {
+        background: inherit;
+        color:      inherit;
+        border-top: 1px solid #ddd;
+    }
+
+    .simple td {
+        padding:    3px 10px;
+        border-top: 1px solid #ddd;
+    }
+
+    .simple tr:nth-child(even) {
+        background: #E5F4FF; /* ß#F6F1FE; /*#f0f6ff;*/
+    }
+
+    /* --- DL --- */
+    .section dd > p:first-child {
+        margin-top: 0;
+    }
+
+    .section dd > p:last-child {
+        margin-bottom: 0;
+    }
+
+    .section dd {
+        margin-bottom: 1em;
+    }
+
+    .section dl.attrs dd, .section dl.eldef dd {
+        margin-bottom: 0;
+    }
+
+    span.respec-error {
+        color:       red;
+        font-size:   12pt;
+        font-weight: bold;
+        font-family: monospace;
+    }
+
+    @media print {
+        .removeOnSave {
+            display: none;
+        }
+    }
+    </style>
+    <style>/* --- EXAMPLES --- */
+    div.example-title {
+        min-width: 7.5em;
+        color:     #b9ab2d;
+    }
+
+    div.example-title span {
+        text-transform: uppercase;
+    }
+
+    aside.example, div.example, div.illegal-example {
+        padding:  0.5em;
+        margin:   1em 0;
+        position: relative;
+        clear:    both;
+    }
+
+    div.illegal-example { color: red }
+
+    div.illegal-example p { color: black }
+
+    aside.example, div.example {
+        padding:           .5em;
+        border-left-width: .5em;
+        border-left-style: solid;
+        border-color:      #e0cb52;
+        background:        #fcfaee;
+    }
+
+    aside.example div.example {
+        border-left-width: .1em;
+        border-color:      #999;
+        background:        #fff;
+    }
+
+    aside.example div.example div.example-title {
+        color: #999;
+    }
+    </style>
+    <style>/* --- REGPICT --- */
+    text.regBitNumMiddle {
+        text-anchor: middle;
+        fill:        grey;
+        font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+        font-size:   8pt;
+    }
+
+    text.regBitNumEnd {
+        text-anchor: end;
+        fill:        grey;
+        font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+        font-size:   8pt;
+    }
+
+    text.regBitNumStart {
+        text-anchor: start;
+        fill:        grey;
+        font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+        font-size:   8pt;
+    }
+
+    text.regBitWidth {
+        text-anchor: middle;
+        fill:        none;
+        font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        font-size:   11pt;
+    }
+
+    g line.regBitNumLine {
+        stroke:       grey;
+        stroke-width: 1px;
+    }
+
+    g line.regBitNumLine_Hide {
+        stroke:       none;
+        stroke-width: 1px;
+    }
+
+    g rect.regFieldBox {
+        fill:         white;
+        stroke:       black;
+        stroke-width: 1.5px;
+    }
+
+    g.regAttr_rsvd rect.regFieldBox,
+    g.regAttr_rsvdp rect.regFieldBox,
+    g.regAttr_rsvdz rect.regFieldBox,
+    g.regAttr_reserved rect.regFieldBox,
+    g.regAttr_unused rect.regFieldBox {
+        fill: white;
+    }
+
+    g.regFieldExternal line.regFieldBox,
+    g.regFieldInternal line.regFieldBox {
+        stroke: black;
+    }
+
+    g.regFieldUnused line.regFieldBox {
+        stroke: grey;
+    }
+
+    g.regFieldUnused text.regFieldName,
+    g.regFieldUnused text.regFieldValue {
+        fill: grey;
+    }
+
+    g.regFieldHidden text.regFieldName,
+    g.regFieldHidden text.regFieldValue,
+    g.regFieldHidden path.regBitLine,
+    g.regFieldHidden path.regBitBracket,
+    g.regFieldHidden line.regFieldBox,
+    g.regFieldHidden rect.regFieldBox,
+    g.regFieldHidden line.regBitNumLine,
+    g.regFieldHidden line.regBitNumLine_Hide,
+    g.regFieldHidden text.regBitNumStart,
+    g.regFieldHidden text.regBitNumMiddle,
+    g.regFieldHidden text.regBitNumEnd,
+    g.regFieldHidden text.regFieldExtendsLeft,
+    g.regFieldHidden text.regFieldExtendsRight {
+        fill:   none;
+        stroke: none;
+    }
+
+    g text.regFieldValue,
+    g.regFieldInternal text.regFieldName {
+        text-anchor: middle;
+    }
+
+    g.regFieldOverflowLSB text.regBitNumEnd,
+    g text.regFieldExtendsRight {
+        text-anchor: start;
+    }
+
+    g.regFieldOverflowMSB text.regBitNumStart,
+    g text.regFieldExtendsLeft {
+        text-anchor: end;
+    }
+
+    g text.regFieldName,
+    g text.regFieldValue {
+        font-size:   11pt;
+        font-family: "Source Sans Pro", Calibri, Tahoma, "Lucinda Grande", Arial, Helvetica, sans-serif;
+    }
+
+    g.regFieldExternal1 path.regBitLine,
+    g.regFieldExternal1 path.regBitBracket {
+        stroke:       black;
+        stroke-width: 1px;
+    }
+
+    g.regFieldExternal0 path.regBitLine {
+        stroke:           green;
+        stroke-dasharray: 4, 2;
+        stroke-width:     1px;
+    }
+
+    g.regFieldExternal0 path.regBitBracket {
+        stroke:       green;
+        stroke-width: 1px;
+    }
+
+    svg text.regFieldValue {
+        fill:        #0060A9;
+        font-family: monospace;
+    }
+
+    svg.regpict {
+        color: green;
+    }
+
+    svg *.svg_error text:not(.regBitWidth),
+    svg *.svg_error text:not(.regBitNumMiddle),
+    svg *.svg_error text:not(.regBitNumEnd),
+    svg *.svg_error text:not(.regBitNumStart) {
+        fill:        red;
+        font-size:   12pt;
+        font-weight: bold;
+        font-style:  normal;
+        font-family: monospace;
+    }
+
+    figure div.json,
+    figure pre.json {
+        color:   rgb(0, 90, 156);
+        display: inherit;
+    }
+
+    @media screen {
+        g.regLink:hover rect.regFieldBox,
+        g.regLink:focus rect.regFieldBox { fill: #ffa; stroke: blue; }
+
+        g.regLink:hover line.regBitNumLine,
+        g.regLink:focus line.regBitNumLine,
+        g.regLink:hover line.regBitNumLine_Hide,
+        g.regLink:focus line.regBitNumLine_Hide,
+        g.regLink:hover line.regFieldBox,
+        g.regLink:focus line.regFieldBox,
+        g.regLink:hover path.regBitLine,
+        g.regLink:focus path.regBitLine,
+        g.regLink.regFieldExternal:hover path.regBitBracket,
+        g.regLink.regFieldExternal:focus path.regBitBracket { stroke: blue; }
+
+        g.regLink:hover text.regFieldName,
+        g.regLink:focus text.regFieldName,
+        g.regLink.regFieldExternal:hover text.regFieldValue,
+        g.regLink.regFieldExternal:focus text.regFieldValue { fill: blue; font-weight: bold; }
+
+        g.regLink:hover text.regBitNumMiddle,
+        g.regLink:focus text.regBitNumMiddle,
+        g.regLink:hover text.regBitNumStart,
+        g.regLink:focus text.regBitNumStart,
+        g.regLink:hover text.regBitNumEnd,
+        g.regLink:focus text.regBitNumEnd { fill: blue; font-weight: bold; font-size: 9pt; }
+
+        g.regLink:hover text.regBitWidth,
+        g.regLink:focus text.regBitWidth {
+            fill: blue;
+        }
+    }</style>
+    <link rel="stylesheet" href="http://sglaser.github.io/regpict/unofficial.css">
+    <!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]-->
+</head>
+
+<body class="h-entry" role="document" id="respecDocument">
+<div class="head" role="contentinfo" id="respecHeader">
+    <p>
+
+    </p>
+
+    <h1 class="title p-name" id="title" property="dcterms:title">Regpict</h1>
+
+    <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-08-25T06:50:56.000Z"
+            id="unofficial-draft-24-august-2014">Unofficial Draft
+        <time class="dt-published" datetime="2014-08-24">24 August 2014</time>
+    </h2>
+    <dl>
+
+
+        <dt>Editor:</dt>
+        <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a
+                class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Steve Glaser"
+                href="http://www.nvidia.com">Steve Glaser</a>, <a rel="foaf:workplaceHomepage"
+                class="p-org org h-org h-card" href="http://nvidia.com">Nvidia, Inc</a></span>
+        </dd>
+
+
+    </dl>
+
+
+    <p class="copyright">Copyright © 2014 Nvidia, Inc.</p>
+
+
+    <hr>
+</div>
+<section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter"
+        resource="#abstract" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+    <p>
+        The <dfn
+            id="dfn-regpict">Regpict</dfn> library draws register pictures in specifications. An example such figure is shown in
+        <a href="#fig-json-register-example" class="fig-ref">Figure 1</a>.</p>
+    <p>
+        This library consists of two levels:
+    </p>
+    <ol>
+        <li>A JSON to SVG conversion layer.
+            <p>
+                Converts a JSON formatted description of a hardware register into the corresponding SVG diagram.
+            </p>
+            <p>
+                This layer supports inheritance.
+            </p>
+        </li>
+        <li>A variety of JSON extraction layers.
+            <p>
+                These extract information from a variety of input formats and produce JSON usable by the JSON to SVG conversion layer. Input formats include:</p>
+            <ul>
+                <li>
+                    <code>&lt;table class="regpict-pcisig"&gt;...&lt;/table&gt;</code> as used in recent [<cite><a
+                        class="bibref" href="#bib-PCISIG">PCISIG</a></cite>] specifications.
+                </li>
+                <li><code>&lt;pre class="regpict-json"&gt;...&lt;/pre&gt;</code> containing the JSON code.</li>
+                <li>
+                    <code>&lt;pre class="regpict-refman"&gt;...&lt;/pre&gt;</code> containing Nvidia refman formatted text.
+                </li>
+            </ul>
+        </li>
+    </ol>
+    <p>
+        Using the JSON extraction layer is optional. The JSON to SVG conversion layer can be used standalone.
+    </p>
+    <p>
+        The generated SVG is designed to be styled using CSS. Proper representation requires some CSS. A minimal CSS file is provided as well as a more complete example.
+        <a href="#sect-svg-class-structure">Section 3</a> describes the classes contained in the generated SVG.
+    </p>
+    <p>
+        The initial implementation is in JavaScript. This version was integrated into a fork [<cite><a class="bibref"
+            href="#bib-RESPEC-Fork">RESPEC-Fork</a></cite>] of the respec library [<cite><a class="bibref"
+            href="#bib-RESPEC">RESPEC</a></cite>].</p>
+    <p>
+        A version in Ruby that works as a plugin filter for [<cite><a class="bibref"
+            href="#bib-ASCIIDOCTOR">ASCIIDOCTOR</a></cite>] is anticipated.
+    </p>
+
+</section>
+<section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#sotd" rel="bibo:Chapter"><h2 aria-level="1"
+        role="heading" id="h2_sotd">Status of This Document</h2>
+
+    <p>
+        This document is merely a public working draft of a potential specification. It has
+        no official standing of any kind and does not represent the support or consensus of any
+        standards organisation.
+    </p>
+
+
+</section>
+<section class="introductory" id="toc"><h2 aria-level="1" role="heading" id="h2_toc">Table of Contents</h2>
+    <ul class="toc" role="directory" id="respecContents">
+        <li class="tocline"><a href="#sect-json-register-example" class="tocxref"><span
+                class="secno section-level-1">1<span class="secno-decoration"> </span></span><span
+                class="sectitle">JSON Register Example</span></a></li>
+        <li class="tocline"><a href="#sect-json-format-details" class="tocxref"><span
+                class="secno section-level-1">2<span class="secno-decoration"> </span></span><span
+                class="sectitle">JSON Format Details</span></a>
+            <ul class="toc">
+                <li class="tocline"><a href="#sect-register-properties" class="tocxref"><span
+                        class="secno section-level-2">2.1<span class="secno-decoration"> </span></span><span
+                        class="sectitle">Register Properties</span></a></li>
+                <li class="tocline"><a href="#sect-field-properties" class="tocxref"><span
+                        class="secno section-level-2">2.2<span class="secno-decoration"> </span></span><span
+                        class="sectitle">Field Properties</span></a></li>
+            </ul>
+        </li>
+        <li class="tocline"><a href="#sect-svg-class-structure" class="tocxref"><span
+                class="secno section-level-1">3<span class="secno-decoration"> </span></span><span
+                class="sectitle">SVG Class Structure</span></a>
+            <ul class="toc">
+                <li class="tocline"><a href="#sect-external-field" class="tocxref"><span class="secno section-level-2">3.1<span
+                        class="secno-decoration"> </span></span><span
+                        class="sectitle"><span>External Field</span></span></a></li>
+                <li class="tocline"><a href="#sect-internal-field" class="tocxref"><span class="secno section-level-2">3.2<span
+                        class="secno-decoration"> </span></span><span
+                        class="sectitle"><span>Internal Field</span></span></a></li>
+                <li class="tocline"><a href="#sect-generated-g-element-class-attributes" class="tocxref"><span
+                        class="secno section-level-2">3.3<span class="secno-decoration"> </span></span><span
+                        class="sectitle">Generated <code>&lt;g&gt;</code> element: <code>class</code> attributes</span></a>
+                </li>
+                <li class="tocline"><a href="#sect-svg-id-attribute" class="tocxref"><span
+                        class="secno section-level-2">3.4<span class="secno-decoration"> </span></span><span
+                        class="sectitle">Generated <code>&lt;g&gt;</code> element: <code>id</code> attribute</span></a>
+                </li>
+                <li class="tocline"><a href="#sect-unused-bits" class="tocxref"><span
+                        class="secno section-level-2">3.5<span class="secno-decoration"> </span></span><span
+                        class="sectitle">Unused Bits</span></a></li>
+            </ul>
+        </li>
+        <li class="tocline"><a href="#sect-respec-usage" class="tocxref"><span class="secno section-level-1">4<span
+                class="secno-decoration"> </span></span><span class="sectitle">Respec Usage</span></a>
+            <ul class="toc">
+                <li class="tocline"><a href="#sect-common-rules-for-all-figure-class-register-elements" class="tocxref"><span
+                        class="secno section-level-2">4.1<span class="secno-decoration"> </span></span><span
+                        class="sectitle">Common Rules for all &lt;figure class="register"&gt; elements</span></a>
+                    <ul class="toc">
+                        <li class="tocline"><a href="#sect-figure-figname-property" class="tocxref"><span
+                                class="secno section-level-3">4.1.1<span class="secno-decoration"> </span></span><span
+                                class="sectitle">Figure <span class="formerLink">figName</span> property</span></a></li>
+                        <li class="tocline"><a href="#sect-figure-id-attribute" class="tocxref"><span
+                                class="secno section-level-3">4.1.2<span class="secno-decoration"> </span></span><span
+                                class="sectitle">Figure <code>id</code> attribute</span></a></li>
+                        <li class="tocline"><a href="#sect-figure-data-json-attribute" class="tocxref"><span
+                                class="secno section-level-3">4.1.3<span class="secno-decoration"> </span></span><span
+                                class="sectitle">Figure <code>data-json</code> attribute</span></a></li>
+                        <li class="tocline"><a href="#sect-figure-data-width-attribute" class="tocxref"><span
+                                class="secno section-level-3">4.1.4<span class="secno-decoration"> </span></span><span
+                                class="sectitle">Figure <code>data-width</code> attribute</span></a></li>
+                        <li class="tocline"><a href="#sect-figure-data-unused-attribute" class="tocxref"><span
+                                class="secno section-level-3">4.1.5<span class="secno-decoration"> </span></span><span
+                                class="sectitle">Figure <code>data-unused</code> attribute</span></a></li>
+                        <li class="tocline"><a href="#sect-figure-data-href-attribute" class="tocxref"><span
+                                class="secno section-level-3">4.1.6<span class="secno-decoration"> </span></span><span
+                                class="sectitle">Figure <code>data-href</code> attribute</span></a></li>
+                        <li class="tocline"><a href="#sect-figure-data-table-attribute" class="tocxref"><span
+                                class="secno section-level-3">4.1.7<span class="secno-decoration"> </span></span><span
+                                class="sectitle">Figure <code>data-table</code> attribute</span></a></li>
+                        <li class="tocline"><a href="#sect-figure-data-register-attribute" class="tocxref"><span
+                                class="secno section-level-3">4.1.8<span class="secno-decoration"> </span></span><span
+                                class="sectitle">Figure <code>data-register</code> attribute</span></a></li>
+                    </ul>
+                </li>
+                <li class="tocline"><a href="#sect-json-directly-in-figure" class="tocxref"><span
+                        class="secno section-level-2">4.2<span class="secno-decoration"> </span></span><span
+                        class="sectitle">JSON directly in &lt;figure&gt;</span></a></li>
+                <li class="tocline"><a href="#sect-json-outside-the-figure" class="tocxref"><span
+                        class="secno section-level-2">4.3<span class="secno-decoration"> </span></span><span
+                        class="sectitle">JSON outside the &lt;figure&gt;</span></a></li>
+                <li class="tocline"><a href="#sect-pcisig-style-table" class="tocxref"><span
+                        class="secno section-level-2">4.4<span class="secno-decoration"> </span></span><span
+                        class="sectitle">PCISIG Style Table</span></a></li>
+                <li class="tocline"><a href="#sect-nvidia-refman" class="tocxref"><span class="secno section-level-2">4.5<span
+                        class="secno-decoration"> </span></span><span class="sectitle">NVidia Refman</span></a></li>
+            </ul>
+        </li>
+        <li class="tocline"><a href="#references" class="tocxref"><span class="secno section-level-1">A<span
+                class="secno-decoration"> </span></span><span class="sectitle">References</span></a>
+            <ul class="toc">
+                <li class="tocline"><a href="#informative-references" class="tocxref"><span
+                        class="secno section-level-2">A.1<span class="secno-decoration"> </span></span><span
+                        class="sectitle">Informative references</span></a></li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section class="introductory">
+    <h2 id="revision-history-and-notes" aria-level="1" role="heading">Revision History and Notes</h2>
+    <dl>
+        <dt>8 July 2014</dt>
+        <dd>First release of Working Draft</dd>
+        <dt>23 August 2014</dt>
+        <dd>Second release of Working Draft</dd>
+    </dl>
+</section>
+
+
+<section id="sect-json-register-example" typeof="bibo:Chapter" resource="#sect-json-register-example"
+        rel="bibo:Chapter">
+    <!--OddPage--><h2 class="section-level-1" aria-level="1" role="heading" id="h2_sect-json-register-example"><span
+        class="secno section-level-1">1<span class="secno-decoration"> </span></span><span
+        class="sec-title">JSON Register Example</span></h2>
+
+    <div class="example">
+        <div class="example-title"><span>Example 1</span>: JSON Register Example</div><pre class="example"
+            id="example-json-register-example">&lt;figure class="register"&gt;
+    &lt;pre class="json"&gt; {
+        "fields": {
+            "field 4:0": {
+                "msb":  4,
+                "lsb":  0,
+                "attr": "ro"
+            },
+            "bit9": {
+                "msb": 9,
+                "value": "1"
+            },
+            "bit10": {
+                "lsb":   10,
+                "value": "0"
+            },
+            "bit11": {
+                "lsb": 11
+            },
+            "bit 12:15": {
+                "lsb":   12,
+                "msb":   15,
+                "value": "value"
+            },
+            "byte": {
+                "lsb":   16,
+                "msb":   31,
+                "value": [ "A", "B", "C", "D", "E", "F", "G", "H"]
+            }
+        }
+    }
+    &lt;/pre&gt;
+    &lt;figcaption&gt;JSON Register Example&lt;/figcaption&gt;
+&lt;/figure&gt;</pre>
+    </div>
+
+    <figure class="register" id="fig-json-register-example">
+
+        <!-- for figures.register.pcisig_reg, the data-table attribute is the ID of the PCISIG style table describing the fields -->
+
+        <!-- any nested div.json, pre.json, or span.json within figure.register is parsed for json content -->
+        <!-- the width argument describes the register width (defaults to 32 bits) -->
+        <!-- the unused item is name used for bit fields that are not otherwise defined (defaults "RsvdP" -->
+        <!-- var width               = Number(pget(reg, "width", 32));-->
+        <!-- var unused              = String(pget(reg, "unused", "RsvdP"));-->
+        <!-- var defaultAttr         = String(pget(reg, "defaultAttr", "other"));-->
+        <!-- var cellWidth           = Number(pget(reg, "cellWidth", 16));-->
+        <!-- var cellHeight          = Number(pget(reg, "cellHeight", 32));-->
+        <!-- var cellInternalHeight  = Number(pget(reg, "cellInternalHeight", 8));-->
+        <!-- var bracketHeight       = Number(pget(reg, "bracketHeight", 4));-->
+        <!-- var cellTop             = Number(pget(reg, "cellTop", 16));-->
+        <!-- var figName             = String(pget(reg, "name", "???"));-->
+        <!-- var fields              = pget(reg, "fields", [ ]); // default to empty register-->
+
+        <!-- Fields are in arbitrary order. Items in in a field are: -->
+        <!--  name      Name of the field -->
+        <!--  msb       bit number of the most significant bit (or only bit) -->
+        <!--  lsb       bit number of the least significant bit (or only bit) -->
+        <!--  unused    true if field is considered "unused" -->
+        <!--  attr      field type (e.g. other, rw, ro, rw1c, ros, ...) -->
+            <pre class="json" style="display: none;">            
+            {
+                "fields": {
+                    "field 4:0": {
+                        "msb":  4,
+                        "lsb":  0,
+                        "attr": "ro"
+                    },
+                    "bit9": {
+                        "msb": 9,
+                        "value": "1"
+                    },
+                    "bit10": {
+                        "lsb":   10,
+                        "value": "0"
+                    },
+                    "bit11": {
+                        "lsb": 11
+                    },
+                    "bit 12:15": {
+                        "lsb":   12,
+                        "msb":   15,
+                        "value": "value"
+                    },
+                    "byte": {
+                        "lsb":   24,
+                        "msb":   31,
+                        "value": [ "A", "B", "C", "D", "E", "F", "G", "H"]
+                    }
+                }
+            }
+            </pre>
+        <div class="svg hasSVG">
+            <svg version="1.1" width="634px" height="192px" viewBox="0 0 634 192"
+                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="regpict-json-register-example-field-4-0" class="regFieldInternal regAttr_ro regLink">
+                    <text x="550" y="36" class="regBitNumEnd">0</text>
+                    <text x="474" y="36" class="regBitNumStart">4</text>
+                    <line x1="552" y1="40" x2="552" y2="26.5" class="regBitNumLine"></line>
+                    <line x1="472" y1="40" x2="472" y2="26.5" class="regBitNumLine"></line>
+                    <rect x="472" y="40" width="80" height="32" class="regFieldBox"></rect>
+                    <line x1="536" y1="64" x2="536" y2="72" class="regFieldBox"></line>
+                    <line x1="520" y1="64" x2="520" y2="72" class="regFieldBox"></line>
+                    <line x1="504" y1="64" x2="504" y2="72" class="regFieldBox"></line>
+                    <line x1="488" y1="64" x2="488" y2="72" class="regFieldBox"></line>
+                    <text x="512" y="20" class="regBitWidth">5 bits</text>
+                    <text x="512" y="56" class="regFieldName">field 4:0</text>
+                </g>
+                <g class="regFieldInternal regAttr_rsvdp regLink regFieldUnused">
+                    <text x="470" y="36" class="regBitNumEnd">5</text>
+                    <text x="410" y="36" class="regBitNumStart">8</text>
+                    <line x1="472" y1="40" x2="472" y2="26.5" class="regBitNumLine_Hide"></line>
+                    <line x1="408" y1="40" x2="408" y2="26.5" class="regBitNumLine"></line>
+                    <rect x="408" y="40" width="64" height="32" class="regFieldBox"></rect>
+                    <line x1="456" y1="64" x2="456" y2="72" class="regFieldBox"></line>
+                    <line x1="440" y1="64" x2="440" y2="72" class="regFieldBox"></line>
+                    <line x1="424" y1="64" x2="424" y2="72" class="regFieldBox"></line>
+                    <text x="440" y="20" class="regBitWidth">4 bits</text>
+                    <text x="440" y="56" class="regFieldName">RsvdP</text>
+                </g>
+                <g id="regpict-json-register-example-bit9"
+                        class="regFieldExternal regAttr_other regLink regFieldExternal0">
+                    <text x="400" y="36" class="regBitNumMiddle">9</text>
+                    <line x1="408" y1="40" x2="408" y2="26.5" class="regBitNumLine_Hide"></line>
+                    <line x1="392" y1="40" x2="392" y2="26.5" class="regBitNumLine"></line>
+                    <rect x="392" y="40" width="16" height="32" class="regFieldBox"></rect>
+                    <text x="400" y="20" class="regBitWidth">1 bit</text>
+                    <text x="568" y="92" class="regFieldName">bit9</text>
+                    <text x="400" y="60" class="regFieldValue">1</text>
+                    <path d="M392,72l8,4L408,72" class="regBitBracket" fill="none"></path>
+                    <path d="M400,76V87.5H566.4" class="regBitLine" fill="none"></path>
+                </g>
+                <g id="regpict-json-register-example-bit10"
+                        class="regFieldExternal regAttr_other regLink regFieldExternal0">
+                    <text x="384" y="36" class="regBitNumMiddle">10</text>
+                    <line x1="392" y1="40" x2="392" y2="26.5" class="regBitNumLine_Hide"></line>
+                    <line x1="376" y1="40" x2="376" y2="26.5" class="regBitNumLine"></line>
+                    <rect x="376" y="40" width="16" height="32" class="regFieldBox"></rect>
+                    <text x="384" y="20" class="regBitWidth">1 bit</text>
+                    <text x="568" y="112" class="regFieldName">bit10</text>
+                    <text x="384" y="60" class="regFieldValue">0</text>
+                    <path d="M376,72l8,4L392,72" class="regBitBracket" fill="none"></path>
+                    <path d="M384,76V107.5H566.4" class="regBitLine" fill="none"></path>
+                </g>
+                <g id="regpict-json-register-example-bit11"
+                        class="regFieldExternal regAttr_other regLink regFieldExternal1">
+                    <text x="368" y="36" class="regBitNumMiddle">11</text>
+                    <line x1="376" y1="40" x2="376" y2="26.5" class="regBitNumLine_Hide"></line>
+                    <line x1="360" y1="40" x2="360" y2="26.5" class="regBitNumLine"></line>
+                    <rect x="360" y="40" width="16" height="32" class="regFieldBox"></rect>
+                    <text x="368" y="20" class="regBitWidth">1 bit</text>
+                    <text x="568" y="132" class="regFieldName">bit11</text>
+                    <path d="M360,72l8,4L376,72" class="regBitBracket" fill="none"></path>
+                    <path d="M368,76V127.5H566.4" class="regBitLine" fill="none"></path>
+                </g>
+                <g id="regpict-json-register-example-bit-12-15"
+                        class="regFieldExternal regAttr_other regLink regFieldExternal1">
+                    <text x="358" y="36" class="regBitNumEnd">12</text>
+                    <text x="298" y="36" class="regBitNumStart">15</text>
+                    <line x1="360" y1="40" x2="360" y2="26.5" class="regBitNumLine_Hide"></line>
+                    <line x1="296" y1="40" x2="296" y2="26.5" class="regBitNumLine"></line>
+                    <rect x="296" y="40" width="64" height="32" class="regFieldBox"></rect>
+                    <line x1="344" y1="64" x2="344" y2="72" class="regFieldBox"></line>
+                    <line x1="328" y1="64" x2="328" y2="72" class="regFieldBox"></line>
+                    <line x1="312" y1="64" x2="312" y2="72" class="regFieldBox"></line>
+                    <text x="328" y="20" class="regBitWidth">4 bits</text>
+                    <text x="568" y="152" class="regFieldName">bit 12:15</text>
+                    <text x="328" y="56" class="regFieldValue">value</text>
+                    <path d="M296,72l32,4L360,72" class="regBitBracket" fill="none"></path>
+                    <path d="M328,76V147.5H566.4" class="regBitLine" fill="none"></path>
+                </g>
+                <g class="regFieldInternal regAttr_rsvdp regLink regFieldUnused">
+                    <text x="294" y="36" class="regBitNumEnd">16</text>
+                    <text x="170" y="36" class="regBitNumStart">23</text>
+                    <line x1="296" y1="40" x2="296" y2="26.5" class="regBitNumLine_Hide"></line>
+                    <line x1="168" y1="40" x2="168" y2="26.5" class="regBitNumLine"></line>
+                    <rect x="168" y="40" width="128" height="32" class="regFieldBox"></rect>
+                    <line x1="280" y1="64" x2="280" y2="72" class="regFieldBox"></line>
+                    <line x1="264" y1="64" x2="264" y2="72" class="regFieldBox"></line>
+                    <line x1="248" y1="64" x2="248" y2="72" class="regFieldBox"></line>
+                    <line x1="232" y1="64" x2="232" y2="72" class="regFieldBox"></line>
+                    <line x1="216" y1="64" x2="216" y2="72" class="regFieldBox"></line>
+                    <line x1="200" y1="64" x2="200" y2="72" class="regFieldBox"></line>
+                    <line x1="184" y1="64" x2="184" y2="72" class="regFieldBox"></line>
+                    <text x="232" y="20" class="regBitWidth">8 bits</text>
+                    <text x="232" y="56" class="regFieldName">RsvdP</text>
+                </g>
+                <g id="regpict-json-register-example-byte"
+                        class="regFieldExternal regAttr_other regLink regFieldExternal0">
+                    <text x="166" y="36" class="regBitNumEnd">24</text>
+                    <text x="42" y="36" class="regBitNumStart">31</text>
+                    <line x1="168" y1="40" x2="168" y2="26.5" class="regBitNumLine_Hide"></line>
+                    <line x1="40" y1="40" x2="40" y2="26.5" class="regBitNumLine"></line>
+                    <rect x="40" y="40" width="128" height="32" class="regFieldBox"></rect>
+                    <line x1="152" y1="64" x2="152" y2="72" class="regFieldBox"></line>
+                    <line x1="136" y1="64" x2="136" y2="72" class="regFieldBox"></line>
+                    <line x1="120" y1="64" x2="120" y2="72" class="regFieldBox"></line>
+                    <line x1="104" y1="64" x2="104" y2="72" class="regFieldBox"></line>
+                    <line x1="88" y1="64" x2="88" y2="72" class="regFieldBox"></line>
+                    <line x1="72" y1="64" x2="72" y2="72" class="regFieldBox"></line>
+                    <line x1="56" y1="64" x2="56" y2="72" class="regFieldBox"></line>
+                    <text x="104" y="20" class="regBitWidth">8 bits</text>
+                    <text x="568" y="172" class="regFieldName">byte</text>
+                    <text x="160" y="60" class="regFieldValue regFieldBitValue regFieldBitValue-0">A</text>
+                    <text x="144" y="60" class="regFieldValue regFieldBitValue regFieldBitValue-1">B</text>
+                    <text x="128" y="60" class="regFieldValue regFieldBitValue regFieldBitValue-2">C</text>
+                    <text x="112" y="60" class="regFieldValue regFieldBitValue regFieldBitValue-3">D</text>
+                    <text x="96" y="60" class="regFieldValue regFieldBitValue regFieldBitValue-4">E</text>
+                    <text x="80" y="60" class="regFieldValue regFieldBitValue regFieldBitValue-5">F</text>
+                    <text x="64" y="60" class="regFieldValue regFieldBitValue regFieldBitValue-6">G</text>
+                    <text x="48" y="60"
+                            class="regFieldValue regFieldBitValue regFieldBitValue-7 regFieldBitValue-msb">H
+                    </text>
+                    <path d="M40,72l64,4L168,72" class="regBitBracket" fill="none"></path>
+                    <path d="M104,76V167.5H566.4" class="regBitLine" fill="none"></path>
+                </g>
+            </svg>
+        </div>
+        <figcaption><span class="figdecoration">Fig. </span><span class="figno">1</span><span
+                class="figdecoration"> </span><span class="figtitle">JSON Register Example</span></figcaption>
+    </figure>
+</section>
+<section id="sect-json-format-details" typeof="bibo:Chapter" resource="#sect-json-format-details" rel="bibo:Chapter">
+    <!--OddPage--><h2 class="section-level-1" aria-level="1" role="heading" id="h2_sect-json-format-details"><span
+        class="secno section-level-1">2<span class="secno-decoration"> </span></span><span
+        class="sec-title">JSON Format Details</span></h2>
+    <p>
+        The JSON intermediate format contains a collection of properties related to the overall register as well as a
+        <a href="#dfn-fields"
+                class="internalDFN dfn">fields</a> property with details for each register field. The each property of
+        <a href="#dfn-fields" class="internalDFN dfn">fields</a> describes the corresponding register field.</p>
+
+    <section id="sect-register-properties" typeof="bibo:Chapter" resource="#sect-register-properties"
+            rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-register-properties"><span
+                class="secno section-level-2">2.1<span class="secno-decoration"> </span></span><span
+                class="sec-title">Register Properties</span></h3>
+        <p>The following register properties are defined:</p>
+        <dl>
+
+            <dt><dfn id="dfn-width">width</dfn></dt>
+            <dd>
+                Width of the register, in bits. Default is 32.
+            </dd>
+
+            <dt><dfn id="dfn-defaultunused">defaultUnused</dfn></dt>
+            <dd>
+                Name to apply to unused bits in the register. Default is "RsvdP".
+            </dd>
+
+            <dt><dfn id="dfn-defaultattr">defaultAttr</dfn></dt>
+            <dd>
+                Attribute to apply to fields that do not specify one. Default is "other".
+            </dd>
+
+            <dt><dfn id="dfn-cellwidth">cellWidth</dfn></dt>
+            <dd>
+                Width of a bit cell, in pixels. Default is 16px.
+            </dd>
+
+            <dt><dfn id="dfn-cellheight">cellHeight</dfn></dt>
+            <dd>
+                Height of a bit cell, in pixels. Default is 32px.
+            </dd>
+
+            <dt><dfn id="dfn-cellinternalheight">cellInternalHeight</dfn></dt>
+            <dd>
+                Height of the bit separator lines with a multi-bit cell. Default is 8px.
+            </dd>
+
+            <dt><dfn id="dfn-celltop">cellTop</dfn></dt>
+            <dd>
+                Location of top of every bit cell, in pixels. Default is 40px.
+            </dd>
+
+            <dt><dfn id="dfn-figleft">figLeft</dfn></dt>
+            <dd>
+                Location of the left edge of the register, in pixels. Default is 32px.
+            </dd>
+
+            <dt><dfn id="dfn-cellvaluetop">cellValueTop</dfn></dt>
+            <dd>
+                Top of the text for a multi-bit field value relative to <a href="#dfn-celltop"
+                    class="internalDFN dfn">cellTop</a>.
+                This applies to bit fields that are wider than one bit and that have a
+                <a href="#dfn-value"
+                        class="internalDFN dfn">value</a> property that does not specify individual bit values.
+                Default is 16px.
+            </dd>
+
+            <dt><dfn id="dfn-cellbitvaluetop">cellBitValueTop</dfn></dt>
+            <dd>
+                Top of the text for a single bit value relative to <a href="#dfn-celltop"
+                    class="internalDFN dfn">cellTop</a>.
+                This applies to all bit fields that are one bit wide.
+                This also applies to wider fields that contain a <a href="#dfn-value"
+                    class="internalDFN dfn">value</a> that contains individual bit values.
+                Default is 20px.
+            </dd>
+
+            <dt><dfn id="dfn-cellbitnametop">cellBitNameTop</dfn></dt>
+            <dd>
+                Top of the text for a bit name that's displayed inside the register field.
+                This applies to bit fields that bit fields where the text fits in the bit cell(s) that do not have a
+                <a href="#dfn-value" class="internalDFN dfn">value</a> specified.
+                Default is 16px.
+            </dd>
+
+            <dt><dfn id="dfn-bracketheight">bracketHeight</dfn></dt>
+            <dd>
+                Height of the bracket drawn below the bit field when the field name is displayed outside the register field. Default is 4px.
+            </dd>
+
+            <dt><dfn id="dfn-figname">figName</dfn></dt>
+            <dd>
+                Prefix to use when generating <a href="#dfn-id"
+                    class="internalDFN dfn">id</a> values for fields in the generated SVG. Default is "???".
+            </dd>
+
+            <dt><dfn id="dfn-maxfieldwidth">maxFieldWidth</dfn></dt>
+            <dd>
+                Maximum width of the figure.
+                Default is 720px (approximately 7.5 inches).
+            </dd>
+
+            <dt><dfn id="dfn-visiblelsb">visibleLSB</dfn></dt>
+            <dd>
+                Least Significant bit that will be displayed.
+                Default is 0.
+            </dd>
+
+            <dt><dfn id="dfn-visiblemsb">visibleMSB</dfn></dt>
+            <dd>
+                Most Significant Bit that will be displayed.
+                Fields that start above this value will not be displayed.
+                Fields that start below this value and end above this value will be partially displayed.
+                Default is <a href="#dfn-width"
+                    class="internalDFN dfn">width</a> (i.e. one greater than the register width).
+            </dd>
+
+            <dt><dfn id="dfn-table">table</dfn></dt>
+            <dd>Contains the locator for a PCISIG formatted table to parse.
+                Includes the leading ‘#” character (e.g. “#tbl-pcisig-style-table“).
+                See <a href="#sect-figure-data-table-attribute" class="sec-ref"><span class="sec-prefix">Section </span><span
+                        class="secno secno-level-3">4.1.7</span><span
+                        class="sec-title"> Figure data-table attribute</span></a> and
+                <a href="#sect-pcisig-style-table" class="sec-ref"><span class="sec-prefix">Section </span><span
+                        class="secno secno-level-2">4.4</span><span class="sec-title"> PCISIG Style Table</span></a>.
+            </dd>
+
+            <dt><dfn id="dfn-href">href</dfn></dt>
+            <dd>
+                Contains the locator for an Nvidia formatted refman file to parse.
+                See <a href="#sect-figure-data-href-attribute" class="sec-ref"><span
+                    class="sec-prefix">Section </span><span class="secno secno-level-3">4.1.6</span><span
+                    class="sec-title"> Figure data-href attribute</span></a> and
+                <a href="#sect-nvidia-refman" class="sec-ref"><span class="sec-prefix">Section </span><span
+                        class="secno secno-level-2">4.5</span><span class="sec-title"> NVidia Refman</span></a>.
+            </dd>
+
+            <dt><dfn id="dfn-register">register</dfn></dt>
+            <dd>
+                Contains the locator for an external &lt;pre&gt;, &lt;div&gt; or &lt;span&gt; element containing JSON to parse.
+                See <a href="#sect-figure-data-register-attribute" class="sec-ref"><span
+                    class="sec-prefix">Section </span><span class="secno secno-level-3">4.1.8</span><span
+                    class="sec-title"> Figure data-register attribute</span></a> and
+                <a href="#sect-json-outside-the-figure" class="sec-ref"><span class="sec-prefix">Section </span><span
+                        class="secno secno-level-2">4.3</span><span class="sec-title"> JSON outside the
+                    <figure></figure>
+                </span></a>.
+            </dd>
+
+            <dt><dfn id="dfn-fields">fields</dfn></dt>
+            <dd>
+                JSON Object containing one property per register field. Default is the empty property <code>{ }</code>.
+            </dd>
+
+        </dl>
+    </section>
+    <section id="sect-field-properties" typeof="bibo:Chapter" resource="#sect-field-properties" rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-field-properties"><span
+                class="secno section-level-2">2.2<span class="secno-decoration"> </span></span><span
+                class="sec-title">Field Properties</span></h3>
+        <p>The following properties are defined for register fields:</p>
+        <dl>
+            <dt><dfn id="dfn-name">name</dfn></dt>
+            <dd>
+                <p>
+                    Name of the field. If the name fits in the field box and no
+                    <a href="#dfn-value"
+                            class="internalDFN dfn">value</a> is provided for the field, the name is drawn in the field box, centered horizontally, with the top edge of the name text at cellNameTop. Otherwise, the field name is drawn to the right of bit
+                    <a href="#dfn-visiblelsb"
+                            class="internalDFN dfn">visibleLSB</a> with a line connecting the field name to the middle of the bit field.
+                </p>
+                <p>
+                    If <a href="#dfn-name"
+                        class="internalDFN dfn">name</a> is not specified, the default is the property name of the field within the
+                    <a href="#dfn-fields"
+                            class="internalDFN dfn">fields</a> property of the register. Note: all fields in
+                    <a href="#fig-json-register-example" class="fig-ref">Figure 1</a> do not have a <a href="#dfn-name"
+                        class="internalDFN dfn">name</a> property.
+                </p>
+            </dd>
+
+            <dt><dfn id="dfn-id">id</dfn></dt>
+            <dd>
+                This property contains a string value that specified the <code>id</code> attribute for the
+                <code>&lt;g&gt;</code> element in the generated SVG.
+                If this property is not explicitly defined and field is not <a href="#dfn-isunused"
+                    class="internalDFN dfn">isUnused</a>, an
+                <code>id</code> attribute will be be created for the field using rules defined in
+                <a href="#sect-svg-id-attribute">Section 3.4</a>.
+            </dd>
+
+            <dt><dfn id="dfn-lsb">lsb</dfn></dt>
+            <dd>
+                Least Significant Bit number. If omitted, field is 1 bit wide containing just the
+                <a href="#dfn-msb" class="internalDFN dfn">msb</a>. At least one of <a href="#dfn-lsb"
+                    class="internalDFN dfn">lsb</a> or <a href="#dfn-msb"
+                    class="internalDFN dfn">msb</a> must be specified.
+            </dd>
+
+            <dt><dfn id="dfn-msb">msb</dfn></dt>
+            <dd>
+                Most Significant Bit number. If omitted, field is 1 bit wide containing just the
+                <a href="#dfn-lsb" class="internalDFN dfn">lsb</a>. At least one of <a href="#dfn-lsb"
+                    class="internalDFN dfn">lsb</a> or <a href="#dfn-msb"
+                    class="internalDFN dfn">msb</a> must be specified.
+            </dd>
+
+            <dt><dfn id="dfn-value">value</dfn></dt>
+            <dd>
+                The value for the field. This property takes on the following forms:
+                <ul>
+                    <li>
+                        Single string value, and the field with is greater than 1 bit. The
+                        <a href="#dfn-value"
+                                class="internalDFN dfn">value</a> property is displayed in the field box, centered horizontally, with its top edge at
+                        <a href="#dfn-cellvaluetop" class="internalDFN dfn">cellValueTop</a>.
+                    </li>
+                    <li>
+                        Single string value, and the field width is exactly 1 bit. The
+                        <a href="#dfn-value"
+                                class="internalDFN dfn">value</a> property is displayed in the field box, centered horizontally, with its top edge at
+                        <a href="#dfn-cellbitvaluetop" class="internalDFN dfn">cellBitValueTop</a>.
+                    </li>
+                    <li>
+                        JSON array value where the array length equals the field width in bits and the array values are all strings. The string values are typically 1 character due to space limitations. You can make more room by increasing
+                        <a href="#dfn-cellwidth"
+                                class="internalDFN dfn">cellWidth</a> or decreasing the font size for the class
+                        <a href="#dfn-regbitfieldvalue"
+                                class="internalDFN dfn">regBitFieldValue</a>. Each array item is drawn centered horizontally in the corresponding bit cell, with its top edge at
+                        <a href="#dfn-cellbitvaluetop" class="internalDFN dfn">cellBitValueTop</a>.
+                    </li>
+                </ul>
+            </dd>
+
+            <dt><dfn id="dfn-attr">attr</dfn></dt>
+            <dd>
+                This property is a string that indicates the type of this field. If this property contains
+                <i>x</i>, the generated SVG has class
+                <a href="#dfn-regattr_xxx"
+                        class="internalDFN dfn">regAttr_<code>xxx</code></a>. This permits styling of register fields based on field attribute (Read Only, Read Write, etc.). This value is converted to lower case so it's irrelevant what case is used for this property. This property must be a valid class name (e.g. no spaces, etc.). Common values are: rw, rws, ro, ros, rw1c, rw1cs, rw1s, rw1ss, wo, wos, hardwired, fixed, hwinit, rsvd, rsvdp, rsvdz, reserved, unused, and other. The default value of
+                <a href="#dfn-attr" class="internalDFN dfn">attr</a> is "other".
+            </dd>
+
+            <dt><dfn id="dfn-isunused">isUnused</dfn></dt>
+            <dd>
+                Unused field indicator. If
+                <a href="#dfn-isunused"
+                        class="internalDFN dfn">isUnused</a> is present and has the value true, this bits that comprise this field are some flavor of undefined (e.g. Reserved, RsvdP, RsvdZ). The the drawn field has the class
+                <a href="#dfn-regfieldunused"
+                        class="internalDFN dfn">regFieldUnused</a> to permit styling using CSS. Unused field indicator. If
+                <a href="#dfn-isunused"
+                        class="internalDFN dfn">isUnused</a> is present and has the value true, this bits that comprise this field are some flavor of undefined (e.g. Reserved, RsvdP, RsvdZ). The the drawn field has the class
+                <a href="#dfn-regfieldunused" class="internalDFN dfn">regFieldUnused</a> to permit styling using CSS.
+            </dd>
+
+            <dt><dfn id="dfn-addclass">addClass</dfn></dt>
+            <dd>
+                If
+                <a href="#dfn-addclass" class="internalDFN dfn">addClass</a> is present, it <em class="rfc2119"
+                    title="MUST">MUST</em> contain a string value. This value contains one or more class names. Each of these class names is appended to the list of classes for the generated
+                <code>&lt;g&gt;</code> element. A good application for the
+                <a href="#dfn-addclass"
+                        class="internalDFN dfn">addClass</a> property is to highlight particular fields, when this highlighting is not an intrinsic property of the field. For example, if the same figure is used in multiple places, with each usage explaining some of the fields, the
+                <a href="#dfn-addclass"
+                        class="internalDFN dfn">addClass</a> property can be used to highlight the appropriate fields. Intrinsic properties of a field are better indicated through the
+                <a href="#dfn-attr" class="internalDFN dfn">attr</a> property.
+            </dd>
+        </dl>
+    </section>
+</section>
+<section id="sect-svg-class-structure" typeof="bibo:Chapter" resource="#sect-svg-class-structure" rel="bibo:Chapter">
+    <!--OddPage--><h2 class="section-level-1" aria-level="1" role="heading" id="h2_sect-svg-class-structure"><span
+        class="secno section-level-1">3<span class="secno-decoration"> </span></span><span
+        class="sec-title">SVG Class Structure</span></h2>
+    <p>
+        This section describes the structure of the generated SVG. Knowing this structure permits more flexible styling of the resulting diagram using CSS.
+    </p>
+    <p>
+        The generated SVG contains a
+        <code>&lt;g&gt;</code> element for every field. This includes fields that are explicitly defined as well as fields that are created to represent unused register bits.
+    </p>
+
+    <section id="sect-external-field" typeof="bibo:Chapter" resource="#sect-external-field" rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-external-field"><span
+                class="secno section-level-2">3.1<span class="secno-decoration"> </span></span><span
+                class="sec-title"><dfn id="dfn-external-field">External Field</dfn></span></h3>
+        <p><a href="#dfn-regpict" class="internalDFN dfn">Regpict</a> will generate an
+            <a href="#dfn-external-field" class="internalDFN dfn">External Field</a> when the field <a href="#dfn-name"
+                    class="internalDFN dfn">name</a> doesn't fit in the bit field box or the field has a
+            <a href="#dfn-value" class="internalDFN dfn">value</a> property.
+        </p>
+        <p>An example <a href="#dfn-external-field"
+                class="internalDFN dfn">External Field</a> is shown below. This is the <a class="regpict internalDFN"
+                href="#regpict-json-register-example-bit-12-15">bit 12:15</a> field from
+            <a href="#fig-json-register-example" class="fig-ref">Figure 1</a>.</p>
+
+        <div class="example">
+            <div class="example-title"><span>Example 2</span></div><pre class="example">&lt;g id="regpict-json-register-example-bit-12-15"
+   class="regFieldExternal regAttr_other regLink regFieldExternal1"&gt;
+    &lt;text x="358" y="36" class="regBitNumEnd"&gt;12&lt;/text&gt;
+    &lt;text x="298" y="36" class="regBitNumStart"&gt;15&lt;/text&gt;
+    &lt;line x1="360" y1="40" x2="360" y2="26.5" class="regBitNumLine_Hide"&gt;&lt;/line&gt;
+    &lt;line x1="296" y1="40" x2="296" y2="26.5" class="regBitNumLine"&gt;&lt;/line&gt;
+    &lt;rect x="296" y="40" width="64" height="32" class="regFieldBox"&gt;&lt;/rect&gt;
+    &lt;line x1="344" y1="64" x2="344" y2="72" class="regFieldBox"&gt;&lt;/line&gt;
+    &lt;line x1="328" y1="64" x2="328" y2="72" class="regFieldBox"&gt;&lt;/line&gt;
+    &lt;line x1="312" y1="64" x2="312" y2="72" class="regFieldBox"&gt;&lt;/line&gt;
+    &lt;text x="328" y="20" class="regBitWidth"&gt;4 bits&lt;/text&gt;
+    &lt;text x="568" y="152" class="regFieldName"&gt;bit 12:15&lt;/text&gt;
+    &lt;text x="328" y="56" class="regFieldValue"&gt;value&lt;/text&gt;
+    &lt;path d="M296,72l32,4L360,72" class="regBitBracket" fill="none"&gt;&lt;/path&gt;
+    &lt;path d="M328,76V147.5H566.4" class="regBitLine" fill="none"&gt;&lt;/path&gt;
+&lt;/g&gt;</pre>
+        </div>
+    </section>
+    <section id="sect-internal-field" typeof="bibo:Chapter" resource="#sect-internal-field" rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-internal-field"><span
+                class="secno section-level-2">3.2<span class="secno-decoration"> </span></span><span
+                class="sec-title"><dfn id="dfn-internal-field">Internal Field</dfn></span></h3>
+        <p>
+            <a href="#dfn-regpict"
+                    class="internalDFN dfn">Regpict</a> will generate an Internal Field when the field name fits in the bit field box and there is no value property.
+        </p>
+        <p>An example Internal Field is shown below. This is the <a class="regpict internalDFN"
+                href="#regpict-json-register-example-field-4-0">field 4:0</a> field from
+            <a href="#fig-json-register-example" class="fig-ref">Figure 1</a>.</p>
+
+        <div class="example">
+            <div class="example-title"><span>Example 3</span></div><pre class="example">&lt;g id="regpict-json-register-example-field-4-0"
+   class="regFieldInternal regAttr_ro regLink"&gt;
+    &lt;text x="550" y="36" class="regBitNumEnd"&gt;0&lt;/text&gt;
+    &lt;text x="474" y="36" class="regBitNumStart"&gt;4&lt;/text&gt;
+    &lt;line x1="552" y1="40" x2="552" y2="26.5" class="regBitNumLine"&gt;&lt;/line&gt;
+    &lt;line x1="472" y1="40" x2="472" y2="26.5" class="regBitNumLine"&gt;&lt;/line&gt;
+    &lt;rect x="472" y="40" width="80" height="32" class="regFieldBox"&gt;&lt;/rect&gt;
+    &lt;line x1="536" y1="64" x2="536" y2="72" class="regFieldBox"&gt;&lt;/line&gt;
+    &lt;line x1="520" y1="64" x2="520" y2="72" class="regFieldBox"&gt;&lt;/line&gt;
+    &lt;line x1="504" y1="64" x2="504" y2="72" class="regFieldBox"&gt;&lt;/line&gt;
+    &lt;line x1="488" y1="64" x2="488" y2="72" class="regFieldBox"&gt;&lt;/line&gt;
+    &lt;text x="512" y="20" class="regBitWidth"&gt;5 bits&lt;/text&gt;
+    &lt;text x="512" y="56" class="regFieldName"&gt;field 4:0&lt;/text&gt;
+&lt;/g&gt;</pre>
+        </div>
+    </section>
+    <section id="sect-generated-g-element-class-attributes" typeof="bibo:Chapter"
+            resource="#sect-generated-g-element-class-attributes" rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-generated-g-element-class-attributes">
+            <span class="secno section-level-2">3.3<span class="secno-decoration"> </span></span><span
+                class="sec-title">Generated <code>&lt;g&gt;</code> element: <code>class</code> attributes</span></h3>
+        <p>The generated SVG has a variety of classes available. This allows customizing the styling of the diagram using CSS.</p>
+        <p>The following classes are defined:</p>
+        <dl>
+            <dt>g .<dfn id="dfn-regfieldinternal">regFieldInternal</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;g&gt;</code> element to indicate an Internal Field.
+            </dd>
+
+            <dt>g .<dfn id="dfn-regfieldexternal">regFieldExternal</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;g&gt;</code> element to indicate and <a href="#dfn-external-field"
+                    class="internalDFN dfn">External Field</a>.
+            </dd>
+
+            <dt>g .<dfn id="dfn-regfieldexternal0">regFieldExternal0</dfn></dt>
+            <dt>g .<dfn id="dfn-regfieldexternal1">regFieldExternal1</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;g&gt;</code> element of an <a href="#dfn-external-field"
+                    class="internalDFN dfn">External Field</a>. The two least significant
+                <a title="External Field" href="#dfn-external-field" class="internalDFN dfn">External Fields</a> have <a
+                    href="#dfn-regfieldexternal0" class="internalDFN dfn">regFieldExternal0</a>. The next two
+                <a title="External Field" href="#dfn-external-field" class="internalDFN dfn">External Fields</a> have
+                <a href="#dfn-regfieldexternal1"
+                        class="internalDFN dfn">regFieldExternal1</a>. The pattern repeats with next two
+                <a title="External Field" href="#dfn-external-field" class="internalDFN dfn">External Fields</a> have <a
+                    href="#dfn-regfieldexternal0" class="internalDFN dfn">regFieldExternal0</a>, followed by two with
+                <a href="#dfn-regfieldexternal1"
+                        class="internalDFN dfn">regFieldExternal1</a>. These classes can be used to format the lines differently to enhance readability.
+            </dd>
+
+            <dt>g .<dfn id="dfn-reglink">regLink</dfn></dt>
+            <dd>
+                Applied to the
+                <code>&lt;g&gt;</code> element to indicate a defined field that can be referenced externally. These fields have an
+                <code>id</code> attribute).
+            </dd>
+
+            <dt>g .<dfn id="dfn-regfieldoverflowlsb">regFieldOverflowLSB</dfn></dt>
+            <dd>
+                Applied to the
+                <code>&lt;g&gt;</code> element to indicate that the field is partially visible because its
+                <a href="#dfn-lsb" class="internalDFN dfn">lsb</a> is less than <a href="#dfn-visiblelsb"
+                    class="internalDFN dfn">visibleLSB</a>.
+            </dd>
+
+            <dt>g .<dfn id="dfn-regfieldoverflowmsb">regFieldOverflowMSB</dfn></dt>
+            <dd>
+                Applied to the
+                <code>&lt;g&gt;</code> element to indicate that the field is partially visible because its
+                <a href="#dfn-msb" class="internalDFN dfn">msb</a> is greater than <a href="#dfn-visiblemsb"
+                    class="internalDFN dfn">visibleMSB</a>.
+            </dd>
+
+            <dt>g .<dfn id="dfn-regfieldhidden">regFieldHidden</dfn></dt>
+            <dd>
+                Applied to the
+                <code>&lt;g&gt;</code> element to indicate that the field is not visible either because its
+                <a href="#dfn-lsb" class="internalDFN dfn">lsb</a> is greater than <a href="#dfn-visiblemsb"
+                    class="internalDFN dfn">visibleMSB</a> or its <a href="#dfn-msb"
+                    class="internalDFN dfn">msb</a> is less than <a href="#dfn-visiblelsb"
+                    class="internalDFN dfn">visibleLSB</a>.
+            </dd>
+
+            <dt>g .<dfn id="dfn-regattr_xxx">regAttr_<code>xxx</code></dfn></dt>
+            <dd>
+                Applied to the <code>&lt;g&gt;</code> element to convey the attributes of the corresponding field.
+                The <code>xxx</code> is the <a href="#dfn-attr"
+                    class="internalDFN dfn">attr</a> value converted to lower case.
+            </dd>
+
+            <dt>g .<dfn id="dfn-regfieldunused">regFieldUnused</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;g&gt;</code> element of an Internal Field to indicate that the
+                <a href="#dfn-isunused" class="internalDFN dfn">isUnused</a> property was present and
+                <code>true</code>. Not applicable to an <a href="#dfn-external-field"
+                    class="internalDFN dfn">External Field</a>.
+            </dd>
+
+            <dt>text .<dfn id="dfn-regbitnumstart">regBitNumStart</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;text&gt;</code> element that contains the msb bit number of the field.
+                Used only for multi-bit fields.
+            </dd>
+
+            <dt>text .<dfn id="dfn-regbitnumend">regBitNumEnd</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;text&gt;</code> element that contains the lsb bit number of the field.
+                Used only for multi-bit fields.
+            </dd>
+
+            <dt>text .<dfn id="dfn-regbitnummiddle">regBitNumMiddle</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;text&gt;</code> element that contains the bit number of the field.
+                Used only for single bit fields.
+            </dd>
+
+            <dt>line .<dfn id="dfn-regbitnumline">regBitNumLine</dfn></dt>
+            <dd>
+                Applied to the
+                <code>&lt;line&gt;</code> element that represents the line adjacent to the lsb and msb bit numbers of the field.
+            </dd>
+
+            <dt>line .<dfn id="dfn-regbitnumline_hide">regBitNumLine_Hide</dfn></dt>
+            <dd>
+                Same as <a href="#dfn-regbitnumline" class="internalDFN dfn">regBitNumLine</a>.
+                Applied to the line adjacent to the lsb bit number of all fields except for the least significant visible field (i.e.
+                <a href="#dfn-lsb" class="internalDFN dfn">lsb</a> == <a href="#dfn-visiblelsb"
+                    class="internalDFN dfn">visibleLSB</a>).
+                This element should be hidden by default and should become visible when the user hovers over the
+                <code>&lt;g&gt;</code> element.
+            </dd>
+
+            <dt>rect .<dfn id="dfn-regfieldbox">regFieldBox</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;rect&gt;</code> element that represents the bit field box.
+            </dd>
+
+            <dt>line .<i>regFieldBox</i></dt>
+            <dd>
+                Applied to the
+                <code>&lt;line&gt;</code> element that represents the bit divider lines within the bit field box.
+                Used only for multi-bit fields.
+            </dd>
+
+            <dt>text .<dfn id="dfn-regfieldname">regFieldName</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;text&gt;</code> element that contains the field name.
+            </dd>
+
+            <dt>text .<dfn id="dfn-regbitwidth">regBitWidth</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;text&gt;</code> element that contains the width of the field.
+                This element should be hidden by default and should become visible when the user hovers over the
+                <code>&lt;g&gt;</code> element.
+            </dd>
+
+            <dt>text .<dfn id="dfn-regfieldvalue">regFieldValue</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;text&gt;</code> element that contains the field value.
+                Used for all fields that contain a <a href="#dfn-value" class="internalDFN dfn">value</a> property.
+            </dd>
+
+            <dt>text .<dfn id="dfn-regbitfieldvalue">regBitFieldValue</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;text&gt;</code> element that contains a single bit of the field <a
+                    href="#dfn-value" class="internalDFN dfn">value</a>.
+                Used for fields that contain individual bit field values.
+                These fields also have class <a href="#dfn-regfieldvalue" class="internalDFN dfn">regFieldValue</a>.
+            </dd>
+
+            <dt>text .<dfn id="dfn-regbitfieldvalue-n">regBitFieldValue-<code>N</code></dfn></dt>
+            <dd>
+                Applied to the <code>&lt;text&gt;</code> element that contains bit
+                <code>N</code> of the field <a href="#dfn-value" class="internalDFN dfn">value</a>.
+                Permits formatting individual bit values differently.
+            </dd>
+
+            <dt>text .<dfn id="dfn-regbitfieldvalue-msb">regBitFieldValue-msb</dfn></dt>
+            <dd>
+                Applied to the
+                <code>&lt;text&gt;</code> element that contains the value of the most significant bit of the field
+                <a href="#dfn-value" class="internalDFN dfn">value</a>.
+                Permits formatting the msb value differently.
+                The lsb equivalent is <a title="regBitFieldValue-N" href="#dfn-regbitfieldvalue-n"
+                    class="internalDFN dfn">regBitFieldValue-0</a>.
+            </dd>
+
+            <dt>path .<dfn id="dfn-regbitbracket">regBitBracket</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;path&gt;</code> element of an
+                <a href="#dfn-external-field"
+                        class="internalDFN dfn">External Field</a> that is the bracket immediately below the bit field box. Not applicable to Internal Fields.
+            </dd>
+
+
+            <dt>path .<dfn id="dfn-regbitline">regBitLine</dfn></dt>
+            <dd>
+                Applied to the <code>&lt;path&gt;</code> element of an
+                <a href="#dfn-external-field"
+                        class="internalDFN dfn">External Field</a> that connects the bracket to the field name. Not applicable to Internal Fields.
+            </dd>
+
+            <dt>text .<dfn id="dfn-svg_error">svg_error</dfn></dt>
+            <dd>
+                Applied to invalid <a href="#dfn-value" class="internalDFN dfn">value</a> properties.
+            </dd>
+
+        </dl>
+
+    </section>
+    <section id="sect-svg-id-attribute" typeof="bibo:Chapter" resource="#sect-svg-id-attribute" rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-svg-id-attribute"><span
+                class="secno section-level-2">3.4<span class="secno-decoration"> </span></span><span class="sec-title">Generated
+            <code>&lt;g&gt;</code> element: <code>id</code> attribute</span></h3>
+        <p>
+            <a href="#dfn-regpict" class="internalDFN dfn">Regpict</a> will generate a unique
+            <code>id</code> attribute for most fields.
+            No <code>id</code> is generated for <i>unused</i> fields (i.e. fields that have an
+            <a href="#dfn-isunused" class="internalDFN dfn">isUnused</a> property with the value <code>true</code>.
+            All other fields have an <code>id</code> attribute generated as follows:
+        </p>
+        <ol>
+            <li>Construct a preliminary id string from:
+                <ol>
+                    <li>
+                        The <a href="#dfn-id" class="internalDFN dfn">id</a> property of the field, if present.
+                    </li>
+                    <li>
+                        The <a href="#dfn-figname" class="internalDFN dfn">figName</a> property of the register,
+                        <br>followed by a dash (“-”),
+                        <br>followed by the <a href="#dfn-name" class="internalDFN dfn">name</a> property of the field.
+                    </li>
+                </ol>
+            </li>
+            <li>Sanitize the preliminary id string by:
+                <ol>
+                    <li>Converting upper case to lower case.</li>
+                    <li>Removing leading and trailing spaces.</li>
+                    <li>
+                        Replacing sequences of one or more invalid characters with “-”.
+                        <br>
+                        For this purpose, characters that are not digits, letters, periods, dashs, or underscores are invalid.
+                    </li>
+                    <li>Removing leading and trailing sequences of dashes.</li>
+                    <li>If the last character is a period, append the letter “x”.</li>
+                    <li>If the first character is not a letter, prepend the letter “x”.</li>
+                    <li>If the value is the empty string at this point, use the string “generatedID”.</li>
+                </ol>
+            </li>
+            <li>Prepend “regpict-” to the prelminary id.</li>
+            <li>Check to see if the preliminary id is unique or if duplicates a
+                <code>id</code> attribute already present the document.
+            </li>
+            <li>
+                If the preliminary id is already present in the document, create a unique version of it by appending ”<code>-N</code>“ where ”<code>N</code>“ a is the smallest integer value greater 0 that is not already used in the document.
+                For example, for the preliminary id “regpict-foo” is already present, the next one is “regpict-foo-1”, followed by “regpict-foo-2”, and so forth.
+            </li>
+        </ol>
+
+
+    </section>
+    <section id="sect-unused-bits" typeof="bibo:Chapter" resource="#sect-unused-bits" rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-unused-bits"><span
+                class="secno section-level-2">3.5<span class="secno-decoration"> </span></span><span
+                class="sec-title">Unused Bits</span></h3>
+        <p>Unused bits in a register cause a field to be invented by <a href="#dfn-regpict"
+                class="internalDFN dfn">Regpict</a>.</p>
+        <p>This field has the following properties:</p>
+        <ul>
+            <li>
+                <a href="#dfn-name" class="internalDFN dfn">name</a>: the value of the <a href="#dfn-defaultunused"
+                    class="internalDFN dfn">defaultUnused</a> property of the register.
+                <br>If it doesn't fit, only the first character is
+                <a href="#dfn-defaultunused" class="internalDFN dfn">defaultUnused</a> is used, converted to upper case.
+            </li>
+            <li><a href="#dfn-attr" class="internalDFN dfn">attr</a>: the value of the <a href="#dfn-defaultunused"
+                    class="internalDFN dfn">defaultUnused</a> property of the register, converted to lower case
+            </li>
+            <li><a href="#dfn-isunused" class="internalDFN dfn">isUnused</a>: <code>true</code></li>
+            <li><a href="#dfn-lsb"
+                    class="internalDFN dfn">lsb</a>: least significant bit of a string of one or more unused bits
+            </li>
+            <li><a href="#dfn-msb"
+                    class="internalDFN dfn">msb</a>: most significant bit in a string of one or more unused bits
+            </li>
+            <li><a href="#dfn-value" class="internalDFN dfn">value</a>: not present</li>
+            <li><a href="#dfn-id" class="internalDFN dfn">id</a>: not present</li>
+            <li><a href="#dfn-addclass" class="internalDFN dfn">addClass</a>: not present</li>
+        </ul>
+    </section>
+</section>
+<section id="sect-respec-usage" typeof="bibo:Chapter" resource="#sect-respec-usage" rel="bibo:Chapter">
+    <!--OddPage--><h2 class="section-level-1" aria-level="1" role="heading" id="h2_sect-respec-usage"><span
+        class="secno section-level-1">4<span class="secno-decoration"> </span></span><span
+        class="sec-title">Respec Usage</span></h2>
+    <p>This section describes usage of the regpict feature in Steve Glaser's fork of respec [<cite><a class="bibref"
+            href="#bib-RESPEC-Fork">RESPEC-Fork</a></cite>].</p>
+    <p>
+        There are 4 ways to use regpict:
+    </p>
+    <ul>
+        <li>JSON directly in &lt;figure&gt;. <a href="#sect-json-directly-in-figure" class="sec-ref"><span
+                class="sec-prefix">Section </span><span class="secno secno-level-2">4.2</span><span
+                class="sec-title"> JSON directly in
+            <figure></figure>
+        </span></a></li>
+        <li>JSON outside the &lt;figure&gt;. <a href="#sect-json-outside-the-figure" class="sec-ref"><span
+                class="sec-prefix">Section </span><span class="secno secno-level-2">4.3</span><span
+                class="sec-title"> JSON outside the
+            <figure></figure>
+        </span></a></li>
+        <li>PCISIG style HTML &lt;table&gt;. <a href="#sect-pcisig-style-table" class="sec-ref"><span
+                class="sec-prefix">Section </span><span class="secno secno-level-2">4.4</span><span
+                class="sec-title"> PCISIG Style Table</span></a></li>
+        <li>Register extracted from external file in Nvidia refman format. <a href="#sect-nvidia-refman"
+                class="sec-ref"><span class="sec-prefix">Section </span><span
+                class="secno secno-level-2">4.5</span><span class="sec-title"> NVidia Refman</span></a></li>
+    </ul>
+    Each usage is described in the following sections.
+    <section id="sect-common-rules-for-all-figure-class-register-elements" typeof="bibo:Chapter"
+            resource="#sect-common-rules-for-all-figure-class-register-elements" rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading"
+                id="h3_sect-common-rules-for-all-figure-class-register-elements"><span class="secno section-level-2">4.1<span
+                class="secno-decoration"> </span></span><span
+                class="sec-title">Common Rules for all &lt;figure class="register"&gt; elements</span></h3>
+
+        <section id="sect-figure-figname-property" typeof="bibo:Chapter" resource="#sect-figure-figname-property"
+                rel="bibo:Chapter">
+            <h4 class="section-level-3" aria-level="3" role="heading" id="h4_sect-figure-figname-property"><span
+                    class="secno section-level-3">4.1.1<span class="secno-decoration"> </span></span><span
+                    class="sec-title">Figure <a href="#dfn-figname" class="internalDFN dfn">figName</a> property</span>
+            </h4>
+            The <a href="#dfn-figname"
+                class="internalDFN dfn">figName</a> property of the register is computed as follows:
+            <ol>
+                <li>The
+                    <code>id</code> attribute of the &lt;figure&gt; element, removing the text “fig-” from the beginning of the value.
+                </li>
+                <li>Otherwise, the <code>title</code> attribute of the &lt;figure&gt;.</li>
+                <li>Otherwise, the text contents of the
+                &lt;figcaption&gt; element inside the
+                    &lt;figure&gt;.</li>
+                <li>Otherwise, the string “unnamed-<i>regno</i>” where
+                    <i>regno</i> is a number, starting at 1 and incrementing by 1 every time a string of this form is created.
+                </li>
+            </ol>
+            <p>This value is then sanitized by:</p>
+            <ol>
+                <li>Removing leading and trailing white space characters.</li>
+                <li>
+                    Replacing strings of one or more illegal characters with a single “-”.
+                    For this purpose, illegal characters are anything except digits, letters, dash, underscore, and period.
+                </li>
+                <li>Removing all leading and trailing dashes.</li>
+                <li>Appending “x” if the last character is not a letter.</li>
+                <li>Prepending “x” if the first character is not a letter.</li>
+                <li>Replacing the empty string with “generatedID”.</li>
+            </ol>
+        </section>
+        <section id="sect-figure-id-attribute" typeof="bibo:Chapter" resource="#sect-figure-id-attribute"
+                rel="bibo:Chapter">
+            <h4 class="section-level-3" aria-level="3" role="heading" id="h4_sect-figure-id-attribute"><span
+                    class="secno section-level-3">4.1.2<span class="secno-decoration"> </span></span><span
+                    class="sec-title">Figure <code>id</code> attribute</span></h4>
+            <p>If the &lt;figure&gt; does not have an
+                <code>id</code> attribute, it is set to “fig-<i>figName</i>” where <i>figName</i> is the
+                <a href="#dfn-figname" class="internalDFN dfn">figName</a> property defined in <a
+                        href="#sect-figure-figname-property" class="sec-ref"><span
+                        class="sec-prefix">Section </span><span class="secno secno-level-3">4.1.1</span><span
+                        class="sec-title"> Figure figName property</span></a>.</p>
+        </section>
+        <section id="sect-figure-data-json-attribute" typeof="bibo:Chapter" resource="#sect-figure-data-json-attribute"
+                rel="bibo:Chapter">
+            <h4 class="section-level-3" aria-level="3" role="heading" id="h4_sect-figure-data-json-attribute"><span
+                    class="secno section-level-3">4.1.3<span class="secno-decoration"> </span></span><span
+                    class="sec-title">Figure <code>data-json</code> attribute</span></h4>
+            If the &lt;figure&gt; has a
+            <code>data-json</code> attribute, it's value is parsed and merged into the figure's JSON.
+        </section>
+        <section id="sect-figure-data-width-attribute" typeof="bibo:Chapter"
+                resource="#sect-figure-data-width-attribute" rel="bibo:Chapter">
+            <h4 class="section-level-3" aria-level="3" role="heading" id="h4_sect-figure-data-width-attribute"><span
+                    class="secno section-level-3">4.1.4<span class="secno-decoration"> </span></span><span
+                    class="sec-title">Figure <code>data-width</code> attribute</span></h4>
+            If the &lt;figure&gt; has a <code>data-width</code> attribute, it's value becomes the
+            <a href="#dfn-width" class="internalDFN dfn">width</a> property of the figure's JSON.
+        </section>
+        <section id="sect-figure-data-unused-attribute" typeof="bibo:Chapter"
+                resource="#sect-figure-data-unused-attribute" rel="bibo:Chapter">
+            <h4 class="section-level-3" aria-level="3" role="heading" id="h4_sect-figure-data-unused-attribute"><span
+                    class="secno section-level-3">4.1.5<span class="secno-decoration"> </span></span><span
+                    class="sec-title">Figure <code>data-unused</code> attribute</span></h4>
+            If the &lt;figure&gt; has a <code>data-unused</code> attribute, it's value becomes the
+            <a href="#dfn-defaultunused" class="internalDFN dfn">defaultUnused</a> property of the figure's JSON.
+        </section>
+        <section id="sect-figure-data-href-attribute" typeof="bibo:Chapter" resource="#sect-figure-data-href-attribute"
+                rel="bibo:Chapter">
+            <h4 class="section-level-3" aria-level="3" role="heading" id="h4_sect-figure-data-href-attribute"><span
+                    class="secno section-level-3">4.1.6<span class="secno-decoration"> </span></span><span
+                    class="sec-title">Figure <code>data-href</code> attribute</span></h4>
+            If the &lt;figure&gt; has a <code>data-href</code> attribute, it's value becomes the
+            <a href="#dfn-href" class="internalDFN dfn">href</a> property of the figure's JSON.
+        </section>
+        <section id="sect-figure-data-table-attribute" typeof="bibo:Chapter"
+                resource="#sect-figure-data-table-attribute" rel="bibo:Chapter">
+            <h4 class="section-level-3" aria-level="3" role="heading" id="h4_sect-figure-data-table-attribute"><span
+                    class="secno section-level-3">4.1.7<span class="secno-decoration"> </span></span><span
+                    class="sec-title">Figure <code>data-table</code> attribute</span></h4>
+            If the &lt;figure&gt; has a <code>data-table</code> attribute, it's value becomes the
+            <a href="#dfn-table" class="internalDFN dfn">table</a> property of the figure's JSON.
+        </section>
+        <section id="sect-figure-data-register-attribute" typeof="bibo:Chapter"
+                resource="#sect-figure-data-register-attribute" rel="bibo:Chapter">
+            <h4 class="section-level-3" aria-level="3" role="heading" id="h4_sect-figure-data-register-attribute"><span
+                    class="secno section-level-3">4.1.8<span class="secno-decoration"> </span></span><span
+                    class="sec-title">Figure <code>data-register</code> attribute</span></h4>
+            If the &lt;figure&gt; has a <code>data-register</code> attribute, it's value becomes the
+            <a href="#dfn-register" class="internalDFN dfn">register</a> property of the figure's JSON.
+        </section>
+
+    </section>
+    <section id="sect-json-directly-in-figure" typeof="bibo:Chapter" resource="#sect-json-directly-in-figure"
+            rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-json-directly-in-figure"><span
+                class="secno section-level-2">4.2<span class="secno-decoration"> </span></span><span
+                class="sec-title">JSON directly in &lt;figure&gt;</span></h3>
+        <p>If the &lt;figure&gt; contains one or more &lt;pre class="json"&gt;, &lt;div class="json"&gt;, or &lt;span class="json"&gt; elements, these elements are parsed and combined and the resulting figure is drawn. These elements are hidden as they are parsed (class “hide” added so they can be hidden by css).</p>
+        <p>If the JSON does not define a <a href="#dfn-figname"
+                class="internalDFN dfn">figName</a> property, the &lt;figcaption&gt; value is used to invent one.
+        </p>
+        <p>This situation is shown in <a href="#fig-json-directly-in-figure" class="fig-ref">Figure 2</a> and <a
+                href="#example-json-directly in figure">Example 4</a></p>
+
+        <figure class="register" id="fig-json-directly-in-figure">
+            <pre class="json" style="display: none;">{
+    "fields": {
+        "foo": {
+            "lsb": 0,
+            "msb": 7
+        }
+    }
+}
+            </pre>
+            <div class="svg hasSVG">
+                <svg version="1.1" width="618px" height="92px" viewBox="0 0 618 92"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="regpict-json-directly-in-figure-foo" class="regFieldInternal regAttr_other regLink">
+                        <text x="550" y="36" class="regBitNumEnd">0</text>
+                        <text x="426" y="36" class="regBitNumStart">7</text>
+                        <line x1="552" y1="40" x2="552" y2="26.5" class="regBitNumLine"></line>
+                        <line x1="424" y1="40" x2="424" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="424" y="40" width="128" height="32" class="regFieldBox"></rect>
+                        <line x1="536" y1="64" x2="536" y2="72" class="regFieldBox"></line>
+                        <line x1="520" y1="64" x2="520" y2="72" class="regFieldBox"></line>
+                        <line x1="504" y1="64" x2="504" y2="72" class="regFieldBox"></line>
+                        <line x1="488" y1="64" x2="488" y2="72" class="regFieldBox"></line>
+                        <line x1="472" y1="64" x2="472" y2="72" class="regFieldBox"></line>
+                        <line x1="456" y1="64" x2="456" y2="72" class="regFieldBox"></line>
+                        <line x1="440" y1="64" x2="440" y2="72" class="regFieldBox"></line>
+                        <text x="488" y="20" class="regBitWidth">8 bits</text>
+                        <text x="488" y="56" class="regFieldName">foo</text>
+                    </g>
+                    <g class="regFieldInternal regAttr_rsvdp regLink regFieldUnused">
+                        <text x="422" y="36" class="regBitNumEnd">8</text>
+                        <text x="42" y="36" class="regBitNumStart">31</text>
+                        <line x1="424" y1="40" x2="424" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="40" y1="40" x2="40" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="40" y="40" width="384" height="32" class="regFieldBox"></rect>
+                        <line x1="408" y1="64" x2="408" y2="72" class="regFieldBox"></line>
+                        <line x1="392" y1="64" x2="392" y2="72" class="regFieldBox"></line>
+                        <line x1="376" y1="64" x2="376" y2="72" class="regFieldBox"></line>
+                        <line x1="360" y1="64" x2="360" y2="72" class="regFieldBox"></line>
+                        <line x1="344" y1="64" x2="344" y2="72" class="regFieldBox"></line>
+                        <line x1="328" y1="64" x2="328" y2="72" class="regFieldBox"></line>
+                        <line x1="312" y1="64" x2="312" y2="72" class="regFieldBox"></line>
+                        <line x1="296" y1="64" x2="296" y2="72" class="regFieldBox"></line>
+                        <line x1="280" y1="64" x2="280" y2="72" class="regFieldBox"></line>
+                        <line x1="264" y1="64" x2="264" y2="72" class="regFieldBox"></line>
+                        <line x1="248" y1="64" x2="248" y2="72" class="regFieldBox"></line>
+                        <line x1="232" y1="64" x2="232" y2="72" class="regFieldBox"></line>
+                        <line x1="216" y1="64" x2="216" y2="72" class="regFieldBox"></line>
+                        <line x1="200" y1="64" x2="200" y2="72" class="regFieldBox"></line>
+                        <line x1="184" y1="64" x2="184" y2="72" class="regFieldBox"></line>
+                        <line x1="168" y1="64" x2="168" y2="72" class="regFieldBox"></line>
+                        <line x1="152" y1="64" x2="152" y2="72" class="regFieldBox"></line>
+                        <line x1="136" y1="64" x2="136" y2="72" class="regFieldBox"></line>
+                        <line x1="120" y1="64" x2="120" y2="72" class="regFieldBox"></line>
+                        <line x1="104" y1="64" x2="104" y2="72" class="regFieldBox"></line>
+                        <line x1="88" y1="64" x2="88" y2="72" class="regFieldBox"></line>
+                        <line x1="72" y1="64" x2="72" y2="72" class="regFieldBox"></line>
+                        <line x1="56" y1="64" x2="56" y2="72" class="regFieldBox"></line>
+                        <text x="232" y="20" class="regBitWidth">24 bits</text>
+                        <text x="232" y="56" class="regFieldName">RsvdP</text>
+                    </g>
+                </svg>
+            </div>
+            <figcaption><span class="figdecoration">Fig. </span><span class="figno">2</span><span
+                    class="figdecoration"> </span><span class="figtitle">JSON directly in &lt;figure&gt;</span>
+            </figcaption>
+        </figure>
+
+        <div class="example">
+            <div class="example-title"><span>Example 4</span>: JSON directly in &lt;figure&gt;</div><pre class="example"
+                id="example-json-directly-in-figure">&lt;figure class="register" id="fig-json-directly-in-figure"&gt;
+    &lt;pre class="json"&gt;
+        {
+            "fields": {
+                "foo": {
+                    "lsb": 0,
+                    "msb": 7
+                }
+            }
+        }
+    &lt;/pre&gt;
+    &lt;figcaption&gt;JSON directly in &amp;lt;figure&amp;gt;&lt;/figcaption&gt;
+&lt;/figure&gt;</pre>
+        </div>
+
+    </section>
+
+    <section id="sect-json-outside-the-figure" typeof="bibo:Chapter" resource="#sect-json-outside-the-figure"
+            rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-json-outside-the-figure"><span
+                class="secno section-level-2">4.3<span class="secno-decoration"> </span></span><span
+                class="sec-title">JSON outside the &lt;figure&gt;</span></h3>
+        <p>
+            If the &lt;figure&gt; contains one or more &lt;pre class="render"&gt;, &lt;div class="render"&gt;, or &lt;span class="render"&gt; elements, these elements are parsed a figure is drawn for each such element.
+            This can result in a single &lt;figure&gt; element having multiple figure diagrams.
+            This is particularly useful in conjunction with <a href="#dfn-visiblelsb"
+                class="internalDFN dfn">visibleLSB</a> and <a href="#dfn-visiblemsb"
+                class="internalDFN dfn">visibleMSB</a> to display very wide registers conveniently.
+            These elements are hidden as they are parsed (class “hide” added so they can be hidden by css).</p>
+        <p>If the &lt;pre&gt;, &lt;div&gt;, or &lt;span&gt; element has the
+            <code>data-parents</code> attribute, this contains a list of one or more locators for external field definitions. The parents are merged into a copy of the &lt;figure&gt; JSON, in the order shown and then the JSON in the element is merged in. The figure is drawn with the resulting JSON. The JSON associated with the &lt;figure&gt; element is not affected.
+        </p><p>If the JSON does not define a <a href="#dfn-figname"
+            class="internalDFN dfn">figName</a> property, the &lt;figcaption&gt; value is used to invent one.
+    </p>
+        <p>This situation is shown in <a href="#fig-json-outside-the-figure" class="fig-ref">Figure 3</a> and <a
+                href="#example-json-outside-the-figure">Example 4</a></p>
+
+        <pre id="pre-external-json" class="json" style="display: none;">{
+    "width": 64,
+     "fields": {
+        "lowByte": {
+            "lsb": 0,
+            "msb": 7
+        },
+        "highByte": {
+            "lsb": 56,
+            "msb": 63
+        },
+        "middle": {
+            "lsb": 28,
+            "msb": 39
+        }
+    }
+}
+        </pre>
+        <figure class="register" id="fig-json-outside-the-figure">
+            <pre class="render" data-parents="pre-external-json" style="display: none;">{ }</pre>
+            <pre class="render" data-parents="pre-external-json"
+                    style="display: none;">                { "visibleLSB": 31 }</pre>
+            <pre class="render" data-parents="pre-external-json"
+                    style="display: none;">                { "visibleMSB": 32 }</pre>
+            <div class="svg hasSVG" id="svg-render-0">
+                <svg version="1.1" width="720px" height="57.75065387968614px" viewBox="0 0 1147 92"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="regpict-json-outside-the-figure-lowbyte" class="regFieldInternal regAttr_other regLink">
+                        <text x="1062" y="36" class="regBitNumEnd">0</text>
+                        <text x="938" y="36" class="regBitNumStart">7</text>
+                        <line x1="1064" y1="40" x2="1064" y2="26.5" class="regBitNumLine"></line>
+                        <line x1="936" y1="40" x2="936" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="936" y="40" width="128" height="32" class="regFieldBox"></rect>
+                        <line x1="1048" y1="64" x2="1048" y2="72" class="regFieldBox"></line>
+                        <line x1="1032" y1="64" x2="1032" y2="72" class="regFieldBox"></line>
+                        <line x1="1016" y1="64" x2="1016" y2="72" class="regFieldBox"></line>
+                        <line x1="1000" y1="64" x2="1000" y2="72" class="regFieldBox"></line>
+                        <line x1="984" y1="64" x2="984" y2="72" class="regFieldBox"></line>
+                        <line x1="968" y1="64" x2="968" y2="72" class="regFieldBox"></line>
+                        <line x1="952" y1="64" x2="952" y2="72" class="regFieldBox"></line>
+                        <text x="1000" y="20" class="regBitWidth">8 bits</text>
+                        <text x="1000" y="56" class="regFieldName">lowByte</text>
+                    </g>
+                    <g class="regFieldInternal regAttr_rsvdp regLink regFieldUnused">
+                        <text x="934" y="36" class="regBitNumEnd">8</text>
+                        <text x="618" y="36" class="regBitNumStart">27</text>
+                        <line x1="936" y1="40" x2="936" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="616" y1="40" x2="616" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="616" y="40" width="320" height="32" class="regFieldBox"></rect>
+                        <line x1="920" y1="64" x2="920" y2="72" class="regFieldBox"></line>
+                        <line x1="904" y1="64" x2="904" y2="72" class="regFieldBox"></line>
+                        <line x1="888" y1="64" x2="888" y2="72" class="regFieldBox"></line>
+                        <line x1="872" y1="64" x2="872" y2="72" class="regFieldBox"></line>
+                        <line x1="856" y1="64" x2="856" y2="72" class="regFieldBox"></line>
+                        <line x1="840" y1="64" x2="840" y2="72" class="regFieldBox"></line>
+                        <line x1="824" y1="64" x2="824" y2="72" class="regFieldBox"></line>
+                        <line x1="808" y1="64" x2="808" y2="72" class="regFieldBox"></line>
+                        <line x1="792" y1="64" x2="792" y2="72" class="regFieldBox"></line>
+                        <line x1="776" y1="64" x2="776" y2="72" class="regFieldBox"></line>
+                        <line x1="760" y1="64" x2="760" y2="72" class="regFieldBox"></line>
+                        <line x1="744" y1="64" x2="744" y2="72" class="regFieldBox"></line>
+                        <line x1="728" y1="64" x2="728" y2="72" class="regFieldBox"></line>
+                        <line x1="712" y1="64" x2="712" y2="72" class="regFieldBox"></line>
+                        <line x1="696" y1="64" x2="696" y2="72" class="regFieldBox"></line>
+                        <line x1="680" y1="64" x2="680" y2="72" class="regFieldBox"></line>
+                        <line x1="664" y1="64" x2="664" y2="72" class="regFieldBox"></line>
+                        <line x1="648" y1="64" x2="648" y2="72" class="regFieldBox"></line>
+                        <line x1="632" y1="64" x2="632" y2="72" class="regFieldBox"></line>
+                        <text x="776" y="20" class="regBitWidth">20 bits</text>
+                        <text x="776" y="56" class="regFieldName">RsvdP</text>
+                    </g>
+                    <g id="regpict-json-outside-the-figure-middle" class="regFieldInternal regAttr_other regLink">
+                        <text x="614" y="36" class="regBitNumEnd">28</text>
+                        <text x="426" y="36" class="regBitNumStart">39</text>
+                        <line x1="616" y1="40" x2="616" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="424" y1="40" x2="424" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="424" y="40" width="192" height="32" class="regFieldBox"></rect>
+                        <line x1="600" y1="64" x2="600" y2="72" class="regFieldBox"></line>
+                        <line x1="584" y1="64" x2="584" y2="72" class="regFieldBox"></line>
+                        <line x1="568" y1="64" x2="568" y2="72" class="regFieldBox"></line>
+                        <line x1="552" y1="64" x2="552" y2="72" class="regFieldBox"></line>
+                        <line x1="536" y1="64" x2="536" y2="72" class="regFieldBox"></line>
+                        <line x1="520" y1="64" x2="520" y2="72" class="regFieldBox"></line>
+                        <line x1="504" y1="64" x2="504" y2="72" class="regFieldBox"></line>
+                        <line x1="488" y1="64" x2="488" y2="72" class="regFieldBox"></line>
+                        <line x1="472" y1="64" x2="472" y2="72" class="regFieldBox"></line>
+                        <line x1="456" y1="64" x2="456" y2="72" class="regFieldBox"></line>
+                        <line x1="440" y1="64" x2="440" y2="72" class="regFieldBox"></line>
+                        <text x="520" y="20" class="regBitWidth">12 bits</text>
+                        <text x="520" y="56" class="regFieldName">middle</text>
+                    </g>
+                    <g class="regFieldInternal regAttr_rsvdp regLink regFieldUnused">
+                        <text x="422" y="36" class="regBitNumEnd">40</text>
+                        <text x="170" y="36" class="regBitNumStart">55</text>
+                        <line x1="424" y1="40" x2="424" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="168" y1="40" x2="168" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="168" y="40" width="256" height="32" class="regFieldBox"></rect>
+                        <line x1="408" y1="64" x2="408" y2="72" class="regFieldBox"></line>
+                        <line x1="392" y1="64" x2="392" y2="72" class="regFieldBox"></line>
+                        <line x1="376" y1="64" x2="376" y2="72" class="regFieldBox"></line>
+                        <line x1="360" y1="64" x2="360" y2="72" class="regFieldBox"></line>
+                        <line x1="344" y1="64" x2="344" y2="72" class="regFieldBox"></line>
+                        <line x1="328" y1="64" x2="328" y2="72" class="regFieldBox"></line>
+                        <line x1="312" y1="64" x2="312" y2="72" class="regFieldBox"></line>
+                        <line x1="296" y1="64" x2="296" y2="72" class="regFieldBox"></line>
+                        <line x1="280" y1="64" x2="280" y2="72" class="regFieldBox"></line>
+                        <line x1="264" y1="64" x2="264" y2="72" class="regFieldBox"></line>
+                        <line x1="248" y1="64" x2="248" y2="72" class="regFieldBox"></line>
+                        <line x1="232" y1="64" x2="232" y2="72" class="regFieldBox"></line>
+                        <line x1="216" y1="64" x2="216" y2="72" class="regFieldBox"></line>
+                        <line x1="200" y1="64" x2="200" y2="72" class="regFieldBox"></line>
+                        <line x1="184" y1="64" x2="184" y2="72" class="regFieldBox"></line>
+                        <text x="296" y="20" class="regBitWidth">16 bits</text>
+                        <text x="296" y="56" class="regFieldName">RsvdP</text>
+                    </g>
+                    <g id="regpict-json-outside-the-figure-highbyte" class="regFieldInternal regAttr_other regLink">
+                        <text x="166" y="36" class="regBitNumEnd">56</text>
+                        <text x="42" y="36" class="regBitNumStart">63</text>
+                        <line x1="168" y1="40" x2="168" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="40" y1="40" x2="40" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="40" y="40" width="128" height="32" class="regFieldBox"></rect>
+                        <line x1="152" y1="64" x2="152" y2="72" class="regFieldBox"></line>
+                        <line x1="136" y1="64" x2="136" y2="72" class="regFieldBox"></line>
+                        <line x1="120" y1="64" x2="120" y2="72" class="regFieldBox"></line>
+                        <line x1="104" y1="64" x2="104" y2="72" class="regFieldBox"></line>
+                        <line x1="88" y1="64" x2="88" y2="72" class="regFieldBox"></line>
+                        <line x1="72" y1="64" x2="72" y2="72" class="regFieldBox"></line>
+                        <line x1="56" y1="64" x2="56" y2="72" class="regFieldBox"></line>
+                        <text x="104" y="20" class="regBitWidth">8 bits</text>
+                        <text x="104" y="56" class="regFieldName">highByte</text>
+                    </g>
+                </svg>
+            </div>
+            <div class="svg hasSVG" id="svg-render-1">
+                <svg version="1.1" width="651px" height="92px" viewBox="0 0 651 92"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g class="regFieldHidden regAttr_other regLink regFieldOverflowLSB">
+                        <text x="578" y="36" class="regBitNumEnd">... 0</text>
+                        <text x="546" y="36" class="regBitNumStart">7</text>
+                        <line x1="544" y1="40" x2="544" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="544" y="40" width="32" height="32" class="regFieldBox"></rect>
+                        <text x="560" y="20" class="regBitWidth">8 bits</text>
+                        <text x="560" y="56" class="regFieldName">lowByte</text>
+                    </g>
+                    <g class="regFieldHidden regAttr_rsvdp regLink regFieldOverflowLSB regFieldUnused">
+                        <text x="578" y="36" class="regBitNumEnd">... 8</text>
+                        <text x="546" y="36" class="regBitNumStart">27</text>
+                        <line x1="544" y1="40" x2="544" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="544" y="40" width="32" height="32" class="regFieldBox"></rect>
+                        <text x="560" y="20" class="regBitWidth">20 bits</text>
+                        <text x="560" y="56" class="regFieldName">RsvdP</text>
+                    </g>
+                    <g id="regpict-json-outside-the-figure-middle-1"
+                            class="regFieldInternal regAttr_other regLink regFieldOverflowLSB">
+                        <text x="578" y="36" class="regBitNumEnd">... 28</text>
+                        <text x="426" y="36" class="regBitNumStart">39</text>
+                        <line x1="424" y1="40" x2="424" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="424" y="40" width="152" height="32" class="regFieldBox"></rect>
+                        <line x1="568" y1="64" x2="568" y2="72" class="regFieldBox"></line>
+                        <line x1="552" y1="64" x2="552" y2="72" class="regFieldBox"></line>
+                        <line x1="536" y1="64" x2="536" y2="72" class="regFieldBox"></line>
+                        <line x1="520" y1="64" x2="520" y2="72" class="regFieldBox"></line>
+                        <line x1="504" y1="64" x2="504" y2="72" class="regFieldBox"></line>
+                        <line x1="488" y1="64" x2="488" y2="72" class="regFieldBox"></line>
+                        <line x1="472" y1="64" x2="472" y2="72" class="regFieldBox"></line>
+                        <line x1="456" y1="64" x2="456" y2="72" class="regFieldBox"></line>
+                        <line x1="440" y1="64" x2="440" y2="72" class="regFieldBox"></line>
+                        <text x="500" y="20" class="regBitWidth">12 bits</text>
+                        <text x="500" y="56" class="regFieldName">middle</text>
+                        <text x="578" y="56" class="regFieldExtendsRight">...</text>
+                    </g>
+                    <g class="regFieldInternal regAttr_rsvdp regLink regFieldUnused">
+                        <text x="422" y="36" class="regBitNumEnd">40</text>
+                        <text x="170" y="36" class="regBitNumStart">55</text>
+                        <line x1="424" y1="40" x2="424" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="168" y1="40" x2="168" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="168" y="40" width="256" height="32" class="regFieldBox"></rect>
+                        <line x1="408" y1="64" x2="408" y2="72" class="regFieldBox"></line>
+                        <line x1="392" y1="64" x2="392" y2="72" class="regFieldBox"></line>
+                        <line x1="376" y1="64" x2="376" y2="72" class="regFieldBox"></line>
+                        <line x1="360" y1="64" x2="360" y2="72" class="regFieldBox"></line>
+                        <line x1="344" y1="64" x2="344" y2="72" class="regFieldBox"></line>
+                        <line x1="328" y1="64" x2="328" y2="72" class="regFieldBox"></line>
+                        <line x1="312" y1="64" x2="312" y2="72" class="regFieldBox"></line>
+                        <line x1="296" y1="64" x2="296" y2="72" class="regFieldBox"></line>
+                        <line x1="280" y1="64" x2="280" y2="72" class="regFieldBox"></line>
+                        <line x1="264" y1="64" x2="264" y2="72" class="regFieldBox"></line>
+                        <line x1="248" y1="64" x2="248" y2="72" class="regFieldBox"></line>
+                        <line x1="232" y1="64" x2="232" y2="72" class="regFieldBox"></line>
+                        <line x1="216" y1="64" x2="216" y2="72" class="regFieldBox"></line>
+                        <line x1="200" y1="64" x2="200" y2="72" class="regFieldBox"></line>
+                        <line x1="184" y1="64" x2="184" y2="72" class="regFieldBox"></line>
+                        <text x="296" y="20" class="regBitWidth">16 bits</text>
+                        <text x="296" y="56" class="regFieldName">RsvdP</text>
+                    </g>
+                    <g id="regpict-json-outside-the-figure-highbyte-1" class="regFieldInternal regAttr_other regLink">
+                        <text x="166" y="36" class="regBitNumEnd">56</text>
+                        <text x="42" y="36" class="regBitNumStart">63</text>
+                        <line x1="168" y1="40" x2="168" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="40" y1="40" x2="40" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="40" y="40" width="128" height="32" class="regFieldBox"></rect>
+                        <line x1="152" y1="64" x2="152" y2="72" class="regFieldBox"></line>
+                        <line x1="136" y1="64" x2="136" y2="72" class="regFieldBox"></line>
+                        <line x1="120" y1="64" x2="120" y2="72" class="regFieldBox"></line>
+                        <line x1="104" y1="64" x2="104" y2="72" class="regFieldBox"></line>
+                        <line x1="88" y1="64" x2="88" y2="72" class="regFieldBox"></line>
+                        <line x1="72" y1="64" x2="72" y2="72" class="regFieldBox"></line>
+                        <line x1="56" y1="64" x2="56" y2="72" class="regFieldBox"></line>
+                        <text x="104" y="20" class="regBitWidth">8 bits</text>
+                        <text x="104" y="56" class="regFieldName">highByte</text>
+                    </g>
+                </svg>
+            </div>
+            <div class="svg hasSVG" id="svg-render-2">
+                <svg version="1.1" width="635px" height="92px" viewBox="0 0 635 92"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="regpict-json-outside-the-figure-lowbyte-1" class="regFieldInternal regAttr_other regLink">
+                        <text x="550" y="36" class="regBitNumEnd">0</text>
+                        <text x="426" y="36" class="regBitNumStart">7</text>
+                        <line x1="552" y1="40" x2="552" y2="26.5" class="regBitNumLine"></line>
+                        <line x1="424" y1="40" x2="424" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="424" y="40" width="128" height="32" class="regFieldBox"></rect>
+                        <line x1="536" y1="64" x2="536" y2="72" class="regFieldBox"></line>
+                        <line x1="520" y1="64" x2="520" y2="72" class="regFieldBox"></line>
+                        <line x1="504" y1="64" x2="504" y2="72" class="regFieldBox"></line>
+                        <line x1="488" y1="64" x2="488" y2="72" class="regFieldBox"></line>
+                        <line x1="472" y1="64" x2="472" y2="72" class="regFieldBox"></line>
+                        <line x1="456" y1="64" x2="456" y2="72" class="regFieldBox"></line>
+                        <line x1="440" y1="64" x2="440" y2="72" class="regFieldBox"></line>
+                        <text x="488" y="20" class="regBitWidth">8 bits</text>
+                        <text x="488" y="56" class="regFieldName">lowByte</text>
+                    </g>
+                    <g class="regFieldInternal regAttr_rsvdp regLink regFieldUnused">
+                        <text x="422" y="36" class="regBitNumEnd">8</text>
+                        <text x="106" y="36" class="regBitNumStart">27</text>
+                        <line x1="424" y1="40" x2="424" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="104" y1="40" x2="104" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="104" y="40" width="320" height="32" class="regFieldBox"></rect>
+                        <line x1="408" y1="64" x2="408" y2="72" class="regFieldBox"></line>
+                        <line x1="392" y1="64" x2="392" y2="72" class="regFieldBox"></line>
+                        <line x1="376" y1="64" x2="376" y2="72" class="regFieldBox"></line>
+                        <line x1="360" y1="64" x2="360" y2="72" class="regFieldBox"></line>
+                        <line x1="344" y1="64" x2="344" y2="72" class="regFieldBox"></line>
+                        <line x1="328" y1="64" x2="328" y2="72" class="regFieldBox"></line>
+                        <line x1="312" y1="64" x2="312" y2="72" class="regFieldBox"></line>
+                        <line x1="296" y1="64" x2="296" y2="72" class="regFieldBox"></line>
+                        <line x1="280" y1="64" x2="280" y2="72" class="regFieldBox"></line>
+                        <line x1="264" y1="64" x2="264" y2="72" class="regFieldBox"></line>
+                        <line x1="248" y1="64" x2="248" y2="72" class="regFieldBox"></line>
+                        <line x1="232" y1="64" x2="232" y2="72" class="regFieldBox"></line>
+                        <line x1="216" y1="64" x2="216" y2="72" class="regFieldBox"></line>
+                        <line x1="200" y1="64" x2="200" y2="72" class="regFieldBox"></line>
+                        <line x1="184" y1="64" x2="184" y2="72" class="regFieldBox"></line>
+                        <line x1="168" y1="64" x2="168" y2="72" class="regFieldBox"></line>
+                        <line x1="152" y1="64" x2="152" y2="72" class="regFieldBox"></line>
+                        <line x1="136" y1="64" x2="136" y2="72" class="regFieldBox"></line>
+                        <line x1="120" y1="64" x2="120" y2="72" class="regFieldBox"></line>
+                        <text x="264" y="20" class="regBitWidth">20 bits</text>
+                        <text x="264" y="56" class="regFieldName">RsvdP</text>
+                    </g>
+                    <g id="regpict-json-outside-the-figure-middle-2"
+                            class="regFieldInternal regAttr_other regLink regFieldOverflowMSB">
+                        <text x="102" y="36" class="regBitNumEnd">28</text>
+                        <text x="30" y="36" class="regBitNumStart">39 ...</text>
+                        <line x1="104" y1="40" x2="104" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <rect x="32" y="40" width="72" height="32" class="regFieldBox"></rect>
+                        <line x1="88" y1="64" x2="88" y2="72" class="regFieldBox"></line>
+                        <line x1="72" y1="64" x2="72" y2="72" class="regFieldBox"></line>
+                        <line x1="56" y1="64" x2="56" y2="72" class="regFieldBox"></line>
+                        <line x1="40" y1="64" x2="40" y2="72" class="regFieldBox"></line>
+                        <text x="68" y="20" class="regBitWidth">12 bits</text>
+                        <text x="68" y="56" class="regFieldName">middle</text>
+                        <text x="30" y="56" class="regFieldExtendsLeft">...</text>
+                    </g>
+                    <g class="regFieldHidden regAttr_rsvdp regLink regFieldOverflowMSB regFieldUnused">
+                        <text x="30" y="36" class="regBitNumEnd">40</text>
+                        <text x="30" y="36" class="regBitNumStart">55 ...</text>
+                        <line x1="32" y1="40" x2="32" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <rect x="32" y="40" width="0" height="32" class="regFieldBox"></rect>
+                        <text x="32" y="20" class="regBitWidth">16 bits</text>
+                        <text x="32" y="56" class="regFieldName">RsvdP</text>
+                    </g>
+                    <g class="regFieldHidden regAttr_other regLink regFieldOverflowMSB">
+                        <text x="30" y="36" class="regBitNumEnd">56</text>
+                        <text x="30" y="36" class="regBitNumStart">63 ...</text>
+                        <line x1="32" y1="40" x2="32" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <rect x="32" y="40" width="0" height="32" class="regFieldBox"></rect>
+                        <text x="32" y="20" class="regBitWidth">8 bits</text>
+                        <text x="32" y="56" class="regFieldName">highByte</text>
+                    </g>
+                </svg>
+            </div>
+            <figcaption><span class="figdecoration">Fig. </span><span class="figno">3</span><span
+                    class="figdecoration"> </span><span class="figtitle">JSON outside the &lt;figure&gt;</span>
+            </figcaption>
+        </figure>
+
+        <div class="example">
+            <div class="example-title"><span>Example 5</span></div><pre class="example"
+                id="example-json-outside-the-figure">&lt;pre id="pre-external-json" class="json"&gt;
+{
+    "width": 64,
+    "fields": {
+        "lowByte": {
+            "lsb": 0,
+            "msb": 7
+        },
+        "highByte": {
+            "lsb": 56,
+            "msb": 63
+        },
+        "middle": {
+            "lsb": 28,
+            "msb": 39
+        }
+    }
+}
+&lt;/pre&gt;
+
+&lt;figure class="register"&gt;
+
+    &lt;pre class="render" data-parents="pre-external-json"&gt;{ }&lt;/pre&gt;
+
+    &lt;pre class="render" data-parents="pre-external-json"&gt;
+        { "visibleLSB": 31 }&lt;/pre&gt;
+
+    &lt;pre class="render" data-parents="pre-external-json"&gt;
+        { "visibleMSB": 32 }&lt;/pre&gt;
+
+    &lt;figcaption&gt;JSON outside the &lt;figure&gt;&lt;/figcaption&gt;
+
+&lt;/figure&gt;</pre>
+        </div>
+    </section>
+    <section id="sect-pcisig-style-table" typeof="bibo:Chapter" resource="#sect-pcisig-style-table" rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-pcisig-style-table"><span
+                class="secno section-level-2">4.4<span class="secno-decoration"> </span></span><span
+                class="sec-title">PCISIG Style Table</span></h3>
+        <p>
+
+            If the &lt;figure&gt; element has the class <code>pcisig_reg</code> (in addition to the class
+            <code>register</code>), and the
+            <a href="#dfn-table"
+                    class="internalDFN dfn">table</a> property is defined in the JSON the &lt;table&gt; element referenced by the
+            <a href="#dfn-table" class="internalDFN dfn">table</a> property is parsed and merged into the figure's JSON.
+            The <a href="#dfn-table"
+                class="internalDFN dfn">table</a> property can either be specified directly in the JSON or via the
+            <code>data-table</code> attribute on the &lt;figure&gt;.
+        </p>
+        <p>The underlying &lt;table&gt; can have any formatting. No specific <code>class</code> attribute is required.
+        </p>
+        <p>The first column contains the bit location of the field. This determines the <a href="#dfn-lsb"
+                class="internalDFN dfn">lsb</a> and
+            <a href="#dfn-msb" class="internalDFN dfn">msb</a> properties of the field.
+            The column cell contains either an integer or a pair of integers separated by a colon (e.g. “9”, “15:8” or “8:15”).
+            If two numbers are shown, the MSB is usually first, but this is not required.</p>
+        <p>
+            The second column determines the <a href="#dfn-name" class="internalDFN dfn">name</a> property of the field.
+            It also contains a description of the field.
+            The <a href="#dfn-name" class="internalDFN dfn">name</a> property is derived from:</p>
+        <ol>
+            <li>
+                The first word of the text content of the first <code>&lt;code&gt;</code> or
+                <code>&lt;dfn&gt;</code> element.
+            </li>
+            <li>If no <code>&lt;code&gt;</code> or
+                <code>&lt;dfn&gt;</code> element is present, the first word of the column cell.
+            </li>
+        </ol>
+        <p>
+            The third column determines the <a href="#dfn-attr" class="internalDFN dfn">attr</a> property of the field.
+            This field is not case sensitive.
+            Valid values are shown in the list below.
+            If the third column does not on of the items, the <a href="#dfn-attr"
+                class="internalDFN dfn">attr</a> property is “other”.</p>
+        It the third column matches one of the items marked “(unused)”, the
+        <a href="#dfn-isunused" class="internalDFN dfn">isUnused</a> property is set to <code>true</code>, otherwise the
+        <a href="#dfn-isunused" class="internalDFN dfn">isUnused</a> property is not set.
+        <p></p>
+        <ul>
+            <li>rw</li>
+            <li>rws</li>
+            <li>ro</li>
+            <li>ros</li>
+            <li>rw1c</li>
+            <li>rw1cs</li>
+            <li>rw1s</li>
+            <li>rw1ss</li>
+            <li>wo</li>
+            <li>wos</li>
+            <li>hardwired</li>
+            <li>fixed</li>
+            <li>hwinit</li>
+            <li>rsvd (unused)</li>
+            <li>rsvdp (unused)</li>
+            <li>rsvdz (unused)</li>
+            <li>reserved (unused)</li>
+            <li>ignored (unused)</li>
+            <li>ign (unused)</li>
+            <li>unused (unused)</li>
+            <li>other (default)</li>
+        </ul>
+
+        <p>
+            <a href="fig-pcisig-example"></a> is shown in <a href="#example-pcisig-example"></a> and is based on <a
+                href="#tbl-pcisig-example" class="tbl-ref"><span class="tbltitle">PCISIG Example</span></a>.
+        </p>
+        <figure class="register pcisig_reg" id="fig-pcisig-example" data-table="#tbl-pcisig-example">
+            <div class="svg hasSVG">
+                <svg version="1.1" width="647px" height="152px" viewBox="0 0 647 152"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="regpict-pcisig-example-field3_0" class="regFieldInternal regAttr_ro regLink">
+                        <text x="550" y="36" class="regBitNumEnd">0</text>
+                        <text x="490" y="36" class="regBitNumStart">3</text>
+                        <line x1="552" y1="40" x2="552" y2="26.5" class="regBitNumLine"></line>
+                        <line x1="488" y1="40" x2="488" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="488" y="40" width="64" height="32" class="regFieldBox"></rect>
+                        <line x1="536" y1="64" x2="536" y2="72" class="regFieldBox"></line>
+                        <line x1="520" y1="64" x2="520" y2="72" class="regFieldBox"></line>
+                        <line x1="504" y1="64" x2="504" y2="72" class="regFieldBox"></line>
+                        <text x="520" y="20" class="regBitWidth">4 bits</text>
+                        <text x="520" y="56" class="regFieldName">field3_0</text>
+                    </g>
+                    <g id="regpict-pcisig-example-field_4"
+                            class="regFieldExternal regAttr_rw regLink regFieldExternal0">
+                        <text x="480" y="36" class="regBitNumMiddle">4</text>
+                        <line x1="488" y1="40" x2="488" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="472" y1="40" x2="472" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="472" y="40" width="16" height="32" class="regFieldBox"></rect>
+                        <text x="480" y="20" class="regBitWidth">1 bit</text>
+                        <text x="568" y="92" class="regFieldName">field_4</text>
+                        <path d="M472,72l8,4L488,72" class="regBitBracket" fill="none"></path>
+                        <path d="M480,76V87.5H566.4" class="regBitLine" fill="none"></path>
+                    </g>
+                    <g class="regFieldInternal regAttr_rsvdp regLink regFieldUnused">
+                        <text x="470" y="36" class="regBitNumEnd">5</text>
+                        <text x="410" y="36" class="regBitNumStart">8</text>
+                        <line x1="472" y1="40" x2="472" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="408" y1="40" x2="408" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="408" y="40" width="64" height="32" class="regFieldBox"></rect>
+                        <line x1="456" y1="64" x2="456" y2="72" class="regFieldBox"></line>
+                        <line x1="440" y1="64" x2="440" y2="72" class="regFieldBox"></line>
+                        <line x1="424" y1="64" x2="424" y2="72" class="regFieldBox"></line>
+                        <text x="440" y="20" class="regBitWidth">4 bits</text>
+                        <text x="440" y="56" class="regFieldName">RsvdP</text>
+                    </g>
+                    <g id="regpict-pcisig-example-this" class="regFieldExternal regAttr_ros regLink regFieldExternal0">
+                        <text x="400" y="36" class="regBitNumMiddle">9</text>
+                        <line x1="408" y1="40" x2="408" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="392" y1="40" x2="392" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="392" y="40" width="16" height="32" class="regFieldBox"></rect>
+                        <text x="400" y="20" class="regBitWidth">1 bit</text>
+                        <text x="568" y="112" class="regFieldName">This</text>
+                        <path d="M392,72l8,4L408,72" class="regBitBracket" fill="none"></path>
+                        <path d="M400,76V107.5H566.4" class="regBitLine" fill="none"></path>
+                    </g>
+                    <g class="regFieldInternal regAttr_rsvdp regLink regFieldUnused">
+                        <text x="390" y="36" class="regBitNumEnd">10</text>
+                        <text x="298" y="36" class="regBitNumStart">15</text>
+                        <line x1="392" y1="40" x2="392" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="296" y1="40" x2="296" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="296" y="40" width="96" height="32" class="regFieldBox"></rect>
+                        <line x1="376" y1="64" x2="376" y2="72" class="regFieldBox"></line>
+                        <line x1="360" y1="64" x2="360" y2="72" class="regFieldBox"></line>
+                        <line x1="344" y1="64" x2="344" y2="72" class="regFieldBox"></line>
+                        <line x1="328" y1="64" x2="328" y2="72" class="regFieldBox"></line>
+                        <line x1="312" y1="64" x2="312" y2="72" class="regFieldBox"></line>
+                        <text x="344" y="20" class="regBitWidth">6 bits</text>
+                        <text x="344" y="56" class="regFieldName">RsvdP</text>
+                    </g>
+                    <g id="regpict-pcisig-example-bits_16_19"
+                            class="regFieldExternal regAttr_rw regLink regFieldExternal1">
+                        <text x="294" y="36" class="regBitNumEnd">16</text>
+                        <text x="234" y="36" class="regBitNumStart">19</text>
+                        <line x1="296" y1="40" x2="296" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="232" y1="40" x2="232" y2="26.5" class="regBitNumLine"></line>
+                        <a xlink:href="#field-pcisig-example-bits_16_19">
+                            <rect x="232" y="40" width="64" height="32" class="regFieldBox"></rect>
+                        </a>
+                        <line x1="280" y1="64" x2="280" y2="72" class="regFieldBox"></line>
+                        <line x1="264" y1="64" x2="264" y2="72" class="regFieldBox"></line>
+                        <line x1="248" y1="64" x2="248" y2="72" class="regFieldBox"></line>
+                        <text x="264" y="20" class="regBitWidth">4 bits</text>
+                        <a xlink:href="#field-pcisig-example-bits_16_19">
+                            <text x="568" y="132" class="regFieldName">bits_16_19</text>
+                        </a>
+                        <path d="M232,72l32,4L296,72" class="regBitBracket" fill="none"></path>
+                        <path d="M264,76V127.5H566.4" class="regBitLine" fill="none"></path>
+                    </g>
+                    <g class="regFieldInternal regAttr_rsvdp regLink regFieldUnused">
+                        <text x="230" y="36" class="regBitNumEnd">20</text>
+                        <text x="170" y="36" class="regBitNumStart">23</text>
+                        <line x1="232" y1="40" x2="232" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="168" y1="40" x2="168" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="168" y="40" width="64" height="32" class="regFieldBox"></rect>
+                        <line x1="216" y1="64" x2="216" y2="72" class="regFieldBox"></line>
+                        <line x1="200" y1="64" x2="200" y2="72" class="regFieldBox"></line>
+                        <line x1="184" y1="64" x2="184" y2="72" class="regFieldBox"></line>
+                        <text x="200" y="20" class="regBitWidth">4 bits</text>
+                        <text x="200" y="56" class="regFieldName">RsvdP</text>
+                    </g>
+                    <g id="regpict-pcisig-example-upper_bits" class="regFieldInternal regAttr_hardwired regLink">
+                        <text x="166" y="36" class="regBitNumEnd">24</text>
+                        <text x="42" y="36" class="regBitNumStart">31</text>
+                        <line x1="168" y1="40" x2="168" y2="26.5" class="regBitNumLine_Hide"></line>
+                        <line x1="40" y1="40" x2="40" y2="26.5" class="regBitNumLine"></line>
+                        <rect x="40" y="40" width="128" height="32" class="regFieldBox"></rect>
+                        <line x1="152" y1="64" x2="152" y2="72" class="regFieldBox"></line>
+                        <line x1="136" y1="64" x2="136" y2="72" class="regFieldBox"></line>
+                        <line x1="120" y1="64" x2="120" y2="72" class="regFieldBox"></line>
+                        <line x1="104" y1="64" x2="104" y2="72" class="regFieldBox"></line>
+                        <line x1="88" y1="64" x2="88" y2="72" class="regFieldBox"></line>
+                        <line x1="72" y1="64" x2="72" y2="72" class="regFieldBox"></line>
+                        <line x1="56" y1="64" x2="56" y2="72" class="regFieldBox"></line>
+                        <text x="104" y="20" class="regBitWidth">8 bits</text>
+                        <text x="104" y="56" class="regFieldName">upper_bits</text>
+                    </g>
+                </svg>
+            </div>
+            <figcaption><span class="figdecoration">Fig. </span><span class="figno">4</span><span
+                    class="figdecoration"> </span><span class="figtitle">PCISIG Example</span></figcaption>
+        </figure>
+
+        Similarly, that field in the figure is linked back to this definition.
+        <table id="tbl-pcisig-example">
+            <caption><span class="tbltitle">PCISIG Example</span></caption>
+            <thead>
+            <tr>
+                <th>Bit Location</th>
+                <th>Description</th>
+                <th>Attr</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>3:0</td>
+                <td><code>field3_0</code> this field is shown as <code>&lt;code&gt;field3_0&lt;/code&gt;</code>.</td>
+                <td>RO</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><dfn id="dfn-field_4">field_4</dfn> this field is shown as
+                    <code>&lt;dfn;&gt;field_4&lt;/dfn&gt;</code>.
+                </td>
+                <td>rw</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>This is the description.</td>
+                <td>ros</td>
+            </tr>
+            <tr>
+                <td>16:19</td>
+                <td><dfn class="field" id="field-pcisig-example-bits_16_19"><a
+                        href="#regpict-pcisig-example-bits_16_19">bits_16_19</a></dfn> this field is shown as
+                    <code>&lt;dfn class="field"&gt;bits_16_19&lt;/dfn&gt;</code>.
+                    Because the &lt;dfn&gt; has the class field, it is automatically linked to the corresponding field in the figure.
+                    Similarly, that field in the figure is linked back to this definition.
+                </td>
+                <td>rw</td>
+            </tr>
+            <tr>
+                <td>24:31</td>
+                <td>upper_bits</td>
+                <td>hardwired</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <section id="sect-nvidia-refman" typeof="bibo:Chapter" resource="#sect-nvidia-refman" rel="bibo:Chapter">
+        <h3 class="section-level-2" aria-level="2" role="heading" id="h3_sect-nvidia-refman"><span
+                class="secno section-level-2">4.5<span class="secno-decoration"> </span></span><span
+                class="sec-title">NVidia Refman</span></h3>
+        <p>
+            If the &lt;figure&gt; element has the class <code>nv_refman</code> (in addition to the class
+            <code>register</code>), and the <a href="#dfn-href"
+                class="internalDFN dfn">href</a> property is defined in the JSON, the file referenced by the
+            <a href="#dfn-href" class="internalDFN dfn">href</a> property is read and the register defined by the <a
+                href="#dfn-register" class="internalDFN dfn">register</a> property is drawn as a figure.
+            The <a href="#dfn-href" class="internalDFN dfn">href</a> and <a href="#dfn-register"
+                class="internalDFN dfn">register</a> properties can either be specified directly in the JSON or via the
+            <code>data-href</code> and <code>data-register</code> attributes.
+            The referenced file <em class="rfc2119" title="MUST">MUST</em> be formatted as an Nvidia refman file and <em
+                class="rfc2119" title="MUST">MUST</em> contain a register of the corresponding name.
+        </p>
+        <p>The <a href="#dfn-width"
+                class="internalDFN dfn">width</a> property is determined from the refman definition unless it is already specified in JSON.
+        </p>
+        <p>The attributes of each field are determined from the refman definition.
+            These will be one of "ro", "rw", or "wo".</p>
+    </section>
+</section>
+
+
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#references" rel="bibo:Chapter"><!--OddPage-->
+    <h2 class="section-level-1" aria-level="1" role="heading" id="h2_references"><span
+            class="secno section-level-1">A<span class="secno-decoration"> </span></span><span
+            class="sec-title">References</span></h2>
+
+    <section id="informative-references" typeof="bibo:Chapter" resource="#informative-references" rel="bibo:Chapter"><h3
+            class="section-level-2" aria-level="2" role="heading" id="h3_informative-references"><span
+            class="secno section-level-2">A.1<span class="secno-decoration"> </span></span><span
+            class="sec-title">Informative references</span></h3>
+        <dl class="bibliography" about="">
+            <dt id="bib-ASCIIDOCTOR">[ASCIIDOCTOR]</dt>
+            <dd rel="dcterms:references"><a
+                    href="http://asciidoctor.org"><cite>Asciidoctor implementation of AsciiDoc</cite></a>. URL: <a
+                    href="http://asciidoctor.org">http://asciidoctor.org</a>
+            </dd>
+            <dt id="bib-PCISIG">[PCISIG]</dt>
+            <dd rel="dcterms:references"><a
+                    href="http://www.pcisig.com"><cite>PCI Special Interest Group</cite></a>. URL: <a
+                    href="http://www.pcisig.com">http://www.pcisig.com</a>
+            </dd>
+            <dt id="bib-RESPEC">[RESPEC]</dt>
+            <dd rel="dcterms:references">Robin Bergeron. <a
+                    href="http://www.w3.org/respec/"><cite>ReSpec -- The stark raving awesome way to write specs</cite></a>. URL:
+                <a href="http://www.w3.org/respec/">http://www.w3.org/respec/</a>
+            </dd>
+            <dt id="bib-RESPEC-Fork">[RESPEC-Fork]</dt>
+            <dd rel="dcterms:references">Steve Glaser. <a
+                    href="http://github.com/sglaser/respec"><cite>Steve Glaser's fork of ReSpec</cite></a>. URL: <a
+                    href="http://github.com/sglaser/respec">http://github.com/sglaser/respec</a>
+            </dd>
+        </dl>
+    </section>
+</section>
+<script src="http://127.0.0.1:35729/livereload.js?ext=Chrome&amp;extver=2.0.9"></script>
+</body>
+</html>
